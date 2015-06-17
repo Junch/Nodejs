@@ -1,0 +1,16 @@
+{
+  "name": "Wines",
+  "version": "1.0.0",
+  "description": "merits and faults",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jun Chen",
+  "license": "ISC",
+  "dependencies":{
+  	"express": "4.x",
+    "body-parser": "1.13.x",
+    "mongodb": "2.x"
+  }
+}
