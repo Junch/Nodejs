@@ -9,8 +9,10 @@
   "author": "Jun Chen",
   "license": "ISC",
   "dependencies":{
-  	"express": "4.x",
+    "express": "4.x",
     "body-parser": "1.13.x",
-    "mongodb": "2.x"
+    "mongodb": "2.x",
+    "supertest": "~1.0.1",
+    "should": "~7.0.1"
   }
 }
