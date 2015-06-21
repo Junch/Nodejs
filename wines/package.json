@@ -11,7 +11,8 @@
   "dependencies":{
     "express": "4.x",
     "body-parser": "1.13.x",
-    "mongodb": "2.x",
+    "mongodb": "~1.4.38",
+    "mongoskin": "~1.4.13"
     "supertest": "~1.0.1",
     "should": "~7.0.1"
   }

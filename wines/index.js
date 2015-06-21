@@ -1,5 +1,5 @@
-var express = require('express'),
-wine = require('./routes/wines');
+var express = require('express');
+var wine = require('./routes/wines');
 
 var app = express();
 
@@ -19,3 +19,5 @@ var server = app.listen(3000, function() {
     var port = server.address().port;
     console.log('Listening on port %s', port);
 });
+
+module.exports = server;
