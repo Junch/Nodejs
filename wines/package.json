@@ -8,12 +8,13 @@
   },
   "author": "Jun Chen",
   "license": "ISC",
-  "dependencies":{
+  "dependencies": {
     "express": "4.x",
     "body-parser": "1.13.x",
     "mongodb": "~1.4.38",
-    "mongoskin": "~1.4.13"
+    "mongoskin": "~1.4.13",
     "supertest": "~1.0.1",
-    "should": "~7.0.1"
+    "should": "~7.0.1",
+    "really-need": "~1.6.3"
   }
 }
