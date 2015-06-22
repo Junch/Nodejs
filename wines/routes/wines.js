@@ -1,5 +1,5 @@
 var mongoskin = require('mongoskin');
-
+var ObjectID = mongoskin.ObjectID;
 var db = mongoskin.db('mongodb://localhost:27017/winedb', {safe: true});
 
 exports.findById = function(req, res) {
@@ -11,7 +11,7 @@ exports.findById = function(req, res) {
 };
 
 exports.findAll = function(req, res) {
-    db.collection('wines').find().toArray(function(err, items){
+    db.collection('wines').find().toArray(function(err, items) {
         if (err) throw err;
         res.send(items);
     });
