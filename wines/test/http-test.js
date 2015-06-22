@@ -1,8 +1,10 @@
-'use strict';  
+'use strict';
 
 var request = require('supertest');
-var should  = require('should');
+/*eslint-disable no-unused-vars*/
+var should = require('should');
 var mongoskin = require('mongoskin');
+/*eslint-disable no-undef*/
 require = require('really-need');
 
 describe('HTTP Endpoint Tests', function() {
@@ -12,26 +14,26 @@ describe('HTTP Endpoint Tests', function() {
     function populateDB(callback) {
         var wines = [
         {
-            name: "CHATEAU DE SAINT COSME",
-            year: "2009",
-            grapes: "Grenache / Syrah",
-            country: "France",
-            region: "Southern Rhone",
-            description: "The aromas of fruit and spice...",
-            picture: "saint_cosme.jpg"
+            name: 'CHATEAU DE SAINT COSME',
+            year: '2009',
+            grapes: 'Grenache / Syrah',
+            country: 'France',
+            region: 'Southern Rhone',
+            description: 'The aromas of fruit and spice...',
+            picture: 'saint_cosme.jpg'
         },
         {
-            name: "LAN RIOJA CRIANZA",
-            year: "2006",
-            grapes: "Tempranillo",
-            country: "Spain",
-            region: "Rioja",
-            description: "A resurgence of interest in boutique vineyards...",
-            picture: "lan_rioja.jpg"
+            name: 'LAN RIOJA CRIANZA',
+            year: '2006',
+            grapes: 'Tempranillo',
+            country: 'Spain',
+            region: 'Rioja',
+            description: 'A resurgence of interest in boutique vineyards...',
+            picture: 'lan_rioja.jpg'
         }];
 
         db.collection('wines').insert(wines, callback);
-    };
+    }
 
     before(function(){
         db = mongoskin.db('mongodb://localhost:27017/winedb');
@@ -42,8 +44,11 @@ describe('HTTP Endpoint Tests', function() {
     });
 
     beforeEach(function(done){
-        db.collection('wines').drop(function(err, reply){
-            populateDB(function(err, reply){
+        db.collection('wines').drop(function(err){
+            if (err) {throw err; }
+            populateDB(function(err){
+                if (err) {throw err; }
+
                 server = require('../index', {bustCache: true});
                 done();
             });
@@ -56,9 +61,9 @@ describe('HTTP Endpoint Tests', function() {
 
     it('should return the list of wines', function(done){
         request(server).get('/wines')
-        .expect('Content-type',/json/)
+        .expect('Content-type', /json/)
         .end(function(err, res){
-            if (err) return done(err);
+            if (err) {return done(err); }
             res.status.should.equal(200);
             res.body.length.should.equal(2);
             done();
@@ -67,13 +72,13 @@ describe('HTTP Endpoint Tests', function() {
 
     it('should be able to add a wine', function(done){
         var wine = {
-            name: "MaoTai",
-            year: "2009",
-            grapes: "Grenache / Syrah",
-            country: "China",
-            region: "GuiZhou Province",
-            description: "The aromas of fruit and spice...",
-            picture: "saint_cosme.jpg"
+            name: 'MaoTai',
+            year: '2009',
+            grapes: 'Grenache / Syrah',
+            country: 'China',
+            region: 'GuiZhou Province',
+            description: 'The aromas of fruit and spice...',
+            picture: 'saint_cosme.jpg'
         };
 
         request(server).post('/wines')
@@ -81,9 +86,10 @@ describe('HTTP Endpoint Tests', function() {
         .expect('Content-Type', /json/)
         .expect(200)
         .end(function(err, res){
-            if (err) throw err;
+            if (err) {throw err; }
             res.body.name.should.equal('MaoTai');
             db.collection('wines').count(function(err, count){
+                if (err) {throw err; }
                 count.should.equal(3);
                 done();
             });
@@ -92,6 +98,8 @@ describe('HTTP Endpoint Tests', function() {
 
     it('Get an existing wine', function(done){
         db.collection('wines').findOne({}, function(err, item){
+            if (err) {throw err; }
+
             request(server).get('/wines/' + item._id)
             .expect('Content-Type', /json/)
             .expect(200, done);
@@ -100,16 +108,18 @@ describe('HTTP Endpoint Tests', function() {
 
     it('Update an existing wine', function(done){
         var wine = {
-            name: "MaoTai",
-            year: "2009",
-            grapes: "Grenache / Syrah",
-            country: "China",
-            region: "GuiZhou Province",
-            description: "The aromas of fruit and spice...",
-            picture: "saint_cosme.jpg"
+            name: 'MaoTai',
+            year: '2009',
+            grapes: 'Grenache / Syrah',
+            country: 'China',
+            region: 'GuiZhou Province',
+            description: 'The aromas of fruit and spice...',
+            picture: 'saint_cosme.jpg'
         };
 
         db.collection('wines').findOne({}, function(err, item){
+            if (err) {throw err; }
+
             request(server).put('/wines/' + item._id)
             .send(wine)
             .expect('Content-Type', /json/)
@@ -119,16 +129,20 @@ describe('HTTP Endpoint Tests', function() {
 
     it('Delete an existing wine', function(done){
         db.collection('wines').findOne({}, function(err, item){
+            if (err) {throw err; }
+
             request(server).delete('/wines/' + item._id)
             .expect('Content-Type', /json/)
             .expect(200)
-            .end(function(err, res){
+            .end(function(err){
                 // https://www.npmjs.com/package/supertest
-                // If you are using the .end() method .expect() assertions that fail will not throw - 
+                // If you are using the .end() method .expect() assertions that fail will not throw -
                 // they will return the assertion as an error to the .end() callback. In order to fail
                 // the test case, you will need to rethrow or pass err to done()
-                if (err) throw err; // if (err) return done(err);
+                if (err) {throw err; } // if (err) return done(err);
                 db.collection('wines').count(function(err, count){
+                    if (err) {throw err; }
+
                     count.should.equal(1);
                     done();
                 });

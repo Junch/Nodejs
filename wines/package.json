@@ -16,5 +16,17 @@
     "supertest": "~1.0.1",
     "should": "~7.0.1",
     "really-need": "~1.6.3"
+  },
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "node": true,
+      "mocha": true
+    },
+    "rules":{
+      "quotes": [1, "single", "avoid-escape"],
+      "no-shadow": 0,
+      "no-underscore-dangle" : 0
+    }
   }
 }
