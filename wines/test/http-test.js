@@ -33,8 +33,15 @@ describe('HTTP Endpoint Tests', function() {
         db.collection('wines').insert(wines, callback);
     };
 
-    beforeEach(function(done){
+    before(function(){
         db = mongoskin.db('mongodb://localhost:27017/winedb');
+    });
+
+    after(function(done){
+        db.close(done);
+    });
+
+    beforeEach(function(done){
         db.collection('wines').drop(function(err, reply){
             populateDB(function(err, reply){
                 server = require('../index', {bustCache: true});
@@ -44,10 +51,8 @@ describe('HTTP Endpoint Tests', function() {
     });
 
     afterEach(function(done){
-        server.close(function(){
-            db.close(done);
-        });
-    })
+        server.close(done);
+    });
 
     it('should return the list of wines', function(done){
         request(server).get('/wines')
