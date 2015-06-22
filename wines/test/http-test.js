@@ -4,6 +4,7 @@ var request = require('supertest');
 /*eslint-disable no-unused-vars*/
 var should = require('should');
 var mongoskin = require('mongoskin');
+var ObjectID = mongoskin.ObjectID;
 /*eslint-disable no-undef*/
 require = require('really-need');
 
@@ -102,8 +103,29 @@ describe('HTTP Endpoint Tests', function() {
 
             request(server).get('/wines/' + item._id)
             .expect('Content-Type', /json/)
-            .expect(200, done);
+            .expect(200)
+            .end(function(err, res){
+                if (err) {throw err; }
+                res.body.should.has.property('_id');
+                done();
+            });
         });
+    });
+
+    it('Get a wine by an invalid id', function(done){
+        request(server).get('/wines/1234')
+        .expect('Content-Type', /json/)
+        .expect(400, /error/, done);
+    });
+
+    it('Get an non-existing wine', function(done){
+        var id = new ObjectID();
+        console.log(id);
+
+        request(server).get('/wines/' + id)
+        .expect(200)
+        .expect('Content-Length', 0)
+        .end(done);
     });
 
     it('Update an existing wine', function(done){

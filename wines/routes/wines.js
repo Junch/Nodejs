@@ -5,9 +5,19 @@ var ObjectID = mongoskin.ObjectID;
 var db = mongoskin.db('mongodb://localhost:27017/winedb', {safe: true});
 
 exports.findById = function(req, res) {
-    var id = req.params.id;
-    console.log('Retrieving wine: ' + id);
-    db.collection('wines').findOne({'_id': new ObjectID(id)}, function(err, item) {
+    var idStr = req.params.id;
+    console.log('Retrieving wine: ' + idStr);
+
+    var id;
+    try {
+        id = new ObjectID(idStr);
+    }catch(err){
+        res.status(400);
+        res.send({'error': err.toString()});
+        return;
+    }
+
+    db.collection('wines').findOne({'_id': id}, function(err, item) {
         if (err) {throw err; }
         res.send(item);
     });

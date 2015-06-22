@@ -5,6 +5,10 @@ var wine = require('./routes/wines');
 
 var app = express();
 
+if (app.get('env') === 'development') {
+	app.locals.pretty = true;
+}
+
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({

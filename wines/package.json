@@ -17,9 +17,13 @@
     "should": "~7.0.1",
     "really-need": "~1.6.3"
   },
+  "scripts": {
+    "start": "supervisor index.js",
+    "lint": "eslint ."
+  },
   "eslintConfig": {
     "env": {
-      "browser": true,
+      "browser": false,
       "node": true,
       "mocha": true
     },
