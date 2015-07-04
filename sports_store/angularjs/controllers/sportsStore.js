@@ -11,7 +11,7 @@ angular.module("sportsStore")
             //console.log(JSON.stringify(data));
             $scope.data.products = data;
         })
-        .error(function (error) {
-            $scope.data.error = error;
+        .error(function (error, status) {
+            $scope.data.error = status;
         });
 });
