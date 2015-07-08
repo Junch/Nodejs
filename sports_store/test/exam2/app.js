@@ -3,13 +3,13 @@
 
 angular.module("appEx2", [])
 .controller("defaultCtrl", function($scope, $http){
-	$http.get("productData.json").success(function(data) {
-		$scope.products = data;
-	});
+  $http.get("productData.json").success(function(data) {
+    $scope.products = data;
+  });
 
-	$scope.counter = 0;
+  $scope.counter = 0;
 
-	$scope.incrementCounter = function() {
-		$scope.counter++;
-	}
+  $scope.incrementCounter = function() {
+    $scope.counter++;
+  }
 });
