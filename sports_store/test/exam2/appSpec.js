@@ -1,7 +1,9 @@
+'use strict';
+
 describe("Controller Test", function(){
 	var mockScope, controller, backend;
 
-	beforeEach(angular.mock.module("exampleApp"));
+	beforeEach(angular.mock.module("appEx2"));
 
 	beforeEach(angular.mock.inject(function($httpBackend){
 		backend = $httpBackend;

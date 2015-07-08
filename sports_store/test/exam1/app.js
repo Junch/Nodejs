@@ -1,8 +1,7 @@
 'use strict';
-
 // The example is from https://docs.angularjs.org/guide/unit-testing
 
-angular.module('app', [])
+angular.module('appEx1', [])
 .controller('PasswordController', function PasswordController($scope) {
   $scope.password = '';
   $scope.grade = function() {

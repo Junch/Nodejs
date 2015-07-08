@@ -1,7 +1,7 @@
 'use strict';
  
 describe('PasswordController', function() {
-  beforeEach(module('app'));
+  beforeEach(module('appEx1'));
 
   var $controller;
 
