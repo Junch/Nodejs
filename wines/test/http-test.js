@@ -36,8 +36,12 @@ describe('HTTP Endpoint Tests', function() {
         db.collection('wines').insert(wines, callback);
     }
 
-    before(function(){
+    before(function(done){
         db = mongoskin.db('mongodb://localhost:27017/winedb');
+        db.createCollection('wines', function(err){
+            if (err) {throw err; }
+            done();
+        });
     });
 
     after(function(done){
