@@ -15,6 +15,8 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
+app.use(express.static(__dirname + "/static"));
+
 app.get('/wines', wine.findAll);
 app.get('/wines/:id', wine.findById);
 app.post('/wines', wine.addWine);
