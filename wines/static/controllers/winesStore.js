@@ -1,4 +1,4 @@
-angular.module("winesStore", [])
+angular.module("winesStore", ["ngRoute"])
 
 .constant("dataUrl", "http://localhost:3000/wines")
 
@@ -12,4 +12,12 @@ angular.module("winesStore", [])
         .error(function(error, status) {
             $scope.data.error = status;
         });
+})
+
+.config(function($routeProvider){
+    $routeProvider
+        .when("/",{
+            templateUrl: "views/winesList.html"
+        })
+        .otherwise( {redirectTo: '/'} );
 });
