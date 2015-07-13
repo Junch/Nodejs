@@ -16,8 +16,11 @@ angular.module("winesStore", ["ngRoute"])
 
 .config(function($routeProvider){
     $routeProvider
-        .when("/",{
+        .when("/", {
             templateUrl: "views/winesList.html"
+        })
+        .when("/wines/add", {
+            templateUrl: "views/wine.html"
         })
         .otherwise( {redirectTo: '/'} );
 });
