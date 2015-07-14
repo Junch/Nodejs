@@ -1,15 +1,13 @@
 angular.module("winesStore", ["ngRoute"])
 
-.constant("dataUrl", "http://localhost:3000/wines")
-
-.controller("winesStoreCtrl", function($scope, $http, dataUrl){
+.controller("winesStoreCtrl", function($scope, wineFactory){
     $scope.data = {};
     
-    $http.get(dataUrl)
-        .success(function (data) {
+    wineFactory.getWines()
+        .success(function(data){
             $scope.data.products = data;
         })
-        .error(function(error, status) {
+        .error(function(error, status){
             $scope.data.error = status;
         });
 })

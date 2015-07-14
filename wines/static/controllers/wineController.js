@@ -1,57 +1,49 @@
 angular.module("winesStore")
 
-.controller("wineController", function($scope, $http, dataUrl, $routeParams){
+.controller("wineController", function($scope, wineFactory, $routeParams){
     $scope.data={};
     var wineId = $routeParams.wineId;
     
-    $http.get(dataUrl + "/" + wineId)
-        .success(function (data) {
-            $scope.data.wine = data;
-        })
-        .error(function(error, status) {
-            $scope.data.error = status;
-        });
+    getWine();
+    
+    function getWine(){
+        wineFactory.getWine(wineId)
+            .success(function(data){
+                $scope.data.wine = data;
+            })
+            .error(function(error){
+                $scope.data.error = error;
+            });
+    }
     
     $scope.DeleteWine = function(wineId){
-        $http.delete(dataUrl + "/" + wineId)
+        wineFactory.deleteWine(wineId)
             .success(function(data){
                 console.log("Delete wine successfully");
                 $scope.data.wine = {};
             })
             .error(function(error){
-                $scope.data.addError = error;
-                console.log("Fail to delete wine");
+                $scope.data.error = error;
             });
-//            .finally(function(){
-//                $location.path("/");
-//            });
     };
-    
     
     var AddWine = function(wine){
-        $http.post(dataUrl, wine)
+        wineFactory.addWine(wine)
             .success(function(data){
-                console.log("Add wine successfully");
                 $scope.data.wine = {};
             })
             .error(function(error){
-                $scope.data.addError = error;
-                console.log("Fail to add wine");
+                $scope.data.error = error;
             });
     };
     
-    var UpdateWine = function(wine){
-        var id = wine._id;
-        wine._id = undefined;
-        
-        $http.put(dataUrl + "/" + id, wine)
+    var UpdateWine = function(wine){    
+        wineFactory.updateWine(wine)
             .success(function(data){
-                console.log("Update wine successfully");
                 $scope.data.wine = {};
             })
             .error(function(error){
-                $scope.data.addError = error;
-                console.log("Fail to add wine");
+                $scope.data.error = error;
             });
     };
     

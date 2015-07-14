@@ -48,6 +48,9 @@ exports.updateWine = function(req, res) {
     var wine = req.body;
     console.log('Updating wine: ' + id);
     console.log(JSON.stringify(wine));
+    if (wine._id) {
+        delete wine._id;
+    }
     db.collection('wines').update({'_id': new ObjectID(id)}, wine, function(err, result) {
         if (err) {
             console.log('Error updating wine: ' + err);
