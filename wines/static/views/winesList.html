@@ -1,7 +1,7 @@
 <div class="row">
     <div class="well col-xs-8" ng-repeat="item in data.products">
         <h3>
-            <strong>{{item.name}}</strong>
+            <a href="#/wines/{{item._id}}"><strong>{{item.name}}</strong></a>
             <span class="pull-right label label-primary">
                 {{item.country}}
             </span>
