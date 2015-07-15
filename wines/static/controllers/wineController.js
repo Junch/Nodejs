@@ -23,7 +23,7 @@ angular.module("winesStore")
     var refresh = function(){
         $scope.data.wine = {};
         $scope.$emit("change", {});
-        $location.path("#/wines");
+        $location.path("/wines");
     }
     
     $scope.DeleteWine = function(wineId){
