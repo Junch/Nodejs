@@ -22,6 +22,9 @@ angular.module("winesStore", ["ngRoute", "ngResource"])
 
 .config(function($routeProvider){
     $routeProvider
+        .when("/", {
+            templateUrl: "views/readme.html"
+        })
         .when("/wines", {
             templateUrl: "views/winesList.html"
         })
@@ -33,5 +36,5 @@ angular.module("winesStore", ["ngRoute", "ngResource"])
             controller: "wineController",
             templateUrl: "views/wine.html"
         })
-        .otherwise( {redirectTo: '/wines'} );
+        .otherwise( {redirectTo: '/'} );
 });

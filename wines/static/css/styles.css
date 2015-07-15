@@ -1,0 +1,12 @@
+.home-hero {
+    font-family: "Andika";
+    font-size: 36;
+    color: white;
+    background-image: url('img/bg.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin-top: -20px;
+    padding: 180px;
+    text-align : center;
+    text-shadow: 1px 1px 1px #000;
+}
