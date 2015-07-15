@@ -1,12 +1,16 @@
 angular.module("winesStore")
 
-.controller("wineController", function($scope, wineFactory, $routeParams){
+.controller("wineController", function($scope, wineFactory, $routeParams, $location){
     $scope.data={};
     var wineId = $routeParams.wineId;
     
     getWine();
     
     function getWine(){
+        if (!wineId){
+            return;
+        }
+        
         wineFactory.get({id:wineId},
             function success(data){
                 $scope.data.wine = data;
@@ -16,11 +20,16 @@ angular.module("winesStore")
             });
     }
     
+    var refresh = function(){
+        $scope.data.wine = {};
+        $scope.$emit("change", {});
+        $location.path("#/wines");
+    }
+    
     $scope.DeleteWine = function(wineId){
         wineFactory.remove({id:wineId},
             function success(data){
-                console.log("Delete wine successfully");
-                $scope.data.wine = {};
+                refresh();
             },
             function error(error){
                 $scope.data.error = error;
@@ -30,7 +39,7 @@ angular.module("winesStore")
     var AddWine = function(wine){
         wineFactory.save(wine,
             function success(data){
-                $scope.data.wine = {};
+                refresh();
             },
             function error(error){
                 $scope.data.error = error;
@@ -40,7 +49,7 @@ angular.module("winesStore")
     var UpdateWine = function(wine){    
         wineFactory.update({id: wine._id}, wine,
             function success(data){
-                $scope.data.wine = {};
+                refresh();
             },
             function(error){
                 $scope.data.error = error;

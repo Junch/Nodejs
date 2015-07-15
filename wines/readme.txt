@@ -16,3 +16,7 @@ $resource
 http://fdietz.github.io/recipes-with-angular-js/consuming-external-services/consuming-restful-apis.html
 
 https://docs.angularjs.org/api/ngResource/service/$resource
+
+$emit, $broadcast
+
+http://toddmotto.com/all-about-angulars-emit-broadcast-on-publish-subscribing/
