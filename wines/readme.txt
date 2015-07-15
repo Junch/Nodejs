@@ -9,3 +9,10 @@ http://glebbahmutov.com/blog/solid-expressjs-server/
 http://mongodb.github.io/node-mongodb-native/2.0/api/index.html
 
 http://docs.mongodb.org/manual/reference/mongo-shell/
+
+
+$resource
+
+http://fdietz.github.io/recipes-with-angular-js/consuming-external-services/consuming-restful-apis.html
+
+https://docs.angularjs.org/api/ngResource/service/$resource

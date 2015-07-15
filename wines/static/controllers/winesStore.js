@@ -1,13 +1,13 @@
-angular.module("winesStore", ["ngRoute"])
+angular.module("winesStore", ["ngRoute", "ngResource"])
 
 .controller("winesStoreCtrl", function($scope, wineFactory){
     $scope.data = {};
     
-    wineFactory.getWines()
-        .success(function(data){
+    wineFactory.query({},
+        function success(data){
             $scope.data.products = data;
-        })
-        .error(function(error, status){
+        },
+        function error(errorResponse){
             $scope.data.error = status;
         });
 })

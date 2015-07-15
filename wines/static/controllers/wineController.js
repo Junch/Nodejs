@@ -7,42 +7,42 @@ angular.module("winesStore")
     getWine();
     
     function getWine(){
-        wineFactory.getWine(wineId)
-            .success(function(data){
+        wineFactory.get({id:wineId},
+            function success(data){
                 $scope.data.wine = data;
-            })
-            .error(function(error){
+            },
+            function error(error){
                 $scope.data.error = error;
             });
     }
     
     $scope.DeleteWine = function(wineId){
-        wineFactory.deleteWine(wineId)
-            .success(function(data){
+        wineFactory.remove({id:wineId},
+            function success(data){
                 console.log("Delete wine successfully");
                 $scope.data.wine = {};
-            })
-            .error(function(error){
+            },
+            function error(error){
                 $scope.data.error = error;
             });
     };
     
     var AddWine = function(wine){
-        wineFactory.addWine(wine)
-            .success(function(data){
+        wineFactory.save(wine,
+            function success(data){
                 $scope.data.wine = {};
-            })
-            .error(function(error){
+            },
+            function error(error){
                 $scope.data.error = error;
             });
     };
     
     var UpdateWine = function(wine){    
-        wineFactory.updateWine(wine)
-            .success(function(data){
+        wineFactory.update({id: wine._id}, wine,
+            function success(data){
                 $scope.data.wine = {};
-            })
-            .error(function(error){
+            },
+            function(error){
                 $scope.data.error = error;
             });
     };
