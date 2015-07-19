@@ -15,6 +15,7 @@
   ],
   "dependencies": {
     "highcharts-release": "~4.1.7",
-    "jQuery": "~2.1.4"
+    "jQuery": "~2.1.4",
+    "highstock-release": "~2.1.7"
   }
 }

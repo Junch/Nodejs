@@ -1,0 +1,111 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Highcharts Example</title>
+
+		<script type="text/javascript" src="bower_components/jQuery/dist/jquery.min.js"></script>
+		<script type="text/javascript">
+          $(function () {                              
+            var seriesOptions = [];
+            seriesOptions[0] = {
+              name: '上证指数',
+              data: [ 
+                [Date.UTC(2015, 5, 30), 4277.22],
+                [Date.UTC(2015, 6, 1), 4053.70],
+                [Date.UTC(2015, 6, 2), 3912.77],
+                [Date.UTC(2015, 6, 3), 3696.92],
+                [Date.UTC(2015, 6, 6), 3775.91],
+                [Date.UTC(2015, 6, 7), 3727.12],
+                [Date.UTC(2015, 6, 8), 3507.19],
+                [Date.UTC(2015, 6, 9), 3709.33],
+                [Date.UTC(2015, 6, 10), 3877.80],
+                [Date.UTC(2015, 6, 13), 3970.39],
+                [Date.UTC(2015, 6, 14), 3924.49],
+                [Date.UTC(2015, 6, 15), 3805.70],
+                [Date.UTC(2015, 6, 16), 3823.18],
+                [Date.UTC(2015, 6, 17), 3957.35]
+              ]
+            };
+            
+            seriesOptions[1] = {
+              name: '沪深300',
+              data: [ 
+                [Date.UTC(2015, 5, 30), 4473.00],
+                [Date.UTC(2015, 6, 1), 4253.02],
+                [Date.UTC(2015, 6, 2), 4108.00],
+                [Date.UTC(2015, 6, 3), 3885.92],
+                [Date.UTC(2015, 6, 6), 3998.54],
+                [Date.UTC(2015, 6, 7), 3928.00],
+                [Date.UTC(2015, 6, 8), 3663.04],
+                [Date.UTC(2015, 6, 9), 3897.63],
+                [Date.UTC(2015, 6, 10), 4106.56],
+                [Date.UTC(2015, 6, 13), 4211.81],
+                [Date.UTC(2015, 6, 14), 4112.15],
+                [Date.UTC(2015, 6, 15), 3966.76],
+                [Date.UTC(2015, 6, 16), 3997.36],
+                [Date.UTC(2015, 6, 17), 4151.50]
+              ]
+            };
+            
+            seriesOptions[2] = {
+              name: '基金净值',
+              data: [ 
+                [Date.UTC(2015, 5, 30), 1.00],
+                [Date.UTC(2015, 6, 1), 0.9781],
+                [Date.UTC(2015, 6, 2), 0.9799],
+                [Date.UTC(2015, 6, 3), 0.9406],
+                [Date.UTC(2015, 6, 6), 0.9780],
+                [Date.UTC(2015, 6, 7), 0.9761],
+                [Date.UTC(2015, 6, 8), 0.9583],
+                [Date.UTC(2015, 6, 9), 1.0116],
+                [Date.UTC(2015, 6, 10), 1.0507],
+                [Date.UTC(2015, 6, 13), 1.0363],
+                [Date.UTC(2015, 6, 14), 1.0132],
+                [Date.UTC(2015, 6, 15), 1.0175],
+                [Date.UTC(2015, 6, 16), 1.0120],
+                [Date.UTC(2015, 6, 17), 1.0239]
+              ]
+            };
+            
+            $('#container').highcharts('StockChart', {
+              
+                rangeSelector: {
+                    selected: 3
+                },
+
+                yAxis: {
+                    labels: {
+                        formatter: function () {
+                            return (this.value > 0 ? ' + ' : '') + this.value + '%';
+                        }
+                    },
+                    plotLines: [{
+                        value: 0,
+                        width: 2,
+                        color: 'silver'
+                    }]
+                },
+
+                plotOptions: {
+                    series: {
+                        compare: 'percent'
+                    }
+                },            
+              
+                tooltip: {
+                    pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.change}%)<br/>',
+                    valueDecimals: 2
+                },
+
+                series: seriesOptions
+            });          
+          });
+		</script>
+	</head>
+	<body>
+    <script src="bower_components/highstock-release/highstock.js"></script>
+    <script src="bower_components/highstock-release/modules/exporting.js"></script>
+    <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+	</body>
+</html>
