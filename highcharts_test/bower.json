@@ -1,0 +1,20 @@
+{
+  "name": "highcharts_test",
+  "version": "0.0.0",
+  "homepage": "https://github.com/Junch/Nodejs",
+  "authors": [
+    "Jun - Home <junc76@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "highcharts-release": "~4.1.7",
+    "jQuery": "~2.1.4"
+  }
+}
