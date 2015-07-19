@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Highcharts Example</title>
+
+		<script type="text/javascript" src="bower_components/jQuery/dist/jquery.min.js"></script>
+		<script type="text/javascript">
+          $(function () {
+              $('#container').highcharts({
+                yAxis: {
+                  gridLineWidth:0  
+                },
+
+                xAxis: {
+                  type: 'datetime',
+                  dateTimeLabelFormats: {
+                    day: '%b %e'
+                  },
+                  labels:{
+                    rotation:90,
+                    align: 'top'
+                  }
+                },
+
+                credits: {
+                  enabled: false
+                },
+
+                series: [{
+                  data: [ 
+                    [Date.UTC(2015, 5, 30), 1],
+                    [Date.UTC(2015, 6, 1), 0.9477],
+                    [Date.UTC(2015, 6, 2), 0.9148],
+                    [Date.UTC(2015, 6, 3), 0.8620],
+                    [Date.UTC(2015, 6, 6), 0.8828],
+                    [Date.UTC(2015, 6, 7), 0.8714],
+                    [Date.UTC(2015, 6, 8), 0.8200],
+                    [Date.UTC(2015, 6, 9), 0.8672]
+                  ]
+                }]
+              });
+          });
+		</script>
+	</head>
+	<body>
+    <script src="bower_components/highcharts-release/highcharts.js"></script>
+    <script src="bower_components/highcharts-release/modules/exporting.js"></script>
+    <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+	</body>
+</html>
