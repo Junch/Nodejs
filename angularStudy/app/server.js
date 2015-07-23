@@ -3,5 +3,5 @@ var serverStatic = require('serve-static');
 
 var app = connect();
 
-app.use(serverStatic("../angularjs"));
-app.listen(5000);
+app.use(serverStatic(__dirname + "/../angularjs"));
+app.listen(process.env.PORT || 5000);
