@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "supervisor index.js",
-    "test": "mocha",
+    "test": "mocha -R spec --compilers js:babel/register test/*.js",
     "lint": "eslint .",
     "style": "jscs . --fix"
   },
@@ -24,7 +24,8 @@
     "env": {
       "browser": false,
       "node": true,
-      "mocha": true
+      "mocha": true,
+      "es6": true
     },
     "rules": {
       "quotes": [
@@ -37,6 +38,7 @@
     }
   },
   "devDependencies": {
+    "babel": "^5.8.23",
     "bluebird": "^2.10.0"
   }
 }

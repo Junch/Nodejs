@@ -11,11 +11,11 @@ var MongoDB = Promise.promisifyAll(require('mongodb'));
 var MongoClient = Promise.promisifyAll(MongoDB.MongoClient);
 var ObjectID = MongoDB.ObjectID;
 
-describe('HTTP Endpoint Tests', function () {
+describe('HTTP Endpoint Tests', () => {
     var server;
     var db;
 
-    function populateDB() {
+    var populateDB = () => {
         var wines = [
         {
             name: 'CHATEAU DE SAINT COSME',
@@ -37,38 +37,32 @@ describe('HTTP Endpoint Tests', function () {
         }];
 
         return db.collection('wines').insertAsync(wines);
-    }
+    };
 
-    before(function (done) {
-        MongoClient.connectAsync('mongodb://localhost:27017/winedb').then(function (res) {
+    before((done) => {
+        MongoClient.connectAsync('mongodb://localhost:27017/winedb').then((res) => {
             db = res;
             return db.createCollectionAsync('wines');
-        }).then(function () {
-            done();
-        });
+        }).then(() => done());
     });
 
-    after(function (done) {
-        db.close(done);
-    });
+    after((done) => db.close(done));
 
-    beforeEach(function (done) {
-        db.collection('wines').dropAsync().then(function () {
+    beforeEach((done) => {
+        db.collection('wines').dropAsync().then(() => {
             return populateDB();
-        }).then(function () {
+        }).then(() => {
             server = require('../index', {bustCache: true});
             done();
         });
     });
 
-    afterEach(function (done) {
-        server.close(done);
-    });
+    afterEach((done) => server.close(done));
 
-    it('should return the list of wines', function (done) {
+    it('should return the list of wines', (done) => {
         request(server).get('/wines')
         .expect('Content-type', /json/)
-        .end(function (err, res) {
+        .end((err, res) => {
             if (err) {return done(err); }
             res.status.should.equal(200);
             res.body.length.should.equal(2);
@@ -76,7 +70,7 @@ describe('HTTP Endpoint Tests', function () {
         });
     });
 
-    it('should be able to add a wine', function (done) {
+    it('should be able to add a wine', (done) => {
         var wine = {
             name: 'MaoTai',
             year: '2009',
@@ -91,22 +85,22 @@ describe('HTTP Endpoint Tests', function () {
         .send(wine)
         .expect('Content-Type', /json/)
         .expect(200)
-        .end(function (err, res) {
+        .end((err, res) => {
             if (err) {throw err; }
             res.body.name.should.equal('MaoTai');
-            db.collection('wines').countAsync().then(function (count) {
+            db.collection('wines').countAsync().then((count) => {
                 count.should.equal(3);
                 done();
             });
         });
     });
 
-    it('Get an existing wine', function (done) {
-        db.collection('wines').findOneAsync().then(function (item) {
+    it('Get an existing wine', (done) => {
+        db.collection('wines').findOneAsync().then((item) => {
             request(server).get('/wines/' + item._id)
             .expect('Content-Type', /json/)
             .expect(200)
-            .end(function (err, res) {
+            .end((err, res) => {
                 if (err) {throw err; }
                 res.body.should.has.property('_id');
                 done();
@@ -114,13 +108,13 @@ describe('HTTP Endpoint Tests', function () {
         });
     });
 
-    it('Get a wine by an invalid id', function (done) {
+    it('Get a wine by an invalid id', (done) => {
         request(server).get('/wines/1234')
         .expect('Content-Type', /json/)
         .expect(400, /error/, done);
     });
 
-    it('Get an non-existing wine', function (done) {
+    it('Get an non-existing wine', (done) => {
         var id = new ObjectID();
         console.log(id);
 
@@ -130,7 +124,7 @@ describe('HTTP Endpoint Tests', function () {
         .end(done);
     });
 
-    it('Update an existing wine', function (done) {
+    it('Update an existing wine', (done) => {
         var wine = {
             name: 'MaoTai',
             year: '2009',
@@ -141,7 +135,7 @@ describe('HTTP Endpoint Tests', function () {
             picture: 'saint_cosme.jpg'
         };
 
-        db.collection('wines').findOneAsync().then(function (item) {
+        db.collection('wines').findOneAsync().then((item) => {
             request(server).put('/wines/' + item._id)
             .send(wine)
             .expect('Content-Type', /json/)
@@ -149,18 +143,18 @@ describe('HTTP Endpoint Tests', function () {
         });
     });
 
-    it('Delete an existing wine', function (done) {
-        db.collection('wines').findOneAsync().then(function (item) {
+    it('Delete an existing wine', (done) => {
+        db.collection('wines').findOneAsync().then((item) => {
             request(server).delete('/wines/' + item._id)
             .expect('Content-Type', /json/)
             .expect(200)
-            .end(function (err) {
+            .end((err) => {
                 // https://www.npmjs.com/package/supertest
                 // If you are using the .end() method .expect() assertions that fail will not throw -
                 // they will return the assertion as an error to the .end() callback. In order to fail
                 // the test case, you will need to rethrow or pass err to done()
                 if (err) {throw err; } // if (err) return done(err);
-                db.collection('wines').countAsync().then(function (count) {
+                db.collection('wines').countAsync().then((count) => {
                     count.should.equal(1);
                     done();
                 });
