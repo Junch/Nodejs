@@ -2,6 +2,7 @@
 
 var express = require('express');
 var wine = require('./routes/wines');
+var path = require('path');
 
 var app = express();
 
@@ -15,7 +16,7 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-app.use(express.static(__dirname + "/static"));
+app.use(express.static(path.join(__dirname, 'static')));
 
 app.get('/wines', wine.findAll);
 app.get('/wines/:id', wine.findById);
