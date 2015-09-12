@@ -6,7 +6,8 @@
   "scripts": {
     "start": "supervisor index.js",
     "test": "mocha",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "style": "jscs . --fix"
   },
   "author": "Jun Chen",
   "license": "ISC",

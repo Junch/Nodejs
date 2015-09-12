@@ -7,7 +7,7 @@ var path = require('path');
 var app = express();
 
 if (app.get('env') === 'development') {
-	app.locals.pretty = true;
+    app.locals.pretty = true;
 }
 
 var bodyParser = require('body-parser');
@@ -24,7 +24,7 @@ app.post('/wines', wine.addWine);
 app.put('/wines/:id', wine.updateWine);
 app.delete('/wines/:id', wine.deleteWine);
 
-var server = app.listen(3000, function() {
+var server = app.listen(3000, function () {
     var port = server.address().port;
     console.log('Listening on port %s', port);
 });

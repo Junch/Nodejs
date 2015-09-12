@@ -1,0 +1,5 @@
+{
+  "preset": "yandex",
+  "validateIndentation": 4,
+  "excludeFiles": ["**/bower_components/**", "**/angular/**"]
+}
