@@ -4,7 +4,7 @@
   "description": "merits and faults",
   "main": "index.js",
   "scripts": {
-    "start": "supervisor index.js",
+    "start": "supervisor run.js",
     "test": "mocha -R spec --compilers js:babel/register test/*.js",
     "lint": "eslint .",
     "style": "jscs . --fix"
@@ -18,7 +18,8 @@
     "mongoskin": "~1.4.13",
     "supertest": "~1.0.1",
     "should": "~7.0.1",
-    "really-need": "~1.6.3"
+    "really-need": "~1.6.3",
+    "babel": "^5.8.23"
   },
   "eslintConfig": {
     "env": {
@@ -38,7 +39,6 @@
     }
   },
   "devDependencies": {
-    "babel": "^5.8.23",
     "bluebird": "^2.10.0"
   }
 }

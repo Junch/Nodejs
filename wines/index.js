@@ -24,7 +24,7 @@ app.post('/wines', wine.addWine);
 app.put('/wines/:id', wine.updateWine);
 app.delete('/wines/:id', wine.deleteWine);
 
-var server = app.listen(3000, function () {
+var server = app.listen(3000, () => {
     var port = server.address().port;
     console.log('Listening on port %s', port);
 });
