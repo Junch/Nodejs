@@ -1,3 +1,6 @@
 [submodule "NgBabelJspm"]
 	path = NgBabelJspm
 	url = https://github.com/chybie/NgBabelJspm.git
+[submodule "node-tutorial-2-restful-app"]
+	path = node-tutorial-2-restful-app
+	url = https://github.com/cwbuecheler/node-tutorial-2-restful-app.git
