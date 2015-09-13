@@ -1,0 +1,3 @@
+[submodule "NgBabelJspm"]
+	path = NgBabelJspm
+	url = https://github.com/chybie/NgBabelJspm.git
