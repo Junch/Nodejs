@@ -1,8 +1,21 @@
 'use strict';
 
-var mongoskin = require('mongoskin');
-var ObjectID = mongoskin.ObjectID;
-var db = mongoskin.db('mongodb://localhost:27017/winedb', {safe: true});
+var Promise = require('bluebird');
+var MongoDB = Promise.promisifyAll(require('mongodb'));
+var MongoClient = Promise.promisifyAll(MongoDB.MongoClient);
+var ObjectID = MongoDB.ObjectID;
+var db;
+
+exports.connect = function (next) {
+    if (db == null){
+        MongoClient.connectAsync('mongodb://localhost:27017/winedb').then((res) => {
+            db = res;
+            next();
+        });
+    } else {
+        next();
+    }
+};
 
 exports.findById = function (req, res) {
     var idStr = req.params.id;

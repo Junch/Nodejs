@@ -18,6 +18,11 @@ app.use(bodyParser.urlencoded({
 
 app.use(express.static(path.join(__dirname, 'static')));
 
+// Make sure our db is connected
+app.use(function (req, res, next) {
+    wine.connect(next);
+});
+
 app.get('/wines', wine.findAll);
 app.get('/wines/:id', wine.findById);
 app.post('/wines', wine.addWine);
