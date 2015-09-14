@@ -47,10 +47,10 @@ exports.addWine = function (req, res) {
     var wine = req.body;
     console.log('Adding wine: ' + JSON.stringify(wine));
     db.collection('wines').insertAsync(wine).then((items) => {
-       console.log('Success: ' + JSON.stringify(items[0]));
-       res.send(items[0]);
+        console.log('Success: ' + JSON.stringify(items.ops[0]));
+        res.send(items.ops[0]);
     }).catch((err) => {
-        res.send({error: 'An error has occurred'});
+        res.send({error: 'An error has occurred' + err});
     });
 };
 

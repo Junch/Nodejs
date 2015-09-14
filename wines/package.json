@@ -5,21 +5,20 @@
   "main": "index.js",
   "scripts": {
     "start": "supervisor run.js",
-    "test": "mocha -R spec --compilers js:babel/register test/*.js",
+    "test": "mocha -R spec --compilers js:babel/register test/http-promise-test.js",
     "lint": "eslint .",
     "style": "jscs . --fix"
   },
   "author": "Jun Chen",
   "license": "ISC",
   "dependencies": {
-    "express": "4.x",
-    "body-parser": "1.13.x",
-    "mongodb": "~1.4.38",
-    "mongoskin": "~1.4.13",
-    "supertest": "~1.0.1",
-    "should": "~7.0.1",
+    "babel": "^5.8.23",
+    "body-parser": "^1.13.3",
+    "express": "^4.13.3",
+    "mongodb": "^2.0.43",
     "really-need": "~1.6.3",
-    "babel": "^5.8.23"
+    "should": "^7.1.0",
+    "supertest": "^1.1.0"
   },
   "eslintConfig": {
     "env": {
