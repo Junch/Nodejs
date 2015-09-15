@@ -26,7 +26,7 @@ app.use(function (req, res, next) {
 app.get('/wines', wine.findAll);
 app.get('/wines/:id', wine.findById);
 app.post('/wines', wine.addWine);
-app.put('/wines/:id', wine.updateWine);
+app.post('/wines/:id', wine.updateWine);
 app.delete('/wines/:id', wine.deleteWine);
 
 var server = app.listen(3000, () => {

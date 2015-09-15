@@ -135,7 +135,7 @@ describe('HTTP Endpoint Tests', () => {
         };
 
         db.collection('wines').findOne().then((item) => {
-            request(server).put('/wines/' + item._id)
+            request(server).post('/wines/' + item._id)
             .send(wine)
             .expect('Content-Type', /json/)
             .expect(200, done);

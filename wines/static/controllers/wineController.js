@@ -47,7 +47,7 @@ angular.module('winesStore')
     };
 
     var UpdateWine = function (wine) {
-        wineFactory.update({id: wine._id}, wine,
+        wineFactory.save(wine,
             function success(data) {
                 refresh();
             },
