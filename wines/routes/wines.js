@@ -1,14 +1,14 @@
 'use strict';
 
 var Promise = require('bluebird');
-var MongoDB = Promise.promisifyAll(require('mongodb'));
-var MongoClient = Promise.promisifyAll(MongoDB.MongoClient);
-var ObjectID = MongoDB.ObjectID;
+var MongoClient = require('mongodb');
+var ObjectID = MongoClient.ObjectID;
+
 var db;
 
 exports.connect = (next) => {
     if (db == null){
-        MongoClient.connectAsync('mongodb://localhost:27017/winedb').then((res) => {
+        MongoClient.connect('mongodb://localhost:27017/winedb', {promiseLibrary: Promise}).then((res) => {
             db = res;
             next();
         });
@@ -30,13 +30,15 @@ exports.findById = (req, res) => {
         return;
     }
 
-    db.collection('wines').findOneAsync({_id: id}).then((item) => {
+    db.collection('wines').findOne({_id: id}).then((item) => {
         res.send(item);
+    }).catch((err) => {
+        res.send({error: 'An error has occurred' + err});
     });
 };
 
 exports.findAll = function (req, res) {
-    db.collection('wines').find().toArrayAsync().then((items) => {
+    db.collection('wines').find().toArray().then((items) => {
         res.send(items);
     }).catch((err) => {
         res.send({error: 'An error has occurred - ' + err});
@@ -46,7 +48,7 @@ exports.findAll = function (req, res) {
 exports.addWine = function (req, res) {
     var wine = req.body;
     console.log('Adding wine: ' + JSON.stringify(wine));
-    db.collection('wines').insertAsync(wine).then((items) => {
+    db.collection('wines').insert(wine).then((items) => {
         console.log('Success: ' + JSON.stringify(items.ops[0]));
         res.send(items.ops[0]);
     }).catch((err) => {
@@ -62,7 +64,7 @@ exports.updateWine = function (req, res) {
     if (wine._id) {
         delete wine._id;
     }
-    db.collection('wines').updateAsync({_id: new ObjectID(id)}, wine).then((result) => {
+    db.collection('wines').update({_id: new ObjectID(id)}, wine).then((result) => {
         console.log(String(result) + ' document(s) updated');
         res.send(wine);
     }).catch((err) => {
@@ -74,7 +76,7 @@ exports.updateWine = function (req, res) {
 exports.deleteWine = function (req, res) {
     var id = req.params.id;
     console.log('Deleting wine: ' + id);
-    db.collection('wines').removeAsync({_id: new ObjectID(id)}).then((result) => {
+    db.collection('wines').remove({_id: new ObjectID(id)}).then((result) => {
         console.log(String(result) + ' document(s) deleted');
         res.send(req.body);
     }).catch((err) => {

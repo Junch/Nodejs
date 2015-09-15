@@ -7,9 +7,8 @@ var should = require('should');
 require = require('really-need');
 
 var Promise = require('bluebird');
-var MongoDB = Promise.promisifyAll(require('mongodb'));
-var MongoClient = Promise.promisifyAll(MongoDB.MongoClient);
-var ObjectID = MongoDB.ObjectID;
+var MongoClient = require('mongodb');
+var ObjectID = MongoClient.ObjectID;
 
 describe('HTTP Endpoint Tests', () => {
     var server;
@@ -36,20 +35,20 @@ describe('HTTP Endpoint Tests', () => {
             picture: 'lan_rioja.jpg'
         }];
 
-        return db.collection('wines').insertAsync(wines);
+        return db.collection('wines').insert(wines);
     };
 
     before((done) => {
-        MongoClient.connectAsync('mongodb://localhost:27017/winedb').then((res) => {
+        MongoClient.connect('mongodb://localhost:27017/winedb', {promiseLibrary: Promise}).then((res) => {
             db = res;
-            return db.createCollectionAsync('wines');
+            return db.createCollection('wines');
         }).then(() => done());
     });
 
     after((done) => db.close(done));
 
     beforeEach((done) => {
-        db.collection('wines').dropAsync().then(() => {
+        db.collection('wines').drop().then(() => {
             return populateDB();
         }).then(() => {
             server = require('../index', {bustCache: true});
@@ -88,7 +87,7 @@ describe('HTTP Endpoint Tests', () => {
         .end((err, res) => {
             if (err) {throw err; }
             res.body.name.should.equal('MaoTai');
-            db.collection('wines').countAsync().then((count) => {
+            db.collection('wines').count().then((count) => {
                 count.should.equal(3);
                 done();
             });
@@ -96,7 +95,7 @@ describe('HTTP Endpoint Tests', () => {
     });
 
     it('Get an existing wine', (done) => {
-        db.collection('wines').findOneAsync().then((item) => {
+        db.collection('wines').findOne().then((item) => {
             request(server).get('/wines/' + item._id)
             .expect('Content-Type', /json/)
             .expect(200)
@@ -135,7 +134,7 @@ describe('HTTP Endpoint Tests', () => {
             picture: 'saint_cosme.jpg'
         };
 
-        db.collection('wines').findOneAsync().then((item) => {
+        db.collection('wines').findOne().then((item) => {
             request(server).put('/wines/' + item._id)
             .send(wine)
             .expect('Content-Type', /json/)
@@ -144,7 +143,7 @@ describe('HTTP Endpoint Tests', () => {
     });
 
     it('Delete an existing wine', (done) => {
-        db.collection('wines').findOneAsync().then((item) => {
+        db.collection('wines').findOne().then((item) => {
             request(server).delete('/wines/' + item._id)
             .expect('Content-Type', /json/)
             .expect(200)
@@ -154,7 +153,7 @@ describe('HTTP Endpoint Tests', () => {
                 // they will return the assertion as an error to the .end() callback. In order to fail
                 // the test case, you will need to rethrow or pass err to done()
                 if (err) {throw err; } // if (err) return done(err);
-                db.collection('wines').countAsync().then((count) => {
+                db.collection('wines').count().then((count) => {
                     count.should.equal(1);
                     done();
                 });
