@@ -14,10 +14,6 @@ angular.module('winesStore', ['ngRoute', 'ngResource'])
     };
 
     init();
-
-    $scope.$on('change', function (event, data) {
-        init();
-    });
 })
 
 .config(function ($routeProvider) {
