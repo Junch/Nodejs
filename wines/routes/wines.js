@@ -25,24 +25,19 @@ exports.findById = (req, res) => {
     try {
         id = new ObjectID(idStr);
     }catch (err){
-        res.status(400);
-        res.send({error: err.toString()});
+        res.status(400).send({error: err.toString()});
         return;
     }
 
     db.collection('wines').findOne({_id: id}).then((item) => {
         res.send(item);
-    }).catch((err) => {
-        res.send({error: 'An error has occurred' + err});
-    });
+    }).catch((err) => res.status(500).send({error: err.toString()}));
 };
 
 exports.findAll = function (req, res) {
     db.collection('wines').find().toArray().then((items) => {
         res.send(items);
-    }).catch((err) => {
-        res.send({error: 'An error has occurred - ' + err});
-    });
+    }).catch((err) => res.status(500).send({error: err.toString()}));
 };
 
 exports.addWine = function (req, res) {
@@ -51,9 +46,7 @@ exports.addWine = function (req, res) {
     db.collection('wines').insert(wine).then((items) => {
         console.log('Success: ' + JSON.stringify(items.ops[0]));
         res.send(items.ops[0]);
-    }).catch((err) => {
-        res.send({error: 'An error has occurred' + err});
-    });
+    }).catch((err) => res.status(500).send({error: err.toString()}));
 };
 
 exports.updateWine = function (req, res) {
@@ -67,10 +60,7 @@ exports.updateWine = function (req, res) {
     db.collection('wines').update({_id: new ObjectID(id)}, wine).then((result) => {
         console.log(String(result) + ' document(s) updated');
         res.send(wine);
-    }).catch((err) => {
-        console.log('Error updating wine: ' + err);
-        res.send({error: 'An error has occurred'});
-    });
+    }).catch((err) => res.status(500).send({error: err.toString()}));
 };
 
 exports.deleteWine = function (req, res) {
@@ -79,7 +69,5 @@ exports.deleteWine = function (req, res) {
     db.collection('wines').remove({_id: new ObjectID(id)}).then((result) => {
         console.log(String(result) + ' document(s) deleted');
         res.send(req.body);
-    }).catch((err) => {
-        res.send({error: 'An error has occurred - ' + err});
-    });
+    }).catch((err) => res.status(500).send({error: err.toString()}));
 };

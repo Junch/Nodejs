@@ -36,7 +36,7 @@ angular.module('winesStore')
             });
     };
 
-    var AddWine = function (wine) {
+    $scope.AddOrEditWine = function (wine) {
         wineFactory.save(wine,
             function success(data) {
                 refresh();
@@ -44,23 +44,5 @@ angular.module('winesStore')
             function error(error) {
                 $scope.data.error = error;
             });
-    };
-
-    var UpdateWine = function (wine) {
-        wineFactory.save(wine,
-            function success(data) {
-                refresh();
-            },
-            function (error) {
-                $scope.data.error = error;
-            });
-    };
-
-    $scope.AddOrEditWine = function (wine) {
-        if (wine._id){
-            UpdateWine(wine);
-        }else {
-            AddWine(wine);
-        }
     };
 });
