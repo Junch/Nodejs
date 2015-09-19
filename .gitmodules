@@ -4,3 +4,6 @@
 [submodule "node-tutorial-2-restful-app"]
 	path = node-tutorial-2-restful-app
 	url = https://github.com/cwbuecheler/node-tutorial-2-restful-app.git
+[submodule "babel-npm-module-example"]
+	path = babel-npm-module-example
+	url = https://github.com/anvk/babel-npm-module-example.git
