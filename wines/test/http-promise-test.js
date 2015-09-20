@@ -115,7 +115,6 @@ describe('HTTP Endpoint Tests', () => {
 
     it('Get an non-existing wine', (done) => {
         var id = new ObjectID();
-        console.log(id);
 
         request(server).get('/wines/' + id)
         .expect(200)

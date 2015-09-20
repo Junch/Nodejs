@@ -1,24 +1,29 @@
 var winston = require('winston');
 winston.emitErrs = true;
 
+// http://stackoverflow.com/questions/13157330/logging-with-winston-in-express-js-how-to-configure-for-different-environments
+var logTransports = [];
+if (process.env.NODE_ENV == 'production') {
+    logTransports.push(new (winston.transports.File)({
+        level: 'info',
+        filename: './logs/all-logs.log',
+        handleExceptions: true,
+        json: true,
+        maxsize: 5242880, // 5MB
+        maxFiles: 5,
+        colorize: false
+    }));
+} else {
+    logTransports.push(new (winston.transports.Console)({
+        level: 'debug', // error
+        handleExceptions: true,
+        json: false,
+        colorize: true
+    }));
+}
+
 var logger = new winston.Logger({
-    transports: [
-        new winston.transports.File({
-            level: 'info',
-            filename: './logs/all-logs.log',
-            handleExceptions: true,
-            json: true,
-            maxsize: 5242880, // 5MB
-            maxFiles: 5,
-            colorize: false
-        }),
-        new winston.transports.Console({
-            level: 'debug',
-            handleExceptions: true,
-            json: false,
-            colorize: true
-        })
-    ],
+    transports: logTransports,
     exitOnError: false
 });
 
