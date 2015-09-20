@@ -1,8 +1,11 @@
 'use strict';
 
 var express = require('express');
-var wine = require('./routes/wines');
 var path = require('path');
+var morgan = require('morgan');
+
+var wine = require('./routes/wines');
+var logger = require('./utils/logger');
 
 var app = express();
 
@@ -16,6 +19,8 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
+logger.debug('Overriding \'Express\' logger');
+app.use(morgan('combined', {stream: logger.stream}));
 app.use(express.static(path.join(__dirname, 'static')));
 
 // Make sure our db is connected
@@ -31,7 +36,7 @@ app.delete('/wines/:id', wine.deleteWine);
 
 var server = app.listen(3000, () => {
     var port = server.address().port;
-    console.log('Listening on port %s', port);
+    logger.info('Listening on port %s', port);
 });
 
 module.exports = server;

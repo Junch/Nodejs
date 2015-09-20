@@ -15,9 +15,11 @@
     "body-parser": "^1.13.3",
     "express": "^4.13.3",
     "mongodb": "^2.0.43",
+    "morgan": "^1.6.1",
     "really-need": "~1.6.3",
     "should": "^7.1.0",
-    "supertest": "^1.1.0"
+    "supertest": "^1.1.0",
+    "winston": "^1.0.1"
   },
   "eslintConfig": {
     "env": {

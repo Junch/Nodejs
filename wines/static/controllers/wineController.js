@@ -23,7 +23,7 @@ angular.module('winesStore')
     $scope.DeleteWine = function (wineId) {
         wineFactory.remove({id:wineId},
             function success(data) {
-                $scope.data.products = $scope.data.products.filter(function(e){
+                $scope.data.products = $scope.data.products.filter(function (e) {
                     return wineId != e._id;
                 });
 
@@ -37,14 +37,14 @@ angular.module('winesStore')
     $scope.AddOrEditWine = function (wine) {
         wineFactory.save(wine,
             function success(data) {
-                if(!wine._id) {
+                if (!wine._id) {
                     $scope.data.products.push(data);
-                }else{
+                }else {
                     for (var i = 0; i < $scope.data.products.length; ++i){
-                      if ($scope.data.products[i]._id == wine._id){
-                        $scope.data.products[i] = data;
-                      }
-                    }                   
+                        if ($scope.data.products[i]._id == wine._id){
+                            $scope.data.products[i] = data;
+                        }
+                    }
                 }
 
                 $location.path('/wines');
