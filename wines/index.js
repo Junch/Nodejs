@@ -4,7 +4,7 @@ var express = require('express');
 var path = require('path');
 var morgan = require('morgan');
 
-var wine = require('./routes/wines');
+var wines = require('./routes/wines');
 var logger = require('./utils/logger');
 
 var app = express();
@@ -23,16 +23,7 @@ logger.debug('Overriding \'Express\' logger');
 app.use(morgan('combined', {stream: logger.stream}));
 app.use(express.static(path.join(__dirname, 'static')));
 
-// Make sure our db is connected
-app.use(function (req, res, next) {
-    wine.connect(next);
-});
-
-app.get('/wines', wine.findAll);
-app.get('/wines/:id', wine.findById);
-app.post('/wines', wine.addWine);
-app.post('/wines/:id', wine.updateWine);
-app.delete('/wines/:id', wine.deleteWine);
+app.use('/wines', wines);
 
 var server = app.listen(3000, () => {
     var port = server.address().port;
