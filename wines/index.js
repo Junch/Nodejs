@@ -19,6 +19,23 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
+var Promise = require('bluebird');
+var MongoClient = require('mongodb');
+var db;
+
+app.use(function (req, res, next) {
+    if (db == null){
+        MongoClient.connect('mongodb://localhost:27017/winedb', {promiseLibrary: Promise}).then((res) => {
+            db = res;
+            req.db = db;
+            next();
+        });
+    } else {
+        req.db = db;
+        next();
+    }
+});
+
 logger.debug('Overriding \'Express\' logger');
 app.use(morgan('combined', {stream: logger.stream}));
 app.use(express.static(path.join(__dirname, 'static')));
