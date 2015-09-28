@@ -10,7 +10,7 @@ class Wine {
 
     findById (req, res) {
         let idStr = req.params.id;
-        logger.info('Retrievie wine: ' + idStr);
+        logger.info(`Retrievie wine: ${idStr}`);
 
         let id;
         try {
@@ -34,7 +34,7 @@ class Wine {
 
     addWine (req, res) {
         let wine = req.body;
-        logger.info('Add wine: ' +  JSON.stringify(wine));
+        logger.info(`Add wine: ${JSON.stringify(wine)}`);
         req.db.collection('wines').insert(wine).then((items) => {
             logger.info('Add wine: ' + JSON.stringify(items.ops[0]));
             res.send(items.ops[0]);
@@ -44,7 +44,7 @@ class Wine {
     updateWine (req, res) {
         let id = req.params.id;
         let wine = req.body;
-        logger.info('Update wine: ' + id + JSON.stringify(wine));
+        logger.info(`Update wine: ${id} ${JSON.stringify(wine)}`);
         req.db.collection('wines').update({_id: new ObjectID(id)}, wine).then((result) => {
             logger.info(String(result) + ' document(s) updated');
             res.send(wine);
@@ -53,7 +53,7 @@ class Wine {
 
     deleteWine (req, res) {
         let id = req.params.id;
-        logger.info('Delete wine: ' + id);
+        logger.info(`Delete wine: ${id}`);
         req.db.collection('wines').remove({_id: new ObjectID(id)}).then((result) => {
             logger.info(String(result) + ' document(s) deleted');
             res.send(req.body);

@@ -44,7 +44,7 @@ app.use('/wines', wines);
 
 var server = app.listen(3000, () => {
     var port = server.address().port;
-    logger.info('Listening on port %s', port);
+    logger.info(`Listening on port ${port}`);
 });
 
 module.exports = server;
