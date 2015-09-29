@@ -1,11 +1,11 @@
 'use strict';
 
-var express = require('express');
-var path = require('path');
-var morgan = require('morgan');
+import express from 'express';
+import path from 'path';
+import morgan from 'morgan';
 
-var wines = require('./routes/wines');
-var logger = require('./utils/logger');
+import wines from './routes/wines';
+import logger from './utils/logger';
 
 var app = express();
 
@@ -13,14 +13,14 @@ if (app.get('env') === 'development') {
     app.locals.pretty = true;
 }
 
-var bodyParser = require('body-parser');
+import bodyParser from 'body-parser';
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-var Promise = require('bluebird');
-var MongoClient = require('mongodb');
+import Promise from 'bluebird';
+import MongoClient from 'mongodb';
 var db;
 
 app.use(function (req, res, next) {
