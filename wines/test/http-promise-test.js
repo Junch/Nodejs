@@ -51,7 +51,7 @@ describe('HTTP Endpoint Tests', () => {
         db.collection('wines').drop().then(() => {
             return populateDB();
         }).then(() => {
-            server = require('../index', {bustCache: true});
+            server = require('../server/index', {bustCache: true});
             done();
         });
     });

@@ -4,7 +4,7 @@
   "description": "merits and faults",
   "main": "index.js",
   "scripts": {
-    "start": "supervisor index.js",
+    "start": "supervisor server/index.js",
     "test": "mocha -R spec test/http-promise-test.js",
     "lint": "eslint .",
     "style": "jscs . --fix"

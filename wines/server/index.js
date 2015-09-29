@@ -38,7 +38,7 @@ app.use(function (req, res, next) {
 
 logger.debug('Overriding \'Express\' logger');
 app.use(morgan('combined', {stream: logger.stream}));
-app.use(express.static(path.join(__dirname, 'static')));
+app.use(express.static(path.join(__dirname, '../static')));
 
 app.use('/wines', wines);
 
