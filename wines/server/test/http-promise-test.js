@@ -1,13 +1,13 @@
 'use strict';
 
-var request = require('supertest');
+import request from 'supertest';
 /*eslint-disable no-unused-vars*/
 var should = require('should');
 /*eslint-disable no-undef*/
 require = require('really-need');
 
-var Promise = require('bluebird');
-var MongoClient = require('mongodb');
+import Promise from 'bluebird';
+import MongoClient from 'mongodb';
 var ObjectID = MongoClient.ObjectID;
 
 describe('HTTP Endpoint Tests', () => {
@@ -38,16 +38,16 @@ describe('HTTP Endpoint Tests', () => {
         return db.collection('wines').insert(wines);
     };
 
-    before((done) => {
+    before(done => {
         MongoClient.connect('mongodb://localhost:27017/winedb', {promiseLibrary: Promise}).then((res) => {
             db = res;
             return db.createCollection('wines');
         }).then(() => done());
     });
 
-    after((done) => db.close(done));
+    after(done => db.close(done));
 
-    beforeEach((done) => {
+    beforeEach(done => {
         db.collection('wines').drop().then(() => {
             return populateDB();
         }).then(() => {
@@ -56,9 +56,9 @@ describe('HTTP Endpoint Tests', () => {
         });
     });
 
-    afterEach((done) => server.close(done));
+    afterEach(done => server.close(done));
 
-    it('should return the list of wines', (done) => {
+    it('should return the list of wines', done => {
         request(server).get('/wines')
         .expect('Content-type', /json/)
         .end((err, res) => {
@@ -69,7 +69,7 @@ describe('HTTP Endpoint Tests', () => {
         });
     });
 
-    it('should be able to add a wine', (done) => {
+    it('should be able to add a wine', done => {
         var wine = {
             name: 'MaoTai',
             year: '2009',
@@ -87,15 +87,15 @@ describe('HTTP Endpoint Tests', () => {
         .end((err, res) => {
             if (err) {throw err; }
             res.body.name.should.equal('MaoTai');
-            db.collection('wines').count().then((count) => {
+            db.collection('wines').count().then(count => {
                 count.should.equal(3);
                 done();
             });
         });
     });
 
-    it('Get an existing wine', (done) => {
-        db.collection('wines').findOne().then((item) => {
+    it('Get an existing wine', done => {
+        db.collection('wines').findOne().then(item => {
             request(server).get('/wines/' + item._id)
             .expect('Content-Type', /json/)
             .expect(200)
@@ -107,13 +107,13 @@ describe('HTTP Endpoint Tests', () => {
         });
     });
 
-    it('Get a wine by an invalid id', (done) => {
+    it('Get a wine by an invalid id', done => {
         request(server).get('/wines/1234')
         .expect('Content-Type', /json/)
         .expect(400, /error/, done);
     });
 
-    it('Get an non-existing wine', (done) => {
+    it('Get an non-existing wine', done => {
         var id = new ObjectID();
 
         request(server).get('/wines/' + id)
@@ -122,7 +122,7 @@ describe('HTTP Endpoint Tests', () => {
         .end(done);
     });
 
-    it('Update an existing wine', (done) => {
+    it('Update an existing wine', done => {
         var wine = {
             name: 'MaoTai',
             year: '2009',
@@ -133,7 +133,7 @@ describe('HTTP Endpoint Tests', () => {
             picture: 'saint_cosme.jpg'
         };
 
-        db.collection('wines').findOne().then((item) => {
+        db.collection('wines').findOne().then(item => {
             request(server).post('/wines/' + item._id)
             .send(wine)
             .expect('Content-Type', /json/)
@@ -141,18 +141,18 @@ describe('HTTP Endpoint Tests', () => {
         });
     });
 
-    it('Delete an existing wine', (done) => {
-        db.collection('wines').findOne().then((item) => {
+    it('Delete an existing wine', done => {
+        db.collection('wines').findOne().then(item => {
             request(server).delete('/wines/' + item._id)
             .expect('Content-Type', /json/)
             .expect(200)
-            .end((err) => {
+            .end(err => {
                 // https://www.npmjs.com/package/supertest
                 // If you are using the .end() method .expect() assertions that fail will not throw -
                 // they will return the assertion as an error to the .end() callback. In order to fail
                 // the test case, you will need to rethrow or pass err to done()
                 if (err) {throw err; } // if (err) return done(err);
-                db.collection('wines').count().then((count) => {
+                db.collection('wines').count().then(count => {
                     count.should.equal(1);
                     done();
                 });

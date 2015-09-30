@@ -2,6 +2,8 @@ var gulp = require('gulp');
 var babel = require('gulp-babel');
 var nodemon = require('gulp-nodemon');
 var liverrelod = require('gulp-livereload');
+var mocha = require('gulp-mocha');
+var util = require('gulp-util');
 
 gulp.task('babel', function () {
     return gulp.src('server/**/*.js')
@@ -13,6 +15,20 @@ gulp.task('watch', function () {
     gulp.watch('server/**/*.js', ['babel']);
 });
 
+gulp.task('test', function () {
+    return gulp.src(['dist/test/**/*.js'], {read: false})
+        .pipe(mocha({
+            compilers: {
+                js: babel
+            },
+            reporter: 'spec',
+            ui: 'bdd'}))
+        .on('error', util.log)
+        .once('end', function () {
+            process.exit();
+        });
+});
+
 gulp.task('develop', function () {
     liverrelod.listen();
     nodemon({script: 'dist/index.js',
@@ -22,4 +38,4 @@ gulp.task('develop', function () {
     });
 });
 
-gulp.task('default', ['babel', 'develop', 'watch']);
+gulp.task('default', ['babel', 'watch']);
