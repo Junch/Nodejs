@@ -17,7 +17,7 @@ gulp.task('watch', function () {
 });
 
 gulp.task('lint', function () {
-    return gulp.src(['server/**/*.js'])
+    return gulp.src(['server/**/*.js', 'static/**/*.js'])
         .pipe(eslint({
             useEslintrc: true
         }))

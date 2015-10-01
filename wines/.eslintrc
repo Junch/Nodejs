@@ -1,9 +1,12 @@
 {
   "env": {
-    "browser": false,
+    "browser": true,
     "node": true,
     "mocha": true,
     "es6": true
+  },
+  "globals": {
+    "angular": true,
   },
   "ecmaFeatures": {
     "modules": true
