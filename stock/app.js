@@ -1,4 +1,4 @@
-
+'use strict';
 
 var express = require('express');
 var path = require('path');
@@ -6,6 +6,10 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+
+var Promise = require('bluebird');
+var MongoClient = require('mongodb');
+var db;
 
 var routes = require('./routes/index');
 var users = require('./routes/user');
@@ -20,6 +24,20 @@ app.locals.ENV_DEVELOPMENT = env == 'development';
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+// database is set
+app.use(function (req, res, next) {
+    if (db == null){
+        MongoClient.connect('mongodb://localhost:27017/stockdb', {promiseLibrary: Promise}).then((res) => {
+            db = res;
+            req.db = db;
+            next();
+        });
+    } else {
+        req.db = db;
+        next();
+    }
+});
 
 // app.use(favicon(__dirname + '/public/img/favicon.ico'));
 app.use(logger('dev'));
