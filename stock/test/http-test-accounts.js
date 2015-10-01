@@ -15,32 +15,30 @@ describe('HTTP Endpoint Tests', () => {
   var db;
 
   var populateDB = () => {
-    var users = [
+    var accounts = [
       {
-        name: 'Jun Chen',
-        email: 'junchen@sina.com',
-        account: ['etf', 'stock']
+        name: 'etf',
+        userid: '',
       },
       {
-        name: 'John Smith',
-        email: 'john@yahoo.com',
-        account: ['A50', 'Value']
+        name: 'value',
+        userid: ''
       }];
 
-    return db.collection('users').insert(users);
+    return db.collection('accounts').insert(accounts);
   };
 
   before(done => {
     MongoClient.connect('mongodb://localhost:27017/stockdb', {promiseLibrary: Promise}).then(res => {
       db = res;
-      return db.createCollection('users');
+      return db.createCollection('accounts');
     }).then(() => done());
   });
 
   after(done => db.close(done));
 
   beforeEach(done => {
-    db.collection('users').drop().then(() => {
+    db.collection('accounts').drop().then(() => {
       return populateDB();
     }).then(() => {
       server = require('../bin/www', {bustCache: true});
@@ -50,8 +48,8 @@ describe('HTTP Endpoint Tests', () => {
 
   afterEach(done => server.close(done));
 
-  it('should return the list of users', done => {
-    request(server).get('/users')
+  it('should return the list of accounts', done => {
+    request(server).get('/accounts')
     .expect('Content-type', /json/)
     .end((err, res) => {
       if (err) {return done(err); }
@@ -61,30 +59,29 @@ describe('HTTP Endpoint Tests', () => {
     });
   });
 
-  it('should be able to add a user', done => {
-    var user = {
-      name: 'Tom Clause',
-      email: 'tom@gmail.com',
-      account: ['etf', 'stock']
+  it('should be able to add an account', done => {
+    var account = {
+        name: 'hs300',
+        userid: '',
     };
 
-    request(server).post('/users')
-    .send(user)
+    request(server).post('/accounts')
+    .send(account)
     .expect('Content-Type', /json/)
     .expect(200)
     .end((err, res) => {
       if (err) {throw err; }
-      res.body.name.should.equal('Tom Clause');
-      db.collection('users').count().then(count => {
+      res.body.name.should.equal('hs300');
+      db.collection('accounts').count().then(count => {
         count.should.equal(3);
         done();
       });
     });
   });
 
-  it('Get an existing user', done => {
-    db.collection('users').findOne().then(item => {
-      request(server).get('/users/' + item._id)
+  it('Get an existing account', done => {
+    db.collection('accounts').findOne().then(item => {
+      request(server).get('/accounts/' + item._id)
       .expect('Content-Type', /json/)
       .expect(200)
       .end((err, res) => {
@@ -95,44 +92,43 @@ describe('HTTP Endpoint Tests', () => {
     });
   });
 
-  it('Get a user by an invalid id', done => {
-    request(server).get('/users/1234')
+  it('Get an account by an invalid id', done => {
+    request(server).get('/accounts/1234')
     .expect('Content-Type', /json/)
     .expect(400, /error/, done);
   });
 
-  it('Get an non-existing user', done => {
+  it('Get an non-existing account', done => {
     var id = new ObjectID();
 
-    request(server).get('/users/' + id)
+    request(server).get('/accounts/' + id)
     .expect(200)
     .expect('Content-Length', 0)
     .end(done);
   });
 
-  it('Update an existing user', done => {
-    var user = {
-      name: 'Jun Chen',
-      email: 'test@gmail.com',
-      account: ['etf300', 'stock']
+  it('Update an existing account', done => {
+    var account = {
+      name: 'abc',
+      userid: '',
     };
 
-    db.collection('users').findOne().then(item => {
-      request(server).post('/users/' + item._id)
-      .send(user)
+    db.collection('accounts').findOne().then(item => {
+      request(server).post('/accounts/' + item._id)
+      .send(account)
       .expect('Content-Type', /json/)
       .expect(200)
       .end((err, res) => {
         if (err) {throw err; }
-        res.body.email.should.equal('test@gmail.com');
+        res.body.name.should.equal('abc');
         done();
       });
     });
   });
 
   it('Delete an existing user', done => {
-    db.collection('users').findOne().then(item => {
-      request(server).delete('/users/' + item._id)
+    db.collection('accounts').findOne().then(item => {
+      request(server).delete('/accounts/' + item._id)
       .expect('Content-Type', /json/)
       .expect(200)
       .end(err => {
@@ -141,7 +137,7 @@ describe('HTTP Endpoint Tests', () => {
         // they will return the assertion as an error to the .end() callback. In order to fail
         // the test case, you will need to rethrow or pass err to done()
         if (err) {throw err; } // if (err) return done(err);
-        db.collection('users').count().then(count => {
+        db.collection('accounts').count().then(count => {
           count.should.equal(1);
           done();
         });
