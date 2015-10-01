@@ -15,6 +15,13 @@ describe('HTTP Endpoint Tests', () => {
   var db;
 
   var populateDB = () => {
+    var users = [
+      {
+        name: 'Jun Chen',
+        email: 'junchen@sina.com',
+        account: ['etf', 'stock']
+      }];
+
     var accounts = [
       {
         name: 'etf',
@@ -25,13 +32,23 @@ describe('HTTP Endpoint Tests', () => {
         userid: ''
       }];
 
-    return db.collection('accounts').insert(accounts);
+    return db.collection('users').insert(users).then(items => {
+      var userid = items.insertedIds[1];
+      accounts = accounts.map(item => {
+        item.userid = userid;
+        return item;
+      });
+
+      return db.collection('accounts').insert(accounts);
+    });
   };
 
   before(done => {
     MongoClient.connect('mongodb://localhost:27017/stockdb', {promiseLibrary: Promise}).then(res => {
       db = res;
       return db.createCollection('accounts');
+    }).then(() => {
+      return db.createCollection('users');
     }).then(() => done());
   });
 
@@ -39,6 +56,8 @@ describe('HTTP Endpoint Tests', () => {
 
   beforeEach(done => {
     db.collection('accounts').drop().then(() => {
+      return db.collection('users').drop();
+    }).then(() => {
       return populateDB();
     }).then(() => {
       server = require('../bin/www', {bustCache: true});
@@ -61,8 +80,8 @@ describe('HTTP Endpoint Tests', () => {
 
   it('should be able to add an account', done => {
     var account = {
-        name: 'hs300',
-        userid: '',
+      name: 'hs300',
+      userid: ''
     };
 
     request(server).post('/accounts')
@@ -126,7 +145,7 @@ describe('HTTP Endpoint Tests', () => {
     });
   });
 
-  it('Delete an existing user', done => {
+  it('Delete an existing account', done => {
     db.collection('accounts').findOne().then(item => {
       request(server).delete('/accounts/' + item._id)
       .expect('Content-Type', /json/)
@@ -141,6 +160,19 @@ describe('HTTP Endpoint Tests', () => {
           count.should.equal(1);
           done();
         });
+      });
+    });
+  });
+
+  it('Get all the accounts from a user', done => {
+    db.collection('users').findOne().then(item => {
+      request(server).get(`/accounts?userid=${item._id}`)
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .end((err, res) => {
+        if (err) {throw err; }
+        res.body.length.should.equal(2);
+        done();
       });
     });
   });

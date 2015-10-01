@@ -5,7 +5,12 @@ var MongoClient = require('mongodb');
 var ObjectID = MongoClient.ObjectID;
 
 router.get('/', (req, res) => {
-  req.db.collection('accounts').find().toArray().then(items => {
+  var query = {};
+  if (req.query.userid) {
+    query.userid = new ObjectID(req.query.userid);
+  }
+
+  req.db.collection('accounts').find(query).toArray().then(items => {
     res.send(items);
   }).catch(err => res.status(500).send({error: err.toString()}));
 });
@@ -27,6 +32,7 @@ router.get('/:id', (req, res) => {
 
 router.post('/', (req, res) => {
   var account = req.body;
+
   req.db.collection('accounts').insert(account).then(items => {
     res.send(items.ops[0]);
   }).catch(err => res.status(500).send({error: err.toString()}));
