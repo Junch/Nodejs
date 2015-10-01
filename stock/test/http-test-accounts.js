@@ -78,22 +78,43 @@ describe('HTTP Endpoint Tests', () => {
     });
   });
 
+  it('Fail to add an account if userid is not correct', done => {
+    var account = {
+      name: 'hs300',
+      userid: new ObjectID()
+    };
+
+    request(server).post('/accounts')
+    .send(account)
+    .expect(500)
+    .expect('Content-Type', /json/)
+    .end((err, res) => {
+      if (err) {throw err; }
+      res.body.should.has.property('error');
+      done();
+    });
+  });
+
   it('should be able to add an account', done => {
     var account = {
       name: 'hs300',
       userid: ''
     };
 
-    request(server).post('/accounts')
-    .send(account)
-    .expect('Content-Type', /json/)
-    .expect(200)
-    .end((err, res) => {
-      if (err) {throw err; }
-      res.body.name.should.equal('hs300');
-      db.collection('accounts').count().then(count => {
-        count.should.equal(3);
-        done();
+    db.collection('users').findOne().then(item => {
+      account.userid = item._id;
+
+      request(server).post('/accounts')
+      .send(account)
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .end((err, res) => {
+        if (err) {throw err; }
+        res.body.name.should.equal('hs300');
+        db.collection('accounts').count().then(count => {
+          count.should.equal(3);
+          done();
+        });
       });
     });
   });

@@ -33,7 +33,13 @@ router.get('/:id', (req, res) => {
 router.post('/', (req, res) => {
   var account = req.body;
 
-  req.db.collection('accounts').insert(account).then(items => {
+  req.db.collection('users').findOne({_id: new ObjectID(account.userid)}).then(item => {
+    if (item == null) {
+      throw new Error(`user ${account.userid} is not found`);
+    }
+
+    return req.db.collection('accounts').insert(account);
+  }).then(items => {
     res.send(items.ops[0]);
   }).catch(err => res.status(500).send({error: err.toString()}));
 });
