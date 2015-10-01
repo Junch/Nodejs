@@ -1,8 +1,11 @@
-var gulp = require('gulp'),
-  nodemon = require('gulp-nodemon'),
-  plumber = require('gulp-plumber'),
-  livereload = require('gulp-livereload'),
-  sass = require('gulp-sass');
+var gulp = require('gulp');
+var nodemon = require('gulp-nodemon');
+var plumber = require('gulp-plumber');
+var livereload = require('gulp-livereload');
+var sass = require('gulp-sass');
+var mocha = require('gulp-mocha');
+var util = require('gulp-util');
+const jscs = require('gulp-jscs');
 
 gulp.task('sass', function () {
   gulp.src('./public/css/*.scss')
@@ -12,8 +15,27 @@ gulp.task('sass', function () {
     .pipe(livereload());
 });
 
-gulp.task('watch', function() {
+gulp.task('watch', function () {
   gulp.watch('./public/css/*.scss', ['sass']);
+});
+
+gulp.task('test', function () {
+  return gulp.src(['test/*.js'], {read: false})
+      .pipe(mocha({
+          reporter: 'spec',
+          ui: 'bdd'}))
+      .on('error', util.log)
+        .once('end', function () {
+          process.exit();
+        });
+});
+
+gulp.task('style', () => {
+  return gulp.src('**/*.js')
+      .pipe(jscs({fix: true}))
+      .pipe(jscs.reporter())
+      .pipe(jscs.reporter('fail'))
+      .pipe(gulp.dest('.'));
 });
 
 gulp.task('develop', function () {
@@ -24,7 +46,7 @@ gulp.task('develop', function () {
     stdout: false
   }).on('readable', function () {
     this.stdout.on('data', function (chunk) {
-      if(/^Express server listening on port/.test(chunk)){
+      if (/^Express server listening on port/.test(chunk)){
         livereload.changed(__dirname);
       }
     });

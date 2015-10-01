@@ -27,16 +27,16 @@ app.set('view engine', 'ejs');
 
 // database is set
 app.use(function (req, res, next) {
-    if (db == null){
-        MongoClient.connect('mongodb://localhost:27017/stockdb', {promiseLibrary: Promise}).then((res) => {
-            db = res;
-            req.db = db;
-            next();
-        });
-    } else {
-        req.db = db;
-        next();
-    }
+  if (db == null){
+    MongoClient.connect('mongodb://localhost:27017/stockdb', {promiseLibrary: Promise}).then((res) => {
+      db = res;
+      req.db = db;
+      next();
+    });
+  } else {
+    req.db = db;
+    next();
+  }
 });
 
 // app.use(favicon(__dirname + '/public/img/favicon.ico'));
@@ -51,39 +51,36 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 
-/// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
+// catch 404 and forward to error handler
+app.use(function (req, res, next) {
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
 });
-
-/// error handlers
 
 // development error handler
 // will print stacktrace
 
 if (app.get('env') === 'development') {
-    app.use(function(err, req, res, next) {
-        res.status(err.status || 500);
-        res.render('error', {
-            message: err.message,
-            error: err,
-            title: 'error'
-        });
+  app.use(function (err, req, res, next) {
+    res.status(err.status || 500);
+    res.render('error', {
+      message: err.message,
+      error: err,
+      title: 'error'
     });
+  });
 }
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-        message: err.message,
-        error: {},
-        title: 'error'
-    });
+app.use(function (err, req, res, next) {
+  res.status(err.status || 500);
+  res.render('error', {
+    message: err.message,
+    error: {},
+    title: 'error'
+  });
 });
-
 
 module.exports = app;
