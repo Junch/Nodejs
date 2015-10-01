@@ -4,6 +4,7 @@ var nodemon = require('gulp-nodemon');
 var liverrelod = require('gulp-livereload');
 var mocha = require('gulp-mocha');
 var util = require('gulp-util');
+var eslint = require('gulp-eslint');
 
 gulp.task('babel', function () {
     return gulp.src('server/**/*.js')
@@ -13,6 +14,14 @@ gulp.task('babel', function () {
 
 gulp.task('watch', function () {
     gulp.watch('server/**/*.js', ['babel']);
+});
+
+gulp.task('lint', function () {
+    return gulp.src(['server/**/*.js'])
+        .pipe(eslint({
+            useEslintrc: true
+        }))
+        .pipe(eslint.format());
 });
 
 gulp.task('test', function () {
@@ -38,4 +47,4 @@ gulp.task('develop', function () {
     });
 });
 
-gulp.task('default', ['babel', 'watch']);
+gulp.task('default', ['babel', 'lint', 'watch']);
