@@ -6,6 +6,8 @@
  */
 
 module.exports = {
-	
+	signup: function(req, res){
+		console.log('Backend Signup');
+	}
 };
 
