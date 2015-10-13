@@ -34,7 +34,8 @@ module.exports.routes = {
 
   'GET /signup': {view: 'signup'},
   'GET /login': {view: 'login'},
-  'POST /signup': 'UserController.signup'
+  'POST /signup': 'UserController.signup',
+  'PUT /login': 'UserController.login'
 
   /***************************************************************************
   *                                                                          *
