@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="/styles/importer.css">
   <!--STYLES END-->
 </head>
-<body>
+<body ng-app="DashMod" ng-controller="DashCtrl" ng-init="getUser()">
   <nav class="top-bar" data-topbar role="navigation">
     <ul class="title-area">
       <li class="name">
@@ -27,6 +27,13 @@
   </nav>
   <div class="row">
     <h1>Dashboard</h1>
+    <div class="large-8 columns">
+      <ul>
+        <li>Name: {{user.name}}</li>
+        <li>Email: {{user.email}}</li>
+        <li>Member Since: {{user.createdAt}}</li>
+      </ul>
+    </div>
   </div>
 
   <!--SCRIPTS-->
@@ -40,6 +47,8 @@
   <script src="/js/public/signup/SignupCtrl.js"></script>
   <script src="/js/public/login/LoginMod.js"></script>
   <script src="/js/public/login/LoginCtrl.js"></script>
+  <script src="/js/private/dashboard/DashMod.js"></script>
+  <script src="/js/private/dashboard/DashCtrl.js"></script>
   <!--SCRIPTS END-->
 </body>
 </html>
