@@ -13,3 +13,6 @@
 [submodule "activityoverlord20"]
 	path = activityoverlord20
 	url = https://github.com/irlnathan/activityoverlord20.git
+[submodule "angular-sailsjs-boilerplate"]
+	path = angular-sailsjs-boilerplate
+	url = https://github.com/tarlepp/angular-sailsjs-boilerplate.git
