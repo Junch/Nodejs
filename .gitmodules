@@ -10,3 +10,6 @@
 [submodule "sailsTest"]
 	path = sailsTest
 	url = https://github.com/AbhishekDutt/sailsTest.git
+[submodule "activityoverlord20"]
+	path = activityoverlord20
+	url = https://github.com/irlnathan/activityoverlord20.git
