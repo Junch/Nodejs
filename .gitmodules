@@ -16,3 +16,6 @@
 [submodule "angular-sailsjs-boilerplate"]
 	path = angular-sailsjs-boilerplate
 	url = https://github.com/tarlepp/angular-sailsjs-boilerplate.git
+[submodule "sails-angular-jwt-example"]
+	path = sails-angular-jwt-example
+	url = https://github.com/Foxandxss/sails-angular-jwt-example.git
