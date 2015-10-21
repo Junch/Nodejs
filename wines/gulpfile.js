@@ -13,7 +13,7 @@ gulp.task('babel', function () {
 });
 
 gulp.task('watch', function () {
-    gulp.watch('server/**/*.js', ['babel']);
+    return gulp.watch('server/**/*.js', ['babel']);
 });
 
 gulp.task('lint', function () {
@@ -47,4 +47,4 @@ gulp.task('develop', function () {
     });
 });
 
-gulp.task('default', ['babel', 'lint', 'watch']);
+gulp.task('default', ['babel', 'lint', 'watch', 'develop']);

@@ -44,8 +44,10 @@ class Wine {
     updateWine (req, res) {
         let id = req.params.id;
         let wine = req.body;
+        wine._id = new ObjectID(id);
         logger.info(`Update wine: ${id} ${JSON.stringify(wine)}`);
-        req.db.collection('wines').update({_id: new ObjectID(id)}, wine).then((result) => {
+
+        req.db.collection('wines').update({_id: wine._id}, wine).then((result) => {
             logger.info(String(result) + ' document(s) updated');
             res.send(wine);
         }).catch((err) => res.status(500).send({error: err.toString()}));
