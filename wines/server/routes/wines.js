@@ -1,10 +1,10 @@
 'use strict';
 
-var Promise = require('bluebird');
-var MongoClient = require('mongodb');
+import Promise from 'bluebird';
+import MongoClient from 'mongodb';
 var ObjectID = MongoClient.ObjectID;
-var logger = require('../utils/logger');
-var router = require('express').Router();
+import logger from '../utils/logger';
+import { Router } from 'express';
 
 class Wine {
 
@@ -64,6 +64,7 @@ class Wine {
 }
 
 let wine = new Wine();
+var router = Router();
 
 router.get('/', (req, res) => wine.findAll(req, res));
 router.get('/:id', (req, res) => wine.findById(req, res));
@@ -71,4 +72,4 @@ router.post('/', (req, res) => wine.addWine(req, res));
 router.post('/:id', (req, res) => wine.updateWine(req, res));
 router.delete('/:id', (req, res) => wine.deleteWine(req, res));
 
-module.exports = router;
+export default router;
