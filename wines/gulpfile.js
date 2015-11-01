@@ -1,15 +1,25 @@
 var gulp = require('gulp');
+var sourcemaps = require("gulp-sourcemaps");
 var babel = require('gulp-babel');
 var nodemon = require('gulp-nodemon');
 var liverrelod = require('gulp-livereload');
 var mocha = require('gulp-mocha');
 var util = require('gulp-util');
 var eslint = require('gulp-eslint');
+var path = require('path');
 
 gulp.task('babel', function () {
     return gulp.src('server/**/*.js')
+      .pipe(sourcemaps.init())
       .pipe(babel())
-      .pipe(gulp.dest('dist/'));
+      .on('error', util.log)
+      .pipe(sourcemaps.write('.', {
+            includeContent: false,
+            sourceRoot: function(file) {
+                return path.relative(file.path, __dirname);
+            }}
+        ))
+      .pipe(gulp.dest('dist'));
 });
 
 gulp.task('watch', function () {

@@ -1,4 +1,4 @@
-var winston = require('winston');
+import winston from 'winston';
 winston.emitErrs = true;
 
 // http://stackoverflow.com/questions/13157330/logging-with-winston-in-express-js-how-to-configure-for-different-environments
@@ -27,9 +27,10 @@ var logger = new winston.Logger({
     exitOnError: false
 });
 
-module.exports = logger;
-module.exports.stream = {
+logger.stream =  {
     write: function (message, encoding) {
         logger.info(message);
     }
 };
+
+export default logger;

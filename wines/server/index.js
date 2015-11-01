@@ -47,4 +47,4 @@ var server = app.listen(3000, () => {
     logger.info(`Listening on port ${port}`);
 });
 
-module.exports = server;
+export default server;
