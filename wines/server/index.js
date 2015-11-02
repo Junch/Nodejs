@@ -42,9 +42,10 @@ app.use(express.static(path.join(__dirname, '../static')));
 
 app.use('/wines', wines);
 
-var server = app.listen(3000, () => {
-    var port = server.address().port;
-    logger.info(`Listening on port ${port}`);
+app.set('port', process.env.PORT || 3000);
+
+var server = app.listen(app.get('port'), function() {
+  logger.info('Listening on port ' + server.address().port);
 });
 
-export default server;
+module.exports = server;

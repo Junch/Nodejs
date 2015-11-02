@@ -11,7 +11,9 @@ var path = require('path');
 gulp.task('babel', function () {
     return gulp.src('server/**/*.js')
       .pipe(sourcemaps.init())
-      .pipe(babel())
+      .pipe(babel({
+        presets:['es2015']
+      }))
       .on('error', util.log)
       .pipe(sourcemaps.write('.', {
             includeContent: false,
@@ -34,12 +36,9 @@ gulp.task('lint', function () {
         .pipe(eslint.format());
 });
 
-gulp.task('test', function () {
+gulp.task('test', ['babel'], function () {
     return gulp.src(['dist/test/**/*.js'], {read: false})
         .pipe(mocha({
-            compilers: {
-                js: babel
-            },
             reporter: 'spec',
             ui: 'bdd'}))
         .on('error', util.log)
