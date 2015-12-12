@@ -12,4 +12,24 @@ describe('Test getStock', function(){
       done(error);
     });
   });
+
+  it('Get price of hk03968', function(done){
+    stock.getStock('hk03968').then(function(data){
+      //console.log(data);
+      expect(data.opening).to.be.an('Number')
+      done();
+    }).catch(function(error){
+      done(error);
+    });
+  });
+
+  it('Get price of sz300104', function(done){
+    stock.getStock('sz300104').then(function(data){
+      //console.log(data);
+      expect(data.opening).to.be.an('Number')
+      done();
+    }).catch(function(error){
+      done(error);
+    });
+  });
 });
