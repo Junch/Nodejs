@@ -1,0 +1,17 @@
+{
+  "name": "sina",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha -R spec ./test/*.js"
+  },
+  "author": "Jun Chen",
+  "license": "ISC",
+  "dependencies": {
+    "request": "^2.67.0"
+  },
+  "devDependencies": {
+    "chai": "^3.4.1"
+  }
+}
