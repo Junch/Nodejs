@@ -8,7 +8,7 @@ var request = require('request');
 
 exports.getStock = function(id){
   return new Promise(function(resolve, reject){
-    request('http://hq.sinajs.cn/list=' + id, function(error, response, body){
+    request(`http://hq.sinajs.cn/list=${id}`, function(error, response, body){
       if (error){
         return reject(error);
       }
