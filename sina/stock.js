@@ -1,14 +1,16 @@
 'use strict';
 
 var request = require('request');
-
+var iconv = require('iconv-lite');
 //
 // If the stock is not in trade, its opening,price,max and min are all zero
 //
 
 exports.getStock = function(id){
   return new Promise(function(resolve, reject){
-    request(`http://hq.sinajs.cn/list=${id}`, function(error, response, body){
+    request({
+        url: `http://hq.sinajs.cn/list=${id}`,
+        encoding: null}, function(error, response, body){
       if (error){
         return reject(error);
       }
@@ -17,7 +19,8 @@ exports.getStock = function(id){
         return reject({error: 'statusCode =' + response.statusCode });
       }
 
-      var arr = body.match(/var hq_str_\w+="(.+)"/);
+      var bodyDecoded = iconv.decode(body, 'gb2312');
+      var arr = bodyDecoded.match(/var hq_str_\w+="(.+)"/);
       if (arr == null || arr.length < 2){
         return reject({error: 'The data from sina is not expected'});
       }

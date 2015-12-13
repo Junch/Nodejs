@@ -9,6 +9,7 @@
   "author": "Jun Chen",
   "license": "ISC",
   "dependencies": {
+    "iconv-lite": "^0.4.13",
     "request": "^2.67.0"
   },
   "devDependencies": {
