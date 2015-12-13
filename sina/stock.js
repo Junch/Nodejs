@@ -17,7 +17,12 @@ exports.getStock = function(id){
         return reject({error: 'statusCode =' + response.statusCode });
       }
 
-      var elems = body.split(",");
+      var arr = body.match(/var hq_str_\w+="(.+)"/);
+      if (arr == null || arr.length < 2){
+        return reject({error: 'The data from sina is not expected'});
+      }
+
+      var elems = arr[1].split(',');
 
       if (id.startsWith('hk')){
         if (elems.length != 19) {
@@ -26,6 +31,7 @@ exports.getStock = function(id){
 
         var s= {
           id: id,
+          name: elems[1],
           opening: Number(elems[2]),
           previous: Number(elems[3]),
           price: Number(elems[6]),
@@ -43,6 +49,7 @@ exports.getStock = function(id){
 
         var s= {
           id: id,
+          name: elems[0],
           opening: Number(elems[1]),
           previous: Number(elems[2]),
           price: Number(elems[3]),
