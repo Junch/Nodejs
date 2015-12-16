@@ -6,7 +6,7 @@ var iconv = require('iconv-lite');
 // If the stock is not in trade, its opening,price,max and min are all zero
 //
 
-exports.getStock = function(id){
+function getStock(id){
   return new Promise(function(resolve, reject){
     request({
         url: `http://hq.sinajs.cn/list=${id}`,
@@ -69,4 +69,16 @@ exports.getStock = function(id){
   });
 }
 
+function getStockArr(stockArr){
+  var arr = [];
+  stockArr.forEach(function(item){
+    arr.push(getStock(item));
+  });
 
+  return Promise.all(arr);
+}
+
+module.exports = {
+  getStock,
+  getStockArr
+};
