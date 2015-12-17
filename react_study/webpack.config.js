@@ -2,16 +2,20 @@ var path = require('path');
 var webpack = require('webpack');
 
 module.exports = {
-	entry: './main.js',
+	entry: [
+		'babel-polyfill',
+		'./main.js'
+		],
 	output: {path: __dirname, filename: 'bundle.js'},
 	module: {
 		loaders: [
 			{
-				test: /.jsx?$/,
+				test: /\.jsx?$/,
 				loader: 'babel-loader',
 				exclude: /node_modules/,
 				query: {
-					presets: ['es2015', 'react']
+					plugins: ['transform-runtime'],
+					presets: ['es2015', 'stage-0', 'react']
 				}
 			}
 		]
