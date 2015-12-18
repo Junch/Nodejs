@@ -10,10 +10,6 @@ class Hello extends React.Component {
 		this.state = {count: props.initialCount};
 	}
 
-	static propTypes = {
-		count: React.PropTypes.number.isRequired
-	}
-
 	tick() {
 		this.setState({count: this.state.count + 1});
 	}
