@@ -49,4 +49,5 @@ Install experimental ES7 features as [Using ES6 and ES7 in the Browser, with Bab
 npm install babel-preset-stage-0 --save-dev
 ```
 
+This example is from the page [https://facebook.github.io/react/docs/tutorial.html](https://facebook.github.io/react/docs/tutorial.html)
 
