@@ -2,12 +2,16 @@ var path = require('path');
 var webpack = require('webpack');
 
 module.exports = {
-	devtool: 'cheap-module-source-map',
-	entry: [
-		'babel-polyfill',
-		'./main.js'
-		],
-	output: {path: __dirname, filename: 'bundle.js'},
+    devtool: 'cheap-module-source-map',
+    entry: [
+        'babel-polyfill',
+        './static/js/main.js'
+        ],
+    output: {
+        path: path.join(__dirname, 'static/dist/'),
+        filename: 'bundle.js',
+        publicPath: 'http://localhost:8080/dist'
+    },
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
@@ -15,17 +19,22 @@ module.exports = {
       }
     })
   ],
-	module: {
-		loaders: [
-			{
-				test: /\.jsx?$/,
-				loader: 'babel-loader',
-				exclude: /node_modules/,
-				query: {
-					plugins: ['transform-runtime'],
-					presets: ['es2015', 'stage-0', 'react']
-				}
-			}
-		]
-	}
+    module: {
+        loaders: [
+            {
+                test: /\.jsx?$/,
+                loader: 'babel-loader',
+                include: path.join(__dirname, 'static'),
+                exclude: /node_modules/,
+                query: {
+                    plugins: ['transform-runtime'],
+                    presets: ['es2015', 'stage-0', 'react']
+                }
+            }
+        ]
+    },
+    devServer: {
+        port: 8080,
+        contentBase: './static'
+    }
 };
