@@ -35,6 +35,14 @@ module.exports = {
     },
     devServer: {
         port: 8080,
-        contentBase: './static'
+        contentBase: './static',
+        hot: true,
+        historyApiFallback: true,
+        proxy: {
+            '/api/*': {
+                target: 'http://localhost:8081',
+                secure: false
+            }
+        }
     }
 };
