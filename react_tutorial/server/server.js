@@ -16,6 +16,10 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
 
+if(process.env.NODE_ENV !== 'production') {
+  require('../webpackdev.server')(app)
+}
+
 var COMMENTS_FILE = path.join(__dirname, 'comments.json');
 
 app.set('port', (process.env.PORT || 8081));

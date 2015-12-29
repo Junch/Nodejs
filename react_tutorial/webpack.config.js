@@ -5,20 +5,24 @@ module.exports = {
     devtool: 'cheap-module-source-map',
     entry: [
         'babel-polyfill',
-        './static/js/main.js'
+        './static/js/main.js',
+        'webpack/hot/dev-server',
+        'webpack-dev-server/client?http://localhost:8080'
         ],
     output: {
         path: path.join(__dirname, 'static/dist/'),
         filename: 'bundle.js',
         publicPath: 'http://localhost:8080/dist'
     },
-  plugins: [
-    new webpack.DefinePlugin({
-      'process.env': {
-        'NODE_ENV': JSON.stringify('production')
-      }
-    })
-  ],
+    plugins: [
+        new webpack.DefinePlugin({
+          'process.env': {
+            'NODE_ENV': JSON.stringify('production')
+          }
+        }),
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.NoErrorsPlugin()
+    ],
     module: {
         loaders: [
             {

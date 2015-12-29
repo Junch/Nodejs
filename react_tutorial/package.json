@@ -5,8 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack-dev-server --devtool eval --progress --colors",
-    "deploy": "NODE_ENV=production webpack -p"
+    "dev10": "webpack-dev-server --devtool eval --progress --colors",
+    "dev11": "NODE_ENV=production node server/server.js",
+    "dev": "node server/server.js",
+    "deploy": "NODE_ENV=production webpack -p",
+    "start": "NODE_ENV=production node server/server.js"
   },
   "author": "",
   "license": "ISC",
@@ -17,7 +20,9 @@
     "babel-preset-es2015": "^6.3.13",
     "babel-preset-react": "^6.3.13",
     "babel-preset-stage-0": "^6.3.13",
-    "webpack": "^1.12.9"
+    "proxy-middleware": "^0.15.0",
+    "webpack": "^1.12.9",
+    "webpack-dev-server": "^1.14.0"
   },
   "dependencies": {
     "babel-polyfill": "^6.3.14",
