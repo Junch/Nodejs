@@ -52,9 +52,20 @@ class CommentForm extends React.Component {
         this.setState({text: e.target.value});
     }
 
+    handleSubmit(e) {
+        e.preventDefault();
+        var author = this.state.author.trim();
+        var text = this.state.text.trim();
+        if (!text || !author){
+            return;
+        }
+        this.props.onCommentSubmit({author: author, text: text});
+        this.setState({author: '', text: ''});
+    }
+
     render() {
         return (
-            <form className="form-inline">
+            <form className="form-inline" onSubmit={this.handleSubmit.bind(this)}>
                 <input className="form-control" type="text" placeholder="Your name" value={this.state.author} onChange={this.handleAuthorChange.bind(this)} />
                 <input className="form-control" type="text" placeholder="Say something..." value={this.state.text} onChange={this.handleTextChange.bind(this)} />
                 <input className="btn btn-default" type="submit" value="Post" />
@@ -67,6 +78,11 @@ class CommentBox extends React.Component {
     constructor(props) {
         super(props);
         this.state = {data: []}
+    }
+
+    handleCommentsSubmit(comment) {
+        // TODO: submit to the server and refresh the list
+        console.log(`handleCommentsSubmit ${JSON.stringify(comment)}`);
     }
 
     componentDidMount(){
@@ -84,7 +100,7 @@ class CommentBox extends React.Component {
             <div>
                 <h1>Comments</h1>
                 <CommentList data={this.state.data}/>
-                <CommentForm />
+                <CommentForm onCommentSubmit={this.handleCommentsSubmit.bind(this)}/>
             </div>
         );
     }
