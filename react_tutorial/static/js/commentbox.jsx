@@ -81,8 +81,13 @@ class CommentBox extends React.Component {
     }
 
     handleCommentsSubmit(comment) {
-        // TODO: submit to the server and refresh the list
-        console.log(`handleCommentsSubmit ${JSON.stringify(comment)}`);
+        axios.post(this.props.url, comment)
+            .then(function(data){
+                this.setState({data: data.data})
+            }.bind(this))
+            .catch(function(err){
+                console.error(err);
+            });
     }
 
     componentDidMount(){
