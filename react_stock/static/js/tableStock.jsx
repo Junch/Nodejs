@@ -1,10 +1,25 @@
 import React from 'react';
 import { Table } from 'react-bootstrap';
+import accounting from 'accounting'
 
 class TableDemo extends React.Component {
   constructor(props){
     super(props);
     this.state = {data: []}
+    accounting.settings = {
+      currency: {
+        symbol : "",   // default currency symbol is '$'
+        format: "%s%v", // controls output: %s = symbol, %v = value/number (can be object: see below)
+        decimal : ".",  // decimal point separator
+        thousand: ",",  // thousands separator
+        precision : 2   // decimal places
+      },
+      number: {
+        precision : 0,  // default precision on numbers is 0
+        thousand: ",",
+        decimal : "."
+      }
+    }    
   }
 
   componentDidMount(){
@@ -26,9 +41,9 @@ class TableDemo extends React.Component {
           <tr key={stock.symbol}>
             <td>{stock.symbol}</td>
             <td>{stock.title}</td>
-            <td>{stock.price}</td>
+            <td>{accounting.formatMoney(stock.price, "", 3)}</td>
             <td>{stock.volume}</td>
-            <td>{stock.price * stock.volume}</td>
+            <td className="text-right">{accounting.formatMoney(stock.price * stock.volume)}</td>
           </tr>
         );
       });
@@ -49,7 +64,7 @@ class TableDemo extends React.Component {
         <tfoot>
           <tr>
             <td>总市值</td>
-            <td colSpan="4" className="text-center">{total}</td>
+            <td colSpan="4" className="text-center">{accounting.formatMoney(total)}</td>
           </tr>
         </tfoot>
       </Table>
