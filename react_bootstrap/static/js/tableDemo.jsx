@@ -2,7 +2,39 @@ import React from 'react';
 import { Table } from 'react-bootstrap';
 
 class TableDemo extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {data: [
+      {
+        firstName: 'Mark',
+        lastName: 'Otto',
+        userName: '@mdo'
+      },
+      {
+        firstName: 'Jacob',
+        lastName: 'Thornton',
+        userName: '@fat'
+      },
+      {
+        firstName: 'Larry the Bird',
+        lastName: 'Hello',
+        userName: '@twitter'
+      }
+    ]}
+  }
+
   render() {
+      var rows = this.state.data.map(function(user, index){
+        return (
+          <tr>
+            <td>{index}</td>
+            <td>{user.firstName}</td>
+            <td>{user.lastName}</td>
+            <td>{user.userName}</td>
+          </tr>
+        );
+      });
+
       return <Table striped bordered condensed hover>
         <thead>
           <tr>
@@ -13,24 +45,7 @@ class TableDemo extends React.Component {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>Larry the Bird</td>
-            <td>Hello</td>
-            <td>@twitter</td>
-          </tr>
+          {rows}
         </tbody>
       </Table>
   }
