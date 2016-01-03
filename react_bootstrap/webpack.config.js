@@ -10,16 +10,11 @@ module.exports = {
         'webpack-dev-server/client?http://localhost:8080'
         ],
     output: {
-        path: path.join(__dirname, 'static/dist/'),
+        path: path.join(__dirname, 'static/dist'),
         filename: 'bundle.js',
         publicPath: 'http://localhost:8080/dist'
     },
     plugins: [
-        new webpack.DefinePlugin({
-          'process.env': {
-            'NODE_ENV': JSON.stringify('production')
-          }
-        }),
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NoErrorsPlugin()
     ],

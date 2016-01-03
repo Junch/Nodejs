@@ -15,7 +15,7 @@ class Demo extends React.Component {
                     <strong>Holy guacamole!</strong> Best check yo self, you're not looking too good.
                 </Alert>
 
-                <TableDemo />
+                <TableDemo url='/api/users' />
 
                 <Button bsStyle="success" bsSize="small">
                   Click me
