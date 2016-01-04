@@ -19,17 +19,17 @@ class TableDemo extends React.Component {
         thousand: ",",
         decimal : "."
       }
-    }    
+    }
   }
 
   componentDidMount(){
-      axios.get(this.props.url)
-          .then(function(data){
-              this.setState({data: data.data})
-          }.bind(this))
-          .catch(function(response){
-              console.log(response);
-          });
+    axios.get(this.props.url)
+      .then(function(data){
+          this.setState({data: data.data})
+      }.bind(this))
+      .catch(function(response){
+          console.log(response);
+      });
   }
 
   render() {
@@ -48,26 +48,28 @@ class TableDemo extends React.Component {
         );
       });
 
-      return <Table striped bordered condensed hover>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>股票</th>
-            <th>当前价</th>
-            <th>持有量</th>
-            <th>持有市值</th>
-          </tr>
-        </thead>
-        <tbody>
-          {rows}
-        </tbody>
-        <tfoot>
-          <tr>
-            <td>总市值</td>
-            <td colSpan="4" className="text-center">{accounting.formatMoney(total)}</td>
-          </tr>
-        </tfoot>
-      </Table>
+      return (
+        <Table striped bordered condensed hover>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>股票</th>
+              <th>当前价</th>
+              <th>持有量</th>
+              <th>持有市值</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows}
+          </tbody>
+          <tfoot>
+            <tr>
+              <td>总市值</td>
+              <td colSpan="4" className="text-center">{accounting.formatMoney(total)}</td>
+            </tr>
+          </tfoot>
+        </Table>
+    );
   }
 };
 

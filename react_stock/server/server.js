@@ -29,7 +29,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 
-var users = [
+var stocks = [
   {
     symbol: 'SZ000002',
     title: '万科A',
@@ -67,9 +67,9 @@ var users = [
     volume: 23000
   }];
 
-app.get('/api/users', function(req, res) {
+app.get('/api/stocks', function(req, res) {
   res.setHeader('Cache-Control', 'no-cache');
-  res.json(users);
+  res.json(stocks);
 });
 
 app.listen(app.get('port'), function() {
