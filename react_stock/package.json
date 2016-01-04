@@ -29,8 +29,10 @@
     "babel-runtime": "^6.3.19",
     "body-parser": "^1.14.2",
     "express": "^4.13.3",
+    "iconv-lite": "^0.4.13",
     "react": "^0.14.3",
     "react-bootstrap": "^0.28.1",
-    "react-dom": "^0.14.3"
+    "react-dom": "^0.14.3",
+    "request": "^2.67.0"
   }
 }
