@@ -7,7 +7,7 @@ class Demo extends React.Component {
         return(
             <div className="container">
                 <h3>股票账户</h3>
-                <TableStock url='/api/stocks' />
+                <TableStock url='/api/stocks' pollInterval={2000} />
             </div>
         );
     }

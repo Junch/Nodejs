@@ -22,7 +22,7 @@ class TableDemo extends React.Component {
     }
   }
 
-  componentDidMount(){
+  loadStocksFromServer(){
     axios.get(this.props.url)
       .then(function(data){
           this.setState({data: data.data})
@@ -30,6 +30,10 @@ class TableDemo extends React.Component {
       .catch(function(response){
           console.log(response);
       });
+  }
+
+  componentDidMount(){
+    setInterval(this.loadStocksFromServer.bind(this), this.props.pollInterval);
   }
 
   render() {
