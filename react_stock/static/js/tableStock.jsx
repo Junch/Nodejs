@@ -1,6 +1,7 @@
 import React from 'react';
 import { Table } from 'react-bootstrap';
-import accounting from 'accounting'
+import accounting from 'accounting';
+import fx from 'money';
 
 function formatPercent(prev, price){
   let deta = price - prev;
@@ -21,7 +22,8 @@ function formatPercent(prev, price){
 class TableDemo extends React.Component {
   constructor(props){
     super(props);
-    this.state = {data: []}
+    this.state = {data: [],
+                  rates: {CNY: 7.0388, HKD: 8.3271}}
     accounting.settings = {
       currency: {
         symbol : "",   // default currency symbol is '$'
@@ -41,15 +43,26 @@ class TableDemo extends React.Component {
   loadStocksFromServer(){
     axios.get(this.props.url)
       .then(function(data){
-          this.setState({data: data.data});
+        this.setState({data: data.data});
       }.bind(this))
       .catch(function(response){
-          console.log(response);
+        console.log(response);
+      });
+  }
+
+  loadExchangesFromServer(){
+    axios.get('http://api.fixer.io/latest?symbols=CNY,HKD')
+      .then(function(data){
+        this.setState({rates: data.data.rates});
+      }.bind(this))
+      .catch(function(response){
+        console.log(response);
       });
   }
 
   componentDidMount(){
     setInterval(this.loadStocksFromServer.bind(this), this.props.pollInterval);
+    setInterval(this.loadExchangesFromServer.bind(this), 60000);
   }
 
   render() {
@@ -75,7 +88,9 @@ class TableDemo extends React.Component {
       );
     });
 
-    let total = totalChina + totalHK + totalCash;
+    fx.rates = this.state.rates;
+    let totalHKCNY = fx(totalHK).from("HKD").to("CNY");
+    let total = totalChina + totalHKCNY + totalCash;
 
     return (
       <div>
@@ -113,8 +128,8 @@ class TableDemo extends React.Component {
               </tr>
               <tr>
                 <td>港股市值</td>
-                <td className="text-right">{accounting.formatMoney(totalHK)}</td>
-                <td className="text-right">{(totalHK/total*100).toFixed(2) + '%'}</td>
+                <td className="text-right">{accounting.formatMoney(totalHK)}<span style={{display: "block"}}>{accounting.formatMoney(totalHKCNY)}</span></td>
+                <td className="text-right">{(totalHKCNY/total*100).toFixed(2) + '%'}</td>
               </tr>
               <tr>
                 <td>现金</td>
