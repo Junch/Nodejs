@@ -53,9 +53,14 @@ class TableDemo extends React.Component {
   }
 
   render() {
-      let total = 0;
+      let totalChina = 0;
+      let totalHK = 0;
       let rows = this.state.data.map(function(stock, index){
-        total += stock.price * stock.volume;
+        if (stock.symbol.startsWith('SH') || stock.symbol.startsWith('SZ')) {
+          totalChina += stock.price * stock.volume;
+        }else if(stock.symbol.startsWith('HK')){
+          totalHK += stock.price * stock.volume;
+        }
 
         return (
           <tr key={stock.symbol}>
@@ -78,7 +83,7 @@ class TableDemo extends React.Component {
               <th>当前价</th>
               <th>涨跌幅</th>
               <th>持有量</th>
-              <th>持有市值</th>
+              <th>市值</th>
             </tr>
           </thead>
           <tbody>
@@ -86,8 +91,10 @@ class TableDemo extends React.Component {
           </tbody>
           <tfoot>
             <tr>
-              <td>总市值</td>
-              <td colSpan="5" className="text-center">{accounting.formatMoney(total)}</td>
+              <td>沪深市值</td>
+              <td colSpan="2" className="text-center">{accounting.formatMoney(totalChina)}</td>
+              <td>港股市值</td>
+              <td colSpan="2" className="text-center">{accounting.formatMoney(totalHK)}</td>
             </tr>
           </tfoot>
         </Table>
