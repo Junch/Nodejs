@@ -41,7 +41,7 @@ class TableDemo extends React.Component {
   loadStocksFromServer(){
     axios.get(this.props.url)
       .then(function(data){
-          this.setState({data: data.data})
+          this.setState({data: data.data});
       }.bind(this))
       .catch(function(response){
           console.log(response);
@@ -53,51 +53,83 @@ class TableDemo extends React.Component {
   }
 
   render() {
-      let totalChina = 0;
-      let totalHK = 0;
-      let rows = this.state.data.map(function(stock, index){
-        if (stock.symbol.startsWith('SH') || stock.symbol.startsWith('SZ')) {
-          totalChina += stock.price * stock.volume;
-        }else if(stock.symbol.startsWith('HK')){
-          totalHK += stock.price * stock.volume;
-        }
-
-        return (
-          <tr key={stock.symbol}>
-            <td>{stock.symbol}</td>
-            <td>{stock.title}</td>
-            <td>{accounting.formatMoney(stock.price, "", 3)}</td>
-            <td className="text-right" style={{"fontWeight":"bold"}}>{formatPercent(stock.previous, stock.price)}</td>
-            <td>{stock.volume}</td>
-            <td className="text-right">{accounting.formatMoney(stock.price * stock.volume)}</td>
-          </tr>
-        );
-      });
+    let totalChina = 0;
+    let totalHK = 0;
+    let totalCash = 501729.96;
+    let rows = this.state.data.map(function(stock, index){
+      if (stock.symbol.startsWith('SH') || stock.symbol.startsWith('SZ')) {
+        totalChina += stock.price * stock.volume;
+      }else if(stock.symbol.startsWith('HK')){
+        totalHK += stock.price * stock.volume;
+      }
 
       return (
+        <tr key={stock.symbol}>
+          <td>{stock.symbol}</td>
+          <td>{stock.title}</td>
+          <td>{accounting.formatMoney(stock.price, "", 3)}</td>
+          <td className="text-right" style={{"fontWeight":"bold"}}>{formatPercent(stock.previous, stock.price)}</td>
+          <td className="text-right">{stock.volume}</td>
+          <td className="text-right">{accounting.formatMoney(stock.price * stock.volume)}</td>
+        </tr>
+      );
+    });
+
+    let total = totalChina + totalHK + totalCash;
+
+    return (
+      <div>
+        <h3>股票</h3>
         <Table striped bordered condensed hover>
           <thead>
             <tr>
               <th>#</th>
               <th>股票</th>
               <th>当前价</th>
-              <th>涨跌幅</th>
-              <th>持有量</th>
-              <th>市值</th>
+              <th className="text-right">涨跌幅</th>
+              <th className="text-right">持有量</th>
+              <th className="text-right">市值</th>
             </tr>
           </thead>
           <tbody>
             {rows}
           </tbody>
-          <tfoot>
-            <tr>
-              <td>沪深市值</td>
-              <td colSpan="2" className="text-center">{accounting.formatMoney(totalChina)}</td>
-              <td>港股市值</td>
-              <td colSpan="2" className="text-center">{accounting.formatMoney(totalHK)}</td>
-            </tr>
-          </tfoot>
         </Table>
+        <h3>汇总</h3>
+        <div className="col-md-4" style={{paddingLeft: 0}}>
+          <Table bordered condensed>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th className="text-right">金额</th>
+                <th className="text-right">百分比</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>沪深市值</td>
+                <td className="text-right">{accounting.formatMoney(totalChina)}</td>
+                <td className="text-right">{(totalChina/total*100).toFixed(2) + '%'}</td>
+              </tr>
+              <tr>
+                <td>港股市值</td>
+                <td className="text-right">{accounting.formatMoney(totalHK)}</td>
+                <td className="text-right">{(totalHK/total*100).toFixed(2) + '%'}</td>
+              </tr>
+              <tr>
+                <td>现金</td>
+                <td className="text-right">{accounting.formatMoney(totalCash)}</td>
+                <td className="text-right">{(totalCash/total*100).toFixed(2) + '%'}</td>
+              </tr>
+              <tr>
+                <td>总资产</td>
+                <td className="text-right">{accounting.formatMoney(total)}</td>
+                <td className="text-right">100.00%</td>
+              </tr>
+            </tbody>
+          </Table>
+        </div>
+      </div>
     );
   }
 };

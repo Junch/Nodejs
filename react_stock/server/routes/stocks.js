@@ -5,34 +5,40 @@ var stockUtil = require('./stockUtil');
 
 var stocks = [
   {
-    symbol: 'SZ000002',
-    volume: 7000
+    symbol: 'SH600036',
+    volume: 700
+  },
+  {
+    symbol: 'SH600104',
+    volume: 500
+  },
+  {
+    symbol: 'SH601668',
+    volume: 4000
   },
   {
     symbol: 'SH601318',
-    volume: 3800
+    volume: 1600
   },
   {
-    symbol: 'SH600875',
-    volume: 1400
+    symbol: 'SH601985',
+    volume: 1500
   },
   {
-    symbol: 'SH600030',
-    volume: 2100
+    symbol: 'SH510900',
+    volume: 73000
   },
   {
-    symbol: 'SH510880',
-    volume: 5000
+    symbol: 'HK00939',
+    volume: 9000
   },
   {
-    symbol: 'SH510650',
-    volume: 23000
-  },{
-    symbol: 'HK02202',
-    volume: 100
-  },{
-    symbol: 'HK03333',
-    volume: 100
+    symbol: 'HK01988',
+    volume: 6000
+  },
+  {
+    symbol: 'HK03968',
+    volume: 1500
   }];
 
 router.get('/', function(req, res) {
