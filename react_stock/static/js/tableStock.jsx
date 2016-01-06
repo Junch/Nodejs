@@ -2,6 +2,22 @@ import React from 'react';
 import { Table } from 'react-bootstrap';
 import accounting from 'accounting'
 
+function formatPercent(prev, price){
+  let deta = price - prev;
+  let str = (deta/prev*100).toFixed(2) + '%';
+  if (deta > 0){
+    str = '+' + str;
+  }
+
+  if (deta > 0)
+    return <font color="red">{str}</font>;
+
+  if (deta < 0)
+    return <font color="green">{str}</font>;
+
+  return <div>{str}</div>;
+}
+
 class TableDemo extends React.Component {
   constructor(props){
     super(props);
@@ -46,6 +62,7 @@ class TableDemo extends React.Component {
             <td>{stock.symbol}</td>
             <td>{stock.title}</td>
             <td>{accounting.formatMoney(stock.price, "", 3)}</td>
+            <td className="text-right" style={{"fontWeight":"bold"}}>{formatPercent(stock.previous, stock.price)}</td>
             <td>{stock.volume}</td>
             <td className="text-right">{accounting.formatMoney(stock.price * stock.volume)}</td>
           </tr>
@@ -59,6 +76,7 @@ class TableDemo extends React.Component {
               <th>#</th>
               <th>股票</th>
               <th>当前价</th>
+              <th>涨跌幅</th>
               <th>持有量</th>
               <th>持有市值</th>
             </tr>
@@ -69,7 +87,7 @@ class TableDemo extends React.Component {
           <tfoot>
             <tr>
               <td>总市值</td>
-              <td colSpan="4" className="text-center">{accounting.formatMoney(total)}</td>
+              <td colSpan="5" className="text-center">{accounting.formatMoney(total)}</td>
             </tr>
           </tfoot>
         </Table>

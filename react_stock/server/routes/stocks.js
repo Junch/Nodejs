@@ -45,6 +45,7 @@ router.get('/', function(req, res) {
       return {
         symbol: stocks[index].symbol,
         title: item.name,
+        previous: item.previous,
         price: item.price,
         volume: stocks[index].volume
       };
