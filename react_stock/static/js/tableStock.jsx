@@ -57,7 +57,7 @@ class TableStock extends React.Component {
         <tr key={stock.symbol}>
           <td>{stock.symbol}</td>
           <td>{stock.title}</td>
-          <td>{accounting.formatMoney(stock.price, "", 3)}</td>
+          <td className="text-right">{accounting.formatMoney(stock.price, "", 3)}</td>
           <td className="text-right" style={{"fontWeight":"bold"}}>{formatPercent(stock.previous, stock.price)}</td>
           <td className="text-right">{stock.volume}</td>
           <td className="text-right">{accounting.formatMoney(stock.price * stock.volume)}</td>
@@ -73,7 +73,7 @@ class TableStock extends React.Component {
             <tr>
               <th>#</th>
               <th>股票</th>
-              <th>当前价</th>
+              <th className="text-right">当前价</th>
               <th className="text-right">涨跌幅</th>
               <th className="text-right">持有量</th>
               <th className="text-right">市值</th>
