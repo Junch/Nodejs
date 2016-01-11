@@ -2,22 +2,7 @@ import React from 'react';
 import { Table } from 'react-bootstrap';
 import accounting from 'accounting';
 import TableTotal from './tableSummary.jsx'
-
-function formatPercent(prev, price){
-  let deta = price - prev;
-  let str = (deta/prev*100).toFixed(2) + '%';
-  if (deta > 0){
-    str = '+' + str;
-  }
-
-  if (deta > 0)
-    return <font color="red">{str}</font>;
-
-  if (deta < 0)
-    return <font color="green">{str}</font>;
-
-  return <div>{str}</div>;
-}
+import {formatPercent} from './util.jsx'
 
 class TableStock extends React.Component {
   constructor(props){
@@ -56,12 +41,16 @@ class TableStock extends React.Component {
   render() {
     let totalChina = 0;
     let totalHK = 0;
-    let totalCash = 501729.96;
+    let prevChina = 0;
+    let prevHK = 0;
+
     let rows = this.state.data.map(function(stock, index){
       if (stock.symbol.startsWith('SH') || stock.symbol.startsWith('SZ')) {
         totalChina += stock.price * stock.volume;
+        prevChina += stock.previous * stock.volume;
       }else if(stock.symbol.startsWith('HK')){
         totalHK += stock.price * stock.volume;
+        prevHK += stock.previous * stock.volume;
       }
 
       return (
@@ -94,7 +83,7 @@ class TableStock extends React.Component {
             {rows}
           </tbody>
         </Table>
-        <TableTotal totalHK={totalHK} totalCash={totalCash} totalChina={totalChina} />
+        <TableTotal totalHK={totalHK} prevHK={prevHK} totalChina={totalChina}  prevChina={prevChina}/>
       </div>
     );
   }
