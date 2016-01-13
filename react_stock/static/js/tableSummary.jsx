@@ -25,12 +25,27 @@ class TableSummary extends React.Component {
   }
 
   render(){
-    let totalCash = 501729.96;
+    let totalCash = 474532.05;
+    let totalChina = 0;
+    let totalHK = 0;
+    let prevChina = 0;
+    let prevHK = 0;
+
+    this.props.data.forEach(function(stock){
+      if (stock.symbol.startsWith('SH') || stock.symbol.startsWith('SZ')) {
+        totalChina += stock.price * stock.volume;
+        prevChina += stock.previous * stock.volume;
+      }else if(stock.symbol.startsWith('HK')){
+        totalHK += stock.price * stock.volume;
+        prevHK += stock.previous * stock.volume;
+      }
+    });
+
     fx.rates = this.state.rates;
-    let totalHKCNY = fx(this.props.totalHK).from("HKD").to("CNY");
-    let prevHKCNY = fx(this.props.prevHK).from("HKD").to("CNY");
-    let total = this.props.totalChina + totalHKCNY + totalCash;
-    let prev = this.props.prevChina + prevHKCNY + totalCash;
+    let totalHKCNY = fx(totalHK).from("HKD").to("CNY");
+    let prevHKCNY = fx(prevHK).from("HKD").to("CNY");
+    let total = totalChina + totalHKCNY + totalCash;
+    let prev = prevChina + prevHKCNY + totalCash;
 
     return (
       <div>
@@ -49,16 +64,16 @@ class TableSummary extends React.Component {
             <tbody>
               <tr>
                 <td>沪深市值</td>
-                <td className="text-right">{accounting.formatMoney(this.props.totalChina)}</td>
-                <td className="text-right">{accounting.formatMoney(this.props.totalChina - this.props.prevChina)}</td>
-                <td className="text-right">{formatPercent(this.props.prevChina, this.props.totalChina)}</td>
-                <td className="text-right">{(this.props.totalChina/total*100).toFixed(2) + '%'}</td>
+                <td className="text-right">{accounting.formatMoney(totalChina)}</td>
+                <td className="text-right">{accounting.formatMoney(totalChina - prevChina)}</td>
+                <td className="text-right">{formatPercent(prevChina, totalChina)}</td>
+                <td className="text-right">{(totalChina/total*100).toFixed(2) + '%'}</td>
               </tr>
               <tr>
                 <td>港股市值</td>
-                <td className="text-right">{accounting.formatMoney(this.props.totalHK)}<span style={{display: "block"}}>{accounting.formatMoney(totalHKCNY)}</span></td>
-                <td className="text-right">{accounting.formatMoney(this.props.totalHK - this.props.prevHK)}<span style={{display: "block"}}>{accounting.formatMoney(totalHKCNY - prevHKCNY)}</span></td>
-                <td className="text-right">{formatPercent(this.props.prevHK, this.props.totalHK)}</td>
+                <td className="text-right">{accounting.formatMoney(totalHK)}<span style={{display: "block"}}>{accounting.formatMoney(totalHKCNY)}</span></td>
+                <td className="text-right">{accounting.formatMoney(totalHK - prevHK)}<span style={{display: "block"}}>{accounting.formatMoney(totalHKCNY - prevHKCNY)}</span></td>
+                <td className="text-right">{formatPercent(prevHK, totalHK)}</td>
                 <td className="text-right">{(totalHKCNY/total*100).toFixed(2) + '%'}</td>
               </tr>
               <tr>

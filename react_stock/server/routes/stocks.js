@@ -18,7 +18,7 @@ var stocks = [
   },
   {
     symbol: 'SH601318',
-    volume: 1600
+    volume: 1900
   },
   {
     symbol: 'SH601985',
@@ -26,7 +26,7 @@ var stocks = [
   },
   {
     symbol: 'SH510900',
-    volume: 73000
+    volume: 93000
   },
   {
     symbol: 'HK00939',

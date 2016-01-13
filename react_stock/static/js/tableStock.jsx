@@ -1,13 +1,11 @@
 import React from 'react';
 import { Table } from 'react-bootstrap';
 import accounting from 'accounting';
-import TableTotal from './tableSummary.jsx'
 import {formatPercent} from './util.jsx'
 
 class TableStock extends React.Component {
   constructor(props){
     super(props);
-    this.state = {data: []}
     accounting.settings = {
       currency: {
         symbol : "",   // default currency symbol is '$'
@@ -24,35 +22,8 @@ class TableStock extends React.Component {
     }
   }
 
-  loadStocksFromServer(){
-    axios.get(this.props.url)
-      .then(function(data){
-        this.setState({data: data.data});
-      }.bind(this))
-      .catch(function(response){
-        console.log(response);
-      });
-  }
-
-  componentDidMount(){
-    setInterval(this.loadStocksFromServer.bind(this), this.props.pollInterval);
-  }
-
   render() {
-    let totalChina = 0;
-    let totalHK = 0;
-    let prevChina = 0;
-    let prevHK = 0;
-
-    let rows = this.state.data.map(function(stock, index){
-      if (stock.symbol.startsWith('SH') || stock.symbol.startsWith('SZ')) {
-        totalChina += stock.price * stock.volume;
-        prevChina += stock.previous * stock.volume;
-      }else if(stock.symbol.startsWith('HK')){
-        totalHK += stock.price * stock.volume;
-        prevHK += stock.previous * stock.volume;
-      }
-
+    let rows = this.props.data.map(function(stock, index){
       return (
         <tr key={stock.symbol}>
           <td>{stock.symbol}</td>
@@ -83,7 +54,6 @@ class TableStock extends React.Component {
             {rows}
           </tbody>
         </Table>
-        <TableTotal totalHK={totalHK} prevHK={prevHK} totalChina={totalChina}  prevChina={prevChina}/>
       </div>
     );
   }
