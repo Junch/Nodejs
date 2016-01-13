@@ -26,6 +26,7 @@ class TableSummary extends React.Component {
 
   render(){
     let totalCash = 474532.05;
+    let cost = 795000.00;
     let totalChina = 0;
     let totalHK = 0;
     let prevChina = 0;
@@ -77,11 +78,25 @@ class TableSummary extends React.Component {
                 <td className="text-right">{(totalHKCNY/total*100).toFixed(2) + '%'}</td>
               </tr>
               <tr>
+                <td>总市值</td>
+                <td className="text-right">{accounting.formatMoney(totalHKCNY + totalChina)}</td>
+                <td className="text-right">{accounting.formatMoney(total - prev)}</td>
+                <td className="text-right">{formatPercent(prevHKCNY + prevChina, totalHKCNY + totalChina)}</td>
+                <td className="text-right">{((totalHKCNY + totalChina)/total*100).toFixed(2) + '%'}</td>
+              </tr>
+              <tr>
                 <td>现金</td>
                 <td className="text-right">{accounting.formatMoney(totalCash)}</td>
-                <td className="text-right">{accounting.formatMoney(0.0)}</td>
-                <td className="text-right">0.00%</td>
+                <td className="text-center">--</td>
+                <td className="text-center">--</td>
                 <td className="text-right">{(totalCash/total*100).toFixed(2) + '%'}</td>
+              </tr>
+              <tr>
+                <td>本金</td>
+                <td className="text-right">{accounting.formatMoney(cost)}</td>
+                <td className="text-center">--</td>
+                <td className="text-right">{formatPercent(cost, total)}</td>
+                <td className="text-center">--</td>
               </tr>
               <tr>
                 <td>总资产</td>
