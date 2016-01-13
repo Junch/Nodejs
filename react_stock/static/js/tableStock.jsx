@@ -23,7 +23,7 @@ class TableStock extends React.Component {
   }
 
   render() {
-    let rows = this.props.data.map(function(stock, index){
+    let rows = this.props.stocks.map(function(stock, index){
       return (
         <tr key={stock.symbol}>
           <td>{stock.symbol}</td>

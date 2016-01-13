@@ -31,6 +31,10 @@ function parseString(stockString, callback) {
       day: new Date(elems[17])
     }
 
+    if (s.opening == 0){
+      s.price = s.previous;
+    }
+
     return callback(null, s);
 
   }else if(id.startsWith('sh') || id.startsWith('sz')){

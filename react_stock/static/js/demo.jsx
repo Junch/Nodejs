@@ -6,13 +6,13 @@ import TableSummary from './tableSummary.jsx'
 class Demo extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {data: []}
+    this.state = {stocks: []}
   }
 
   loadStocksFromServer(){
     axios.get(this.props.url)
       .then(function(data){
-        this.setState({data: data.data});
+        this.setState({stocks: data.data});
       }.bind(this))
       .catch(function(response){
         console.log(response);
@@ -26,8 +26,8 @@ class Demo extends React.Component {
   render() {
     return(
       <div className="container">
-        <TableStock data={this.state.data} />
-        <TableSummary data={this.state.data} />
+        <TableStock stocks={this.state.stocks} />
+        <TableSummary stocks={this.state.stocks} />
       </div>
     );
   }
