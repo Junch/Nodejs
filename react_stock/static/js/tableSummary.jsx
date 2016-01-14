@@ -51,7 +51,7 @@ class TableSummary extends React.Component {
     return (
       <div>
         <h3>汇总</h3>
-        <div className="col-md-4" style={{paddingLeft: 0}}>
+        <div className="col-md-6" style={{paddingLeft: 0}}>
           <Table bordered condensed>
             <thead>
               <tr>

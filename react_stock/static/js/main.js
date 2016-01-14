@@ -1,1 +1,1 @@
-import Demo from './demo.jsx';
+import App from './app.jsx';

@@ -3,7 +3,7 @@ import {render} from 'react-dom';
 import TableStock from './tableStock.jsx'
 import TableSummary from './tableSummary.jsx'
 
-class Demo extends React.Component {
+class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {stocks: []}
@@ -34,6 +34,6 @@ class Demo extends React.Component {
 }
 
 render(
-  <Demo url='/api/stocks' pollInterval={3000} />,
+  <App url='/api/stocks' pollInterval={3000} />,
   document.getElementById('content')
 );
