@@ -25,7 +25,7 @@ class TableSummary extends React.Component {
   }
 
   render(){
-    let totalCash = 474532.05;
+    let totalCash = 455333.58;
     let cost = 795000.00;
     let totalChina = 0;
     let totalHK = 0;
@@ -72,7 +72,7 @@ class TableSummary extends React.Component {
               </tr>
               <tr>
                 <td>港股市值</td>
-                <td className="text-right">{accounting.formatMoney(totalHK, "$ ")}<span style={{display: "block"}}>{accounting.formatMoney(totalHKCNY)}</span></td>
+                <td className="text-right">{accounting.formatMoney(totalHK, "$")}<span style={{display: "block"}}>{accounting.formatMoney(totalHKCNY)}</span></td>
                 <td className="text-right">{accounting.formatMoney(totalHK - prevHK, "$ ")}<span style={{display: "block"}}>{accounting.formatMoney(totalHKCNY - prevHKCNY)}</span></td>
                 <td className="text-right">{formatPercent(prevHK, totalHK)}</td>
                 <td className="text-right">{(totalHKCNY/total*100).toFixed(2) + '%'}</td>

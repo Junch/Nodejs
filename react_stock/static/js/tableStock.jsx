@@ -29,7 +29,7 @@ class TableStock extends React.Component {
           <td>{stock.symbol}</td>
           <td>{stock.title}</td>
           <td className="text-right">{accounting.formatMoney(stock.price, "", 3)}</td>
-          <td className="text-right" style={{"fontWeight":"bold"}}>{formatPercent(stock.previous, stock.price)}</td>
+          <td className="text-right" style={{fontWeight:"bold"}}>{formatPercent(stock.previous, stock.price)}</td>
           <td className="text-right">{stock.volume}</td>
           <td className="text-right">{accounting.formatMoney(stock.price * stock.volume)}</td>
         </tr>

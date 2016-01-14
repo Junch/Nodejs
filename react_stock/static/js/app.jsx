@@ -1,5 +1,6 @@
 import React from 'react';
 import {render} from 'react-dom';
+import TableMarket from './tableMarket.jsx'
 import TableStock from './tableStock.jsx'
 import TableSummary from './tableSummary.jsx'
 
@@ -26,6 +27,7 @@ class App extends React.Component {
   render() {
     return(
       <div className="container">
+        <TableMarket />
         <TableStock stocks={this.state.stocks} />
         <TableSummary stocks={this.state.stocks} />
       </div>
