@@ -15,6 +15,7 @@ var path = require('path');
 var express = require('express');
 var bodyParser = require('body-parser');
 var stocks = require('./routes/stocks.js');
+var markets =  require('./routes/markets.js');
 var app = express();
 
 if(process.env.NODE_ENV !== 'production') {
@@ -29,6 +30,7 @@ app.use('/', express.static(path.join(__dirname, '../static')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use('/api/stocks', stocks);
+app.use('/api/markets', markets);
 
 app.listen(app.get('port'), function() {
   console.log('Server started: http://localhost:' + app.get('port') + '/');
