@@ -4,12 +4,12 @@ export default class TableMarket extends React.Component {
   render(){
     let items = this.props.markets.map(function(market, index){
       let color = ""
+      market.deta = market.price - market.previous
       if (market.deta > 0)
         color = "red"
       else if(market.deta < 0)
         color = "green"
 
-      market.deta = market.price - market.previous
       let deta = market.deta.toFixed(2)
       if (market.deta > 0)
         deta = '+' + deta;
