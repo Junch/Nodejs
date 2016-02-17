@@ -14,11 +14,11 @@ var stocks = [
   },
   {
     symbol: 'SH601668',
-    volume: 4000
+    volume: 6000
   },
   {
     symbol: 'SH601318',
-    volume: 2300
+    volume: 3000
   },
   {
     symbol: 'SH601985',
@@ -26,7 +26,7 @@ var stocks = [
   },
   {
     symbol: 'SH510900',
-    volume: 93000
+    volume: 109000
   },
   {
     symbol: 'HK00939',
@@ -38,7 +38,7 @@ var stocks = [
   },
   {
     symbol: 'HK03968',
-    volume: 2000
+    volume: 3000
   }];
 
 router.get('/', function(req, res) {

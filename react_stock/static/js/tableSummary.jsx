@@ -25,7 +25,7 @@ class TableSummary extends React.Component {
   }
 
   render(){
-    let totalCash = 455333.58;
+    let totalCash = 399022.66;
     let cost = 795000.00;
     let totalChina = 0;
     let totalHK = 0;
