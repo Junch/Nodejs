@@ -22,7 +22,22 @@ if(process.env.NODE_ENV !== 'production') {
   require('../webpackdev.server')(app)
 }
 
-var COMMENTS_FILE = path.join(__dirname, 'comments.json');
+var Promise = require('bluebird');
+var MongoClient = require('mongodb');
+var db;
+
+app.use(function (req, res, next) {
+    if (db == null){
+        MongoClient.connect('mongodb://localhost:27017/stockdb', {promiseLibrary: Promise}).then((res) => {
+            db = res;
+            req.db = db;
+            next();
+        });
+    } else {665
+        req.db = db;
+        next();
+    }
+});
 
 app.set('port', (process.env.PORT || 8081));
 
@@ -32,6 +47,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use('/api/stocks', stocks);
 app.use('/api/markets', markets);
 
-app.listen(app.get('port'), function() {
+var server = app.listen(app.get('port'), function() {
   console.log('Server started: http://localhost:' + app.get('port') + '/');
 });
+
+module.exports = server;
