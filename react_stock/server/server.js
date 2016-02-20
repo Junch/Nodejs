@@ -27,16 +27,16 @@ var MongoClient = require('mongodb');
 var db;
 
 app.use(function (req, res, next) {
-    if (db == null){
-        MongoClient.connect('mongodb://localhost:27017/stockdb', {promiseLibrary: Promise}).then((res) => {
-            db = res;
-            req.db = db;
-            next();
-        });
-    } else {665
-        req.db = db;
-        next();
-    }
+  if (db == null){
+    MongoClient.connect('mongodb://localhost:27017/stockdb', {promiseLibrary: Promise}).then((res) => {
+      db = res;
+      req.db = db;
+      next();
+    });
+  } else {
+    req.db = db;
+    next();
+  }
 });
 
 app.set('port', (process.env.PORT || 8081));

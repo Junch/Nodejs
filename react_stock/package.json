@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha -R spec server/test/http-promise-test.js",
+    "test": "NODE_ENV=production mocha -R spec server/test/http-promise-test.js",
     "dev10": "webpack-dev-server --devtool eval --progress --colors",
     "dev": "node server/server.js",
     "deploy": "webpack --config webpack.config.production.js",

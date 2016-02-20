@@ -56,4 +56,21 @@ describe('HTTP Endpoint Tests', () => {
             done();
         });
     });
+
+    it('should be able to add a stock', done => {
+        var stock = { symbol: 'SH600000', volume: 1000 };
+
+        request(server).post('/api/stocks')
+        .send(stock)
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end((err, res) => {
+            if (err) {throw err; }
+            //res.body.name.should.equal('MaoTai');
+            db.collection('stocks').count().then(count => {
+                count.should.equal(10);
+                done();
+            });
+        });
+    });
 });
