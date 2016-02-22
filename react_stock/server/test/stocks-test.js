@@ -1,18 +1,18 @@
 'use strict';
 
-var request = require('supertest');
-var chai = require('chai');
+let request = require('supertest');
+let chai = require('chai');
 chai.should();
-var Promise = require('bluebird');
-var MongoClient = require('mongodb');
-var ObjectID = MongoClient.ObjectID;
+let Promise = require('bluebird');
+let MongoClient = require('mongodb');
+let ObjectID = MongoClient.ObjectID;
 
-describe('HTTP Endpoint Tests', () => {
-    var server;
-    var db;
+describe('Stocks Tests', () => {
+    let server;
+    let db;
 
-    var populateDB = () => {
-        var stocks = [
+    let populateDB = () => {
+        let stocks = [
           { symbol: 'SH600036', volume: 700 },
           { symbol: 'SH600104', volume: 500 },
           { symbol: 'SH601668', volume: 6000 },
@@ -58,7 +58,7 @@ describe('HTTP Endpoint Tests', () => {
     });
 
     it('should be able to add a stock', done => {
-        var stock = { symbol: 'SH600000', volume: 1000 };
+        let stock = { symbol: 'SH600000', volume: 1000 };
 
         request(server).post('/api/stocks')
         .send(stock)
@@ -66,7 +66,6 @@ describe('HTTP Endpoint Tests', () => {
         .expect(200)
         .end((err, res) => {
             if (err) {throw err; }
-            //res.body.name.should.equal('MaoTai');
             db.collection('stocks').count().then(count => {
                 count.should.equal(10);
                 done();
