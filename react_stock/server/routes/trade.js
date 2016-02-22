@@ -7,59 +7,33 @@ var router = require('express').Router();
 var stockUtil = require('./stockUtil');
 
 class Trade {
-  findAll (req) {
-    return req.db.collection('trade').find().toArray();
+  findAll (db) {
+    return db.collection('trade').find().toArray();
   }
 
-  add (req) {
-    return req.db.collection('trade').insert(req.body);
+  addTrade (db, trans) {
+    return db.collection('trade').insert(trans);
   }
 }
 
 let trade = new Trade();
 
 router.get('/', function(req, res) {
-  trade.findAll(req).then((trade) => {
-    let arr = trade.map((item) => {
-      return item.symbol.toLowerCase();
-    });
-
-    stockUtil.getStockArr(arr).then((items) => {
-      let newArr = items.map(function(item, index){
-        return {
-          symbol: trade[index].symbol,
-          title: item.name,
-          previous: item.previous,
-          price: item.price,
-          volume: trade[index].volume
-        };
-      });
-
-      res.setHeader('Cache-Control', 'no-cache');
-      res.json(newArr);
-    });
+  trade.findAll(req.db).then((trans) => {
+    res.json(trans);
   }).catch((err) => res.status(500).send({error: err.toString()}));
 });
 
 router.post('/', (req, res) => {
-  trade.add(req).then((items)=>{
-    let st = items.ops[0];
+  let trans = req.body;
 
-    stockUtil.getStock(st.symbol.toLowerCase()).then((items) => {
-      let newArr = items.map(function(item, index){
-        return {
-          symbol: st.symbol,
-          title: item.name,
-          previous: item.previous,
-          price: item.price,
-          volume: st.volume
-        };
-      });
-
-      res.setHeader('Cache-Control', 'no-cache');
-      res.json(newArr);
+  stockUtil.getStock(trans.symbol).then((items) => {
+    trans.title = items[0].name;
+    trans.date = new Date(trans.date); // Should change the Date string to Date type
+    trade.addTrade(req.db, trans).then((items) => {
+      res.json(items.ops[0]);
     });
-  });
+  }).catch((err) => res.status(500).send({error: err.toString()}));
 });
 
 module.exports = router;

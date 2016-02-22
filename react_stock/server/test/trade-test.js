@@ -15,13 +15,13 @@ describe('Trade Tests', () => {
         let date = new Date("2016-01-10T01:00:00+01:00");
 
         let trade = [
-          { symbol: 'SH600036', volume: 700,  date: date, price: 100 },
-          { symbol: 'SH600104', volume: 500,  date: date, price: 100 },
-          { symbol: 'SH600036', volume: 300,  date: date, price: 200 },
-          { symbol: 'SH600104', volume: -200, date: date, price: 300 },
-          { symbol: 'SH600000', volume: 300,  date: date, price: 200 },
-          { symbol: 'SH600000', volume: -300, date: date, price: 300 },
-          { symbol: 'HK01988',  volume: 6000, date: date, price: 200 }];
+          { symbol: 'sh600036', volume: 700,  date: date, price: 100, title: '招商银行' },
+          { symbol: 'sh600104', volume: 500,  date: date, price: 100, title: '上汽集团' },
+          { symbol: 'sh600036', volume: 300,  date: date, price: 200, title: '招商银行' },
+          { symbol: 'sh600104', volume: -200, date: date, price: 300, title: '上汽集团' },
+          { symbol: 'sh600000', volume: 300,  date: date, price: 200, title: '浦发银行' },
+          { symbol: 'sh600000', volume: -300, date: date, price: 300, title: '浦发银行' },
+          { symbol: 'hk01988',  volume: 6000, date: date, price: 200, title: '民生银行' }];
         return db.collection('trade').insert(trade);
     };
 
@@ -59,7 +59,7 @@ describe('Trade Tests', () => {
 
     it('should be able to add a trade', done => {
         let date = new Date("2016-01-10T01:00:00+01:00");
-        let trade = { symbol: 'SH600001', volume: 1000, date: date, price: 9.80 };
+        let trade = { symbol: 'sh600005', volume: 1000, date: date, price: 9.80 };
 
         request(server).post('/api/trade')
         .send(trade)
@@ -67,6 +67,7 @@ describe('Trade Tests', () => {
         .expect(200)
         .end((err, res) => {
             if (err) {throw err; }
+            res.body.title.should.equal('武钢股份');
             db.collection('trade').count().then(count => {
                 count.should.equal(8);
                 done();
