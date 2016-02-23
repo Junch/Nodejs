@@ -57,6 +57,20 @@ describe('Trade Tests', () => {
         });
     });
 
+    it('should return the list of stock after many trades', done => {
+        request(server).get('/api/trade/stock')
+        .expect('Content-type', /json/)
+        .end((err, res) => {
+            if (err) {return done(err); }
+            res.status.should.equal(200);
+            res.body.length.should.equal(3);
+            res.body[0].volume.should.equal(1000);
+            res.body[1].volume.should.equal(300);
+            res.body[2].volume.should.equal(6000);
+            done();
+        });
+    });
+
     it('should be able to add a trade', done => {
         let date = new Date("2016-01-10T01:00:00+01:00");
         let trade = { symbol: 'sh600005', volume: 1000, date: date, price: 9.80 };
