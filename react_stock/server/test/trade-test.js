@@ -84,6 +84,9 @@ describe('Trade Tests', () => {
             res.body.title.should.equal('武钢股份');
             db.collection('trade').count().then(count => {
                 count.should.equal(8);
+                return db.collection('stock').count();
+            }).then(count => {
+                count.should.equal(4);
                 done();
             });
         });

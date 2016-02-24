@@ -15,7 +15,7 @@ class Trade {
     return db.collection('trade').insert(trans);
   }
 
-  getStock(db) {
+  getStockFromTrade(db) {
     return new Promise((resolve, reject) => {
       this.findAll(db).then(trans => {
         var m = new Map();
@@ -47,12 +47,24 @@ class Trade {
       });
     });
   }
+
+  cacheStock(db) {
+    return new Promise((resolve, reject) => {
+      this.getStockFromTrade(db).then(stocks => {
+        db.collection('stock').remove({}).then(()=>{
+          db.collection('stock').insert(stocks).then((WriteResult) => {
+            return resolve(WriteResult);
+          });
+        });
+      });
+    });
+  }
 }
 
 let trade = new Trade();
 
 router.get('/stock', function(req, res) {
-  trade.getStock(req.db).then(stocks => {
+  trade.getStockFromTrade(req.db).then(stocks => {
     res.json(stocks);
   }).catch((err) => res.status(500).send({error: err.toString()}));
 });
@@ -70,11 +82,11 @@ router.post('/', (req, res) => {
     trans.title = items[0].name;
     trans.date = new Date(trans.date); // Should change the Date string to Date type
     trade.addTrade(req.db, trans).then((items) => {
-      res.json(items.ops[0]);
+      trade.cacheStock(req.db).then(()=>{
+        res.json(items.ops[0]);
+      });
     });
   }).catch((err) => res.status(500).send({error: err.toString()}));
 });
-
-
 
 module.exports = router;
