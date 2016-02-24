@@ -51,10 +51,10 @@ class Trade {
   cacheStock(db) {
     return new Promise((resolve, reject) => {
       this.getStockFromTrade(db).then(stocks => {
-        db.collection('stock').remove({}).then(()=>{
-          db.collection('stock').insert(stocks).then((WriteResult) => {
-            return resolve(WriteResult);
-          });
+        db.collection('stock').remove({}).then(() => {
+          return db.collection('stock').insert(stocks);
+        }).then((WriteResult)=>{
+          return resolve(WriteResult);
         });
       });
     });
