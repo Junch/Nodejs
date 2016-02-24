@@ -14,37 +14,45 @@ class Trade {
   addTrade (db, trans) {
     return db.collection('trade').insert(trans);
   }
+
+  getStock(db) {
+    return new Promise((resolve, reject) => {
+      this.findAll(db).then(trans => {
+        var m = new Map();
+        trans.forEach(item => {
+          let elem = m.get(item.symbol);
+          if (!elem) {
+            m.set(item.symbol, {
+              symbol: item.symbol,
+              volume: item.volume,
+              title: item.title
+            });
+          } else {
+            let newVolume = elem.volume + item.volume;
+            if (newVolume == 0) {
+              m.delete(item.symbol);
+            } else {
+              elem.volume = newVolume;
+              m.set(item.symbol, elem);
+            }
+          }
+        });
+
+        let stocks = [];
+        for (let value of m.values()) {
+          stocks.push(value);
+        }
+
+        return resolve(stocks);
+      });
+    });
+  }
 }
 
 let trade = new Trade();
 
 router.get('/stock', function(req, res) {
-  trade.findAll(req.db).then(trans => {
-    var m = new Map();
-    trans.forEach(item => {
-      let elem = m.get(item.symbol);
-      if (!elem) {
-        m.set(item.symbol, {
-          symbol: item.symbol,
-          volume: item.volume,
-          title: item.title
-        });
-      } else {
-        let newVolume = elem.volume + item.volume;
-        if (newVolume == 0) {
-          m.delete(item.symbol);
-        } else {
-          elem.volume = newVolume;
-          m.set(item.symbol, elem);
-        }
-      }
-    });
-
-    let stocks = [];
-    for (let value of m.values()) {
-      stocks.push(value);
-    }
-
+  trade.getStock(req.db).then(stocks => {
     res.json(stocks);
   }).catch((err) => res.status(500).send({error: err.toString()}));
 });
