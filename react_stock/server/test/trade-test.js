@@ -12,16 +12,14 @@ describe('Trade Tests', () => {
     let db;
 
     let populateDB = () => {
-        let date = new Date("2016-01-10T01:00:00+01:00");
-
         let trade = [
-          { symbol: 'sh600036', volume: 700,  date: date, price: 100, title: '招商银行' },
-          { symbol: 'sh600104', volume: 500,  date: date, price: 100, title: '上汽集团' },
-          { symbol: 'sh600036', volume: 300,  date: date, price: 200, title: '招商银行' },
-          { symbol: 'sh600104', volume: -200, date: date, price: 300, title: '上汽集团' },
-          { symbol: 'sh600000', volume: 300,  date: date, price: 200, title: '浦发银行' },
-          { symbol: 'sh600000', volume: -300, date: date, price: 300, title: '浦发银行' },
-          { symbol: 'hk01988',  volume: 6000, date: date, price: 200, title: '民生银行' }];
+          { symbol: 'sh600036', volume: 700,  date: new Date('2016-02-01'), price: 100, title: '招商银行' },
+          { symbol: 'sh600104', volume: 500,  date: new Date('2016-02-01'), price: 100, title: '上汽集团' },
+          { symbol: 'sh600036', volume: 300,  date: new Date('2016-02-02'), price: 200, title: '招商银行' },
+          { symbol: 'sh600104', volume: -200, date: new Date('2016-02-03'), price: 300, title: '上汽集团' },
+          { symbol: 'sh600000', volume: 300,  date: new Date('2016-02-04'), price: 200, title: '浦发银行' },
+          { symbol: 'sh600000', volume: -300, date: new Date('2016-02-05'), price: 300, title: '浦发银行' },
+          { symbol: 'hk01988',  volume: 6000, date: new Date('2016-02-05'), price: 200, title: '民生银行' }];
         return db.collection('trade').insert(trade);
     };
 
@@ -71,8 +69,21 @@ describe('Trade Tests', () => {
         });
     });
 
+    it('should return the list of stock on a specified day', done => {
+        request(server).get('/api/trade/stock/2016-02-03')
+        .expect('Content-type', /json/)
+        .end((err, res) => {
+            if (err) {return done(err); }
+            res.status.should.equal(200);
+            res.body.length.should.equal(2);
+            res.body[0].volume.should.equal(1000);
+            res.body[1].volume.should.equal(300);
+            done();
+        });
+    });
+
     it('should be able to add a trade', done => {
-        let date = new Date("2016-01-10T01:00:00+01:00");
+        let date = new Date('2016-02-15');
         let trade = { symbol: 'sh600005', volume: 1000, date: date, price: 9.80 };
 
         request(server).post('/api/trade')
@@ -93,7 +104,7 @@ describe('Trade Tests', () => {
     });
 
     it('Query the stock after adding a trade', done => {
-        let date = new Date("2016-01-10T01:00:00+01:00");
+        let date = new Date('2016-02-15');
         let trade = { symbol: 'sh600005', volume: 1000, date: date, price: 9.80 };
 
         request(server).post('/api/trade')

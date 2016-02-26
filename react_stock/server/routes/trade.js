@@ -7,17 +7,20 @@ var router = require('express').Router();
 var stockUtil = require('./stockUtil');
 
 class Trade {
-  findAll (db) {
-    return db.collection('trade').find().toArray();
+  findAll (db, date) {
+    if (date == null) {
+      date = new Date();
+    }
+    return db.collection('trade').find({date: {$lte: date}}).toArray();
   }
 
   addTrade (db, trans) {
     return db.collection('trade').insert(trans);
   }
 
-  getStockFromTrade(db) {
+  getStockFromTrade(db, date) {
     return new Promise((resolve, reject) => {
-      this.findAll(db).then(trans => {
+      this.findAll(db, date).then(trans => {
         var m = new Map();
         trans.forEach(item => {
           let elem = m.get(item.symbol);
@@ -50,7 +53,7 @@ class Trade {
 
   cacheStock(db) {
     return new Promise((resolve, reject) => {
-      this.getStockFromTrade(db).then(stocks => {
+      this.getStockFromTrade(db, new Date()).then(stocks => {
         db.collection('stock').remove({}).then(() => {
           return db.collection('stock').insert(stocks);
         }).then(WriteResult => {
@@ -64,7 +67,14 @@ class Trade {
 let trade = new Trade();
 
 router.get('/stock', function(req, res) {
-  trade.getStockFromTrade(req.db).then(stocks => {
+  trade.getStockFromTrade(req.db, new Date()).then(stocks => {
+    res.json(stocks);
+  }).catch((err) => res.status(500).send({error: err.toString()}));
+});
+
+router.get('/stock/:date', function(req, res) {
+  let date = new Date(req.params.date);
+  trade.getStockFromTrade(req.db, date).then(stocks => {
     res.json(stocks);
   }).catch((err) => res.status(500).send({error: err.toString()}));
 });
