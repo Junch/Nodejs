@@ -47,6 +47,6 @@ class App extends React.Component {
 }
 
 render(
-  <App urlStocks='/api/stocks' urlMarkets='/api/markets' pollInterval={3000} />,
+  <App urlStocks='/api/stock' urlMarkets='/api/markets' pollInterval={3000} />,
   document.getElementById('content')
 );

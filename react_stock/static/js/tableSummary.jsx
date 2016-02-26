@@ -33,10 +33,11 @@ class TableSummary extends React.Component {
     let prevHK = 0;
 
     this.props.stocks.forEach(function(stock){
-      if (stock.symbol.startsWith('SH') || stock.symbol.startsWith('SZ')) {
+      let symbol = stock.symbol.toLowerCase();
+      if (symbol.startsWith('sh') || stock.symbol.startsWith('sz')) {
         totalChina += stock.price * stock.volume;
         prevChina += stock.previous * stock.volume;
-      }else if(stock.symbol.startsWith('HK')){
+      }else if(stock.symbol.startsWith('hk')){
         totalHK += stock.price * stock.volume;
         prevHK += stock.previous * stock.volume;
       }

@@ -53,7 +53,7 @@ class Trade {
       this.getStockFromTrade(db).then(stocks => {
         db.collection('stock').remove({}).then(() => {
           return db.collection('stock').insert(stocks);
-        }).then((WriteResult)=>{
+        }).then(WriteResult => {
           return resolve(WriteResult);
         });
       });
@@ -78,10 +78,10 @@ router.get('/', function(req, res) {
 router.post('/', (req, res) => {
   let trans = req.body;
 
-  stockUtil.getStock(trans.symbol).then((items) => {
+  stockUtil.getStock(trans.symbol).then(items => {
     trans.title = items[0].name;
     trans.date = new Date(trans.date); // Should change the Date string to Date type
-    trade.addTrade(req.db, trans).then((items) => {
+    trade.addTrade(req.db, trans).then(items => {
       trade.cacheStock(req.db).then(()=>{
         res.json(items.ops[0]);
       });
