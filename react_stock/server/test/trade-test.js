@@ -91,4 +91,28 @@ describe('Trade Tests', () => {
             });
         });
     });
+
+    it('Query the stock after adding a trade', done => {
+        let date = new Date("2016-01-10T01:00:00+01:00");
+        let trade = { symbol: 'sh600005', volume: 1000, date: date, price: 9.80 };
+
+        request(server).post('/api/trade')
+        .send(trade)
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end((err, res) => {
+          if (err) {throw err; }
+          request(server).get('/api/stock')
+          .end((err, res) => {
+            if (err) {return done(err); }
+              res.status.should.equal(200);
+              res.body.length.should.equal(4);
+              res.body[0].volume.should.equal(1000);
+              res.body[1].volume.should.equal(300);
+              res.body[2].volume.should.equal(6000);
+              res.body[3].volume.should.equal(1000);
+              done();
+            });
+        });
+    });
 });
