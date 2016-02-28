@@ -14,6 +14,10 @@ class Trade {
     return db.collection('trade').find({date: {$lte: date}}).toArray();
   }
 
+  find (db, symbol) {
+    return db.collection('trade').find({symbol: symbol}).toArray();
+  }
+
   addTrade (db, trans) {
     return db.collection('trade').insert(trans);
   }
@@ -82,6 +86,12 @@ router.get('/stock/:date', function(req, res) {
 router.get('/', function(req, res) {
   trade.findAll(req.db).then((trans) => {
     res.json(trans);
+  }).catch((err) => res.status(500).send({error: err.toString()}));
+});
+
+router.get('/:symbol', function(req, res) {
+  trade.find(req.db, req.params.symbol).then(stocks => {
+    res.json(stocks);
   }).catch((err) => res.status(500).send({error: err.toString()}));
 });
 

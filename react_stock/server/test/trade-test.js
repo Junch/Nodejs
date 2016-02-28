@@ -126,4 +126,16 @@ describe('Trade Tests', () => {
             });
         });
     });
+
+    it('Query the trades with a specified stock', done => {
+        request(server).get('/api/trade/sh600104')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end((err, res) => {
+          if (err) {throw err; }
+          res.status.should.equal(200);
+          res.body.length.should.equal(2);
+          done();
+        });
+    });
 });
