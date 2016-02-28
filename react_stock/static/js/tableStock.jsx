@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table } from 'react-bootstrap';
+import { Table, Button } from 'react-bootstrap';
 import accounting from 'accounting';
 import {formatPercent} from './util.jsx'
 
@@ -22,8 +22,15 @@ class TableStock extends React.Component {
     }
   }
 
+  handleClick (index, e) {
+    e.preventDefault();
+    console.log(index);
+  }
+
   render() {
-    let rows = this.props.stocks.map(function(stock, index){
+    let self = this;
+
+    let rows = this.props.stocks.map((stock, index) => {
       return (
         <tr key={stock.symbol}>
           <td>{stock.symbol}</td>
@@ -32,6 +39,7 @@ class TableStock extends React.Component {
           <td className="text-right" style={{fontWeight:"bold"}}>{formatPercent(stock.previous, stock.price)}</td>
           <td className="text-right">{stock.volume}</td>
           <td className="text-right">{accounting.formatMoney(stock.price * stock.volume)}</td>
+          <td className="text-right"><Button bsStyle="primary" bsSize="xsmall" onClick={self.handleClick.bind(self, index)}>交易</Button></td>
         </tr>
       );
     });
@@ -48,6 +56,7 @@ class TableStock extends React.Component {
               <th className="text-right">涨跌幅</th>
               <th className="text-right">持有量</th>
               <th className="text-right">市值</th>
+              <th className="text-right">操作</th>
             </tr>
           </thead>
           <tbody>
