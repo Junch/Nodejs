@@ -6,6 +6,7 @@ import {formatPercent} from './util.jsx'
 class TableStock extends React.Component {
   constructor(props){
     super(props);
+    this.state = {current: -1};
     accounting.settings = {
       currency: {
         symbol : "",   // default currency symbol is '$'
@@ -24,7 +25,11 @@ class TableStock extends React.Component {
 
   handleClick (index, e) {
     e.preventDefault();
-    console.log(index);
+    if (index == this.state.current) {
+      index = -1;
+    }
+
+    this.setState({current: index});
   }
 
   render() {
@@ -44,10 +49,46 @@ class TableStock extends React.Component {
       );
     });
 
+    // http://roxeteer.com/table-border-css/
+    let tabStyle = {
+      borderColor: "black",
+      borderWidth: "0 0 1px 1px",
+      borderStyle: "solid",
+      borderSpacing: "0"
+    }
+
+    let tdStyle = {
+      borderColor: "black",
+      borderWidth: "1px 1px 0 0",
+      borderStyle: "solid",
+      margin: "0",
+      padding: "4px",
+      backgroundColor: "gold",
+      borderSpacing: "0"
+    }
+
+    if (this.state.current != -1) {
+      rows.splice(this.state.current + 1, 0, (
+        <tr key="current">
+          <td colSpan="7">
+            <Table style={tabStyle}>
+              <tbody>
+                <tr>
+                  <td style={tdStyle}>
+                    Placeholder
+                  </td>
+                </tr>
+              </tbody>
+            </Table>
+          </td>
+        </tr>
+      ));
+    }
+
     return (
       <div>
         <h3>股票</h3>
-        <Table striped bordered condensed hover>
+        <Table striped bordered condensed>
           <thead>
             <tr>
               <th>#</th>
