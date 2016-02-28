@@ -6,7 +6,7 @@ import {formatPercent} from './util.jsx'
 class TableStock extends React.Component {
   constructor(props){
     super(props);
-    this.state = {current: -1};
+    this.state = {current: -1, selTrades: []};
     accounting.settings = {
       currency: {
         symbol : "",   // default currency symbol is '$'
@@ -29,7 +29,20 @@ class TableStock extends React.Component {
       index = -1;
     }
 
-    this.setState({current: index});
+    if (index == -1) {
+      this.setState({current: index});
+      return;
+    }
+
+    let symbol = this.props.stocks[index].symbol;
+    axios.get('/api/trade/' + symbol)
+      .then(function(data){
+        this.setState({current: index});
+        this.setState({selTrades: data.data});
+      }.bind(this))
+      .catch(function(response){
+        console.log(response);
+      });
   }
 
   render() {
@@ -54,6 +67,7 @@ class TableStock extends React.Component {
       borderColor: "black",
       borderWidth: "0 0 1px 1px",
       borderStyle: "solid",
+      backgroundColor: "gold",
       borderSpacing: "0"
     }
 
@@ -67,17 +81,33 @@ class TableStock extends React.Component {
       borderSpacing: "0"
     }
 
+
     if (this.state.current != -1) {
+      let mRows = this.state.selTrades.map((stock, index) => {
+        return(
+          <tr>
+            <td style={tdStyle}>{index}</td>
+            <td style={tdStyle}>{stock.date}</td>
+            <td style={tdStyle}>{stock.price}</td>
+            <td style={tdStyle}>{stock.volume}</td>
+          </tr>
+        );
+      });
+
       rows.splice(this.state.current + 1, 0, (
         <tr key="current">
           <td colSpan="7">
             <Table style={tabStyle}>
-              <tbody>
+              <thead>
                 <tr>
-                  <td style={tdStyle}>
-                    Placeholder
-                  </td>
+                  <th style={tdStyle}>#</th>
+                  <th style={tdStyle}>日期</th>
+                  <th style={tdStyle}>价格</th>
+                  <th style={tdStyle}>数量</th>
                 </tr>
+              </thead>
+              <tbody>
+                {mRows}
               </tbody>
             </Table>
           </td>
