@@ -2,6 +2,7 @@ import React from 'react';
 import { Table, Button } from 'react-bootstrap';
 import accounting from 'accounting';
 import {formatPercent} from './util.jsx'
+import TableTradeDetail from './TableTradeDetail.jsx'
 
 class TableStock extends React.Component {
   constructor(props){
@@ -62,54 +63,11 @@ class TableStock extends React.Component {
       );
     });
 
-    // http://roxeteer.com/table-border-css/
-    let tabStyle = {
-      borderColor: "black",
-      borderWidth: "0 0 1px 1px",
-      borderStyle: "solid",
-      backgroundColor: "gold",
-      borderSpacing: "0"
-    }
-
-    let tdStyle = {
-      borderColor: "black",
-      borderWidth: "1px 1px 0 0",
-      borderStyle: "solid",
-      margin: "0",
-      padding: "4px",
-      backgroundColor: "gold",
-      borderSpacing: "0"
-    }
-
-
     if (this.state.current != -1) {
-      let mRows = this.state.selTrades.map((stock, index) => {
-        return(
-          <tr>
-            <td style={tdStyle}>{index}</td>
-            <td style={tdStyle}>{stock.date}</td>
-            <td style={tdStyle}>{stock.price}</td>
-            <td style={tdStyle}>{stock.volume}</td>
-          </tr>
-        );
-      });
-
       rows.splice(this.state.current + 1, 0, (
         <tr key="current">
           <td colSpan="7">
-            <Table style={tabStyle}>
-              <thead>
-                <tr>
-                  <th style={tdStyle}>#</th>
-                  <th style={tdStyle}>日期</th>
-                  <th style={tdStyle}>价格</th>
-                  <th style={tdStyle}>数量</th>
-                </tr>
-              </thead>
-              <tbody>
-                {mRows}
-              </tbody>
-            </Table>
+            <TableTradeDetail selTrades={this.state.selTrades} />
           </td>
         </tr>
       ));
