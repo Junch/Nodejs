@@ -32,7 +32,7 @@ class TableTradeDetail extends React.Component {
       return(
         <tr key={index}>
           <td style={tdStyle}>{index}</td>
-          <td style={tdStyle}>{stock.date}</td>
+          <td style={tdStyle}>{(new Date(stock.date)).toLocaleDateString()}</td>
           <td style={tdStyle}>{stock.price}</td>
           <td style={tdStyle}>{stock.volume}</td>
         </tr>
