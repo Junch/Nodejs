@@ -6,19 +6,19 @@ import moment from 'moment';
 export default class FormTrade extends React.Component {
   constructor(...args) {
     super(...args);
-    this.state = {startDate: moment(), price:'', volume: ''};
+    this.state = {startDate: moment(), symbol: '', price:'', volume: ''};
   }
 
   handleSubmit(e) {
     e.preventDefault();
 
     axios.post('/api/trade', {
-      symbol: 'sh600005',
+      symbol: this.state.symbol,
       volume: Number(this.state.volume),
       date: this.state.startDate,
       price: Number(this.state.price) 
     }).then(function(response){
-      this.setState({price: '', volume: ''});
+      this.setState({symbol:'', price: '', volume: ''});
     }.bind(this)).catch(function(response){
       this.setState({price: '', volume: ''});
       console.log(response);
@@ -34,6 +34,12 @@ export default class FormTrade extends React.Component {
           </Button>
           <Collapse in={this.state.open}>
             <form style={{marginTop: "1.2em"}} onSubmit={this.handleSubmit.bind(this)}>
+              <div className="form-group row">
+                <label htmlFor="symbol" className="col-sm-2 form-control-label">股票</label>
+                <div className="col-sm-10">
+                  <input type="text" className="form-control" id="symbol" value={this.state.symbol} onChange={(e)=> this.setState({symbol: e.target.value})} />
+                </div>
+              </div>
               <div className="form-group row">
                 <label htmlFor="type" className="col-sm-2 form-control-label">类型</label>
                 <div className="col-sm-10">
