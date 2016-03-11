@@ -1,5 +1,6 @@
 import React from 'react';
 import { Table, Button } from 'react-bootstrap';
+import './tableTradeDetail.css'
 import accounting from 'accounting';
 import {formatPercent} from './util.jsx'
 
@@ -9,44 +10,25 @@ class TableTradeDetail extends React.Component {
   }
 
   render() {
-    // http://roxeteer.com/table-border-css/
-    let tabStyle = {
-      borderColor: "black",
-      borderWidth: "0 0 1px 1px",
-      borderStyle: "solid",
-      backgroundColor: "gold",
-      borderSpacing: "0"
-    }
-
-    let tdStyle = {
-      borderColor: "black",
-      borderWidth: "1px 1px 0 0",
-      borderStyle: "solid",
-      margin: "0",
-      padding: "4px",
-      backgroundColor: "gold",
-      borderSpacing: "0"
-    }
-
     let mRows = this.props.selTrades.map((stock, index) => {
       return(
         <tr key={index}>
-          <td style={tdStyle}>{index}</td>
-          <td style={tdStyle}>{(new Date(stock.date)).toLocaleDateString()}</td>
-          <td style={tdStyle}>{stock.price}</td>
-          <td style={tdStyle}>{stock.volume}</td>
+          <td id="tradeTd">{index}</td>
+          <td id="tradeTd">{(new Date(stock.date)).toLocaleDateString()}</td>
+          <td id="tradeTd">{stock.price}</td>
+          <td id="tradeTd">{stock.volume}</td>
         </tr>
       );
     });
 
     return (
-      <Table style={tabStyle}>
+      <Table id="tradeTable">
         <thead>
           <tr>
-            <th style={tdStyle}>#</th>
-            <th style={tdStyle}>日期</th>
-            <th style={tdStyle}>价格</th>
-            <th style={tdStyle}>数量</th>
+            <th id="tradeTd">#</th>
+            <th id="tradeTd">日期</th>
+            <th id="tradeTd">价格</th>
+            <th id="tradeTd">数量</th>
           </tr>
         </thead>
         <tbody>
