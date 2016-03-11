@@ -20,7 +20,9 @@
     "babel-preset-react": "^6.3.13",
     "babel-preset-stage-0": "^6.3.13",
     "chai": "^3.5.0",
+    "css-loader": "^0.23.1",
     "proxy-middleware": "^0.15.0",
+    "style-loader": "^0.13.0",
     "supertest": "^1.2.0",
     "webpack": "^1.12.14",
     "webpack-dev-server": "^1.14.0"

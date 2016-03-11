@@ -74,9 +74,13 @@ module.exports = {
         include: path.join(__dirname, 'static'),
         exclude: /node_modules/,
         query: {
-            plugins: ['transform-runtime'],
-            presets: ['es2015', 'stage-0', 'react']
+          plugins: ['transform-runtime'],
+          presets: ['es2015', 'stage-0', 'react']
         }
+      },
+      {
+        test: /\.css$/, 
+        loader: 'style-loader!css-loader'
       }
     ]
   }
