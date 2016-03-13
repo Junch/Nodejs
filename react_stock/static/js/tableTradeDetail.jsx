@@ -15,8 +15,11 @@ class TableTradeDetail extends React.Component {
         <tr key={index}>
           <td>{index}</td>
           <td>{(new Date(stock.date)).toLocaleDateString()}</td>
-          <td style={{textAlign: "right"}}>{stock.price}</td>
+          <td style={{textAlign: "right"}}>{accounting.formatMoney(stock.price)}</td>
           <td style={{textAlign: "right"}}>{stock.volume}</td>
+          <td style={{textAlign: "right"}}>
+            <a><span className="glyphicon glyphicon-trash"/></a>
+          </td>
         </tr>
       );
     });
@@ -29,6 +32,7 @@ class TableTradeDetail extends React.Component {
             <th>日期</th>
             <th style={{textAlign: "right"}}>价格</th>
             <th style={{textAlign: "right"}}>数量</th>
+            <th style={{textAlign: "right"}}>操作</th>
           </tr>
         </thead>
         <tbody>
