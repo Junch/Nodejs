@@ -13,28 +13,28 @@ class TableTradeDetail extends React.Component {
     let mRows = this.props.selTrades.map((stock, index) => {
       return(
         <tr key={index}>
-          <td id="tradeTd">{index}</td>
-          <td id="tradeTd">{(new Date(stock.date)).toLocaleDateString()}</td>
-          <td id="tradeTd">{stock.price}</td>
-          <td id="tradeTd">{stock.volume}</td>
+          <td>{index}</td>
+          <td>{(new Date(stock.date)).toLocaleDateString()}</td>
+          <td style={{textAlign: "right"}}>{stock.price}</td>
+          <td style={{textAlign: "right"}}>{stock.volume}</td>
         </tr>
       );
     });
 
     return (
-      <Table id="tradeTable">
+      <table className="zui-table zui-table-rounded">
         <thead>
           <tr>
-            <th id="tradeTd">#</th>
-            <th id="tradeTd">日期</th>
-            <th id="tradeTd">价格</th>
-            <th id="tradeTd">数量</th>
+            <th>#</th>
+            <th>日期</th>
+            <th style={{textAlign: "right"}}>价格</th>
+            <th style={{textAlign: "right"}}>数量</th>
           </tr>
         </thead>
         <tbody>
           {mRows}
         </tbody>
-      </Table>
+      </table>
     );
   }
 }
