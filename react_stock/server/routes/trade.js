@@ -22,6 +22,10 @@ class Trade {
     return db.collection('trade').insert(trans);
   }
 
+  delete(db, id) {
+    return db.collection('trade').remove({_id: new ObjectID(id)});
+  }
+
   getStockFromTrade(db, date) {
     return new Promise((resolve, reject) => {
       this.findAll(db, date).then(trans => {
@@ -70,28 +74,35 @@ class Trade {
 
 let trade = new Trade();
 
-router.get('/stock', function(req, res) {
+router.get('/stock', (req, res) => {
   trade.getStockFromTrade(req.db, new Date()).then(stocks => {
     res.json(stocks);
   }).catch((err) => res.status(500).send({error: err.toString()}));
 });
 
-router.get('/stock/:date', function(req, res) {
+router.get('/stock/:date', (req, res) => {
   let date = new Date(req.params.date);
   trade.getStockFromTrade(req.db, date).then(stocks => {
     res.json(stocks);
   }).catch((err) => res.status(500).send({error: err.toString()}));
 });
 
-router.get('/', function(req, res) {
+router.get('/', (req, res) => {
   trade.findAll(req.db).then((trans) => {
     res.json(trans);
   }).catch((err) => res.status(500).send({error: err.toString()}));
 });
 
-router.get('/:symbol', function(req, res) {
+router.get('/:symbol', (req, res) => {
   trade.find(req.db, req.params.symbol).then(stocks => {
     res.json(stocks);
+  }).catch((err) => res.status(500).send({error: err.toString()}));
+});
+
+router.delete('/:id', (req, res) => {
+  let id = req.params.id;
+  trade.delete(req.db, id).then(result => {
+    res.send(req.body);
   }).catch((err) => res.status(500).send({error: err.toString()}));
 });
 

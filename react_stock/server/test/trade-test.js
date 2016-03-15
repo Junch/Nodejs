@@ -138,4 +138,19 @@ describe('Trade Tests', () => {
           done();
         });
     });
+
+    it('Delete an existing trade', done => {
+      db.collection('trade').findOne().then(item => {
+        request(server).delete('/api/trade/' + item._id)
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end(err => {
+          if (err) {throw err; } // if (err) return done(err);
+          db.collection('trade').count().then(count => {
+              count.should.equal(6);
+              done();
+          });
+        });
+      });
+    });
 });
