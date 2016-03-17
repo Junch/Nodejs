@@ -14,14 +14,18 @@ class Stock {
 
 let stock = new Stock();
 
-router.get('/', function(req, res) {
-  stock.findAll(req).then((stocks) => {
+router.get('/', (req, res) => {
+  stock.findAll(req).then(stocks => {
+    if (stocks.length == 0){
+      return res.json([])
+    }
+
     let arr = stocks.map((item) => {
       return item.symbol.toLowerCase();
     });
 
-    stockUtil.getStockArr(arr).then((items) => {
-      let newArr = items.map(function(item, index){
+    stockUtil.getStockArr(arr).then(items => {
+      let newArr = items.map((item, index) => {
         return {
           symbol: stocks[index].symbol,
           title: item.name,

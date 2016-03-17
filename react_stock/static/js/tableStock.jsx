@@ -78,7 +78,7 @@ class TableStock extends React.Component {
       );
     });
 
-    if (this.state.current != -1) {
+    if (this.state.current != -1 && this.state.selTrades.length > 0) {
       rows.splice(this.state.current + 1, 0, (
         <tr key="current">
           <td colSpan="7">

@@ -63,6 +63,10 @@ class Trade {
     return new Promise((resolve, reject) => {
       this.getStockFromTrade(db, new Date()).then(stocks => {
         db.collection('stock').remove({}).then(() => {
+          if (stocks.length == 0) {
+            return resolve({});
+          }
+
           return db.collection('stock').insert(stocks);
         }).then(WriteResult => {
           return resolve(WriteResult);
@@ -101,8 +105,10 @@ router.get('/:symbol', (req, res) => {
 
 router.delete('/:id', (req, res) => {
   let id = req.params.id;
-  trade.delete(req.db, id).then(result => {
-    res.send(req.body);
+  trade.delete(req.db, id).then(() => {
+    return trade.cacheStock(req.db);
+  }).then(() => {
+    res.json({});
   }).catch((err) => res.status(500).send({error: err.toString()}));
 });
 
