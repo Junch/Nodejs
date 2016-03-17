@@ -46,6 +46,21 @@ class TableStock extends React.Component {
       });
   }
 
+  handleDelete(trade) {
+    console.log(`Delete an item ${trade._id}`)
+    axios.delete('/api/trade/' + trade._id)
+      .then(function(data){
+        let newTrades = this.state.selTrades.filter(item => {
+          return item._id != trade._id
+        });
+
+        this.setState({selTrades: newTrades});
+      }.bind(this))
+      .catch(function(response){
+        console.log(response);
+      });
+  }
+
   render() {
     let self = this;
 
@@ -67,7 +82,7 @@ class TableStock extends React.Component {
       rows.splice(this.state.current + 1, 0, (
         <tr key="current">
           <td colSpan="7">
-            <TableTradeDetail selTrades={this.state.selTrades} />
+            <TableTradeDetail selTrades={this.state.selTrades} onDeleteTrade={self.handleDelete.bind(self)} />
           </td>
         </tr>
       ));

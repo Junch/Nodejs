@@ -9,16 +9,22 @@ class TableTradeDetail extends React.Component {
     super(props);
   }
 
+  deleteTrade(trade, e) {
+    this.props.onDeleteTrade(trade, e);
+  }
+
   render() {
-    let mRows = this.props.selTrades.map((stock, index) => {
+    let self = this;
+
+    let mRows = this.props.selTrades.map((trade, index) => {
       return(
         <tr key={index}>
           <td>{index}</td>
-          <td>{(new Date(stock.date)).toLocaleDateString()}</td>
-          <td style={{textAlign: "right"}}>{accounting.formatMoney(stock.price)}</td>
-          <td style={{textAlign: "right"}}>{stock.volume}</td>
+          <td>{(new Date(trade.date)).toLocaleDateString()}</td>
+          <td style={{textAlign: "right"}}>{accounting.formatMoney(trade.price)}</td>
+          <td style={{textAlign: "right"}}>{trade.volume}</td>
           <td style={{textAlign: "right"}}>
-            <a><span className="glyphicon glyphicon-trash"/></a>
+            <a onClick={self.deleteTrade.bind(self, trade)}><span className="glyphicon glyphicon-trash"/></a>
           </td>
         </tr>
       );
