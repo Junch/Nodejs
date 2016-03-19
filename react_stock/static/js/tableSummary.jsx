@@ -1,5 +1,6 @@
 import React from 'react';
 import { Table } from 'react-bootstrap';
+import axios from 'axios'
 import accounting from 'accounting';
 import fx from 'money';
 import {formatPercent} from './util.jsx'

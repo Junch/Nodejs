@@ -1,5 +1,6 @@
 import '../../node_modules/bootstrap/dist/css/bootstrap.css'
 import React from 'react';
+import axios from 'axios'
 import {render} from 'react-dom';
 import TableMarket from './tableMarket.jsx'
 import TableStock from './tableStock.jsx'
