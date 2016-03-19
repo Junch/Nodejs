@@ -50,7 +50,7 @@ export default class FormTrade extends React.Component {
       defaultState.alertStyle = 'danger';
       this.setState(defaultState);
       console.log(response);
-    };
+    });
   }
 
   render() {
