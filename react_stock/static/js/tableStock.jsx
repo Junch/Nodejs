@@ -37,11 +37,10 @@ class TableStock extends React.Component {
 
     let symbol = this.props.stocks[index].symbol;
     axios.get('/api/trade/' + symbol)
-      .then(function(data){
+      .then(data => {
         this.setState({current: index});
         this.setState({selTrades: data.data});
-      }.bind(this))
-      .catch(function(response){
+      }).catch(response => {
         console.log(response);
       });
   }
@@ -49,21 +48,18 @@ class TableStock extends React.Component {
   handleDelete(trade) {
     console.log(`Delete an item ${trade._id}`)
     axios.delete('/api/trade/' + trade._id)
-      .then(function(data){
+      .then(data => {
         let newTrades = this.state.selTrades.filter(item => {
           return item._id != trade._id
         });
 
         this.setState({selTrades: newTrades});
-      }.bind(this))
-      .catch(function(response){
+      }).catch(response => {
         console.log(response);
       });
   }
 
   render() {
-    let self = this;
-
     let rows = this.props.stocks.map((stock, index) => {
       return (
         <tr key={stock.symbol}>
@@ -73,7 +69,7 @@ class TableStock extends React.Component {
           <td className="text-right" style={{fontWeight:"bold"}}>{formatPercent(stock.previous, stock.price)}</td>
           <td className="text-right">{stock.volume}</td>
           <td className="text-right">{accounting.formatMoney(stock.price * stock.volume)}</td>
-          <td className="text-right"><Button bsStyle="primary" bsSize="xsmall" onClick={self.handleClick.bind(self, index)}>交易记录</Button></td>
+          <td className="text-right"><Button bsStyle="primary" bsSize="xsmall" onClick={e => this.handleClick(index, e)}>交易记录</Button></td>
         </tr>
       );
     });
@@ -82,7 +78,7 @@ class TableStock extends React.Component {
       rows.splice(this.state.current + 1, 0, (
         <tr key="current">
           <td colSpan="7">
-            <TableTradeDetail selTrades={this.state.selTrades} onDeleteTrade={self.handleDelete.bind(self)} />
+            <TableTradeDetail selTrades={this.state.selTrades} onDeleteTrade={this.handleDelete.bind(this)} />
           </td>
         </tr>
       ));

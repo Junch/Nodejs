@@ -22,8 +22,6 @@ class TableTradeDetail extends React.Component {
   }
 
   render() {
-    let self = this;
-
     let mRows = this.props.selTrades.map((trade, index) => {
       return(
         <tr key={index}>
@@ -32,8 +30,8 @@ class TableTradeDetail extends React.Component {
           <td style={{textAlign: "right"}}>{accounting.formatMoney(trade.price)}</td>
           <td style={{textAlign: "right"}}>{trade.volume}</td>
           <td style={{textAlign: "right"}}>
-            <a onClick={this.open.bind(this)}><span className="glyphicon glyphicon-trash"/></a>
-            <Modal show={this.state.showModal} onHide={this.close.bind(this)}>
+            <a onClick={e => this.open()}><span className="glyphicon glyphicon-trash"/></a>
+            <Modal show={this.state.showModal}>
               <Modal.Header>
                 <Modal.Title>提醒</Modal.Title>
               </Modal.Header>
@@ -41,8 +39,8 @@ class TableTradeDetail extends React.Component {
                 确定删除这个交易?
               </Modal.Body>
               <Modal.Footer>
-                <Button bsSize="small" bsStyle="primary" onClick={this.close.bind(this, trade)}>确定</Button>
-                <Button bsSize="small" onClick={this.close.bind(this, null)}>取消</Button>
+                <Button bsSize="small" bsStyle="primary" onClick={e => this.close(trade)}>确定</Button>
+                <Button bsSize="small" onClick={e => this.close(null)}>取消</Button>
               </Modal.Footer>
             </Modal>
           </td>

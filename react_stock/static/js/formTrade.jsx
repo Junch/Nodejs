@@ -39,7 +39,7 @@ export default class FormTrade extends React.Component {
       trade.volume = - trade.volume
     }
 
-    let defaultState = getDefaultState();
+    let defaultState = this.getDefaultState();
     let type = (this.state.type == 'buy') ? '买入':'卖出';
 
     axios.post('/api/trade', trade).then(response => {
@@ -66,7 +66,7 @@ export default class FormTrade extends React.Component {
     return (
       <div className="col-sm-12" style={{marginBottom: "1.2em"}}>
         <div className="col-sm-6" >
-          <Button bsStyle="primary" onClick={ ()=> this.setState({ open: !this.state.open })}>
+          <Button bsStyle="primary" onClick={e => this.setState({open: !this.state.open})}>
             买卖
           </Button>
           <Collapse in={this.state.open}>
