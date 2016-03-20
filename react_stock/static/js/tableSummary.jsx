@@ -51,7 +51,7 @@ class TableSummary extends React.Component {
     let prev = prevChina + prevHKCNY + totalCash;
 
     return (
-      <div>
+      <div className="row">
         <h3>汇总</h3>
         <div className="col-md-6" style={{paddingLeft: 0}}>
           <Table bordered condensed>

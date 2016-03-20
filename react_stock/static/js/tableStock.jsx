@@ -86,7 +86,7 @@ class TableStock extends React.Component {
     }
 
     return (
-      <div>
+      <div className="row">
         <h3>股票</h3>
         <Table striped bordered condensed>
           <thead>

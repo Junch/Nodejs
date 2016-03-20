@@ -29,7 +29,7 @@ export default class TableMarket extends React.Component {
     });
 
     return(
-      <div>
+      <div className="row">
         <h3>大盘</h3>
         <div className="row" style={{marginLeft: "0px", marginRight: "0px"}}>
           {items}

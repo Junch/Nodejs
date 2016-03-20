@@ -55,7 +55,7 @@ export default class FormTrade extends React.Component {
   }
 
   render() {
-    let alertDiv = <div/>
+    let alertDiv;
     if (this.state.alertVisible) {
       alertDiv = (
         <Alert bsStyle={this.state.alertStyle} style={{marginTop: "1.2em"}} onDismiss={()=>this.setState({alertVisible: false})} dismissAfter={5000} >
@@ -65,11 +65,11 @@ export default class FormTrade extends React.Component {
     }
 
     return (
-      <div className="col-sm-12" style={{marginBottom: "1.2em"}}>
+      <div className="row" style={{marginBottom: "1.2em"}}>
+        <h3>买卖<a onClick={e => this.setState({open: !this.state.open})}>
+          <span className="glyphicon glyphicon-plus-sign"></span>
+        </a></h3>
         <div className="col-sm-6" >
-          <Button bsStyle="primary" onClick={e => this.setState({open: !this.state.open})}>
-            买卖
-          </Button>
           <Collapse in={this.state.open}>
             <form style={{marginTop: "1.2em"}} onSubmit={this.handleSubmit.bind(this)}>
               <div className="form-group row">
