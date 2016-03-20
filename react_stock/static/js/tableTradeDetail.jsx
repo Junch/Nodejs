@@ -11,15 +11,18 @@ class TableTradeDetail extends React.Component {
     this.state = {showModal: false}
   }
 
-  open() {
+  open(trade) {
+    this.trade = trade;
     this.setState({ showModal: true });
   }
 
-  close(trade) {
+  close(confirm) {
     this.setState({ showModal: false });
-    if (trade != null){
-      this.props.onDeleteTrade(trade);
+    if (this.trade != null && confirm) {
+      this.props.onDeleteTrade(this.trade);
     }
+
+    this.trade = null
   }
 
   render() {
@@ -31,7 +34,7 @@ class TableTradeDetail extends React.Component {
           <td style={{textAlign: "right"}}>{accounting.formatMoney(trade.price)}</td>
           <td style={{textAlign: "right"}}>{trade.volume}</td>
           <td style={{textAlign: "right"}}>
-            <a onClick={e => this.open()}><span className="glyphicon glyphicon-trash"/></a>
+            <a onClick={this.open.bind(this, trade)}><span className="glyphicon glyphicon-trash"/></a>
             <Modal show={this.state.showModal} bsSize="small" container={this}>
               <Modal.Header>
                 <Modal.Title>提醒</Modal.Title>
@@ -40,8 +43,8 @@ class TableTradeDetail extends React.Component {
                 确定删除这个交易?
               </Modal.Body>
               <Modal.Footer>
-                <Button bsSize="small" bsStyle="primary" onClick={e => this.close(trade)}>确定</Button>
-                <Button bsSize="small" onClick={e => this.close(null)}>取消</Button>
+                <Button bsSize="small" bsStyle="primary" onClick={e => this.close(true)}>确定</Button>
+                <Button bsSize="small" onClick={e => this.close(false)}>取消</Button>
               </Modal.Footer>
             </Modal>
           </td>
