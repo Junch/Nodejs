@@ -1,6 +1,7 @@
 import React from 'react';
 import { Table, Button, Modal } from 'react-bootstrap';
-import './tableTradeDetail.css'
+import '../css/zui-table.css'
+import '../css/modal-dialog.css'
 import accounting from 'accounting';
 import {formatPercent} from './util.jsx'
 
@@ -31,7 +32,7 @@ class TableTradeDetail extends React.Component {
           <td style={{textAlign: "right"}}>{trade.volume}</td>
           <td style={{textAlign: "right"}}>
             <a onClick={e => this.open()}><span className="glyphicon glyphicon-trash"/></a>
-            <Modal show={this.state.showModal}>
+            <Modal show={this.state.showModal} bsSize="small" container={this}>
               <Modal.Header>
                 <Modal.Title>提醒</Modal.Title>
               </Modal.Header>

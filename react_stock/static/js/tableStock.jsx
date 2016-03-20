@@ -4,6 +4,7 @@ import accounting from 'accounting';
 import axios from 'axios'
 import {formatPercent} from './util.jsx'
 import TableTradeDetail from './TableTradeDetail.jsx'
+import '../css/modal-dialog.css'
 
 class TableStock extends React.Component {
   constructor(props){
@@ -86,7 +87,7 @@ class TableStock extends React.Component {
     }
 
     return (
-      <div className="row">
+      <div className="row modal-container">
         <h3>股票</h3>
         <Table striped bordered condensed>
           <thead>

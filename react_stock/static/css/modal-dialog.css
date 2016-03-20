@@ -1,0 +1,11 @@
+.modal-container {
+  position: relative;
+}
+
+.modal-container .modal, .modal-container .modal-backdrop {
+  position: absolute;
+}
+
+.modal-backdrop.in {
+  opacity: 0;
+}
