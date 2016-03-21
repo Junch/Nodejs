@@ -3,13 +3,14 @@ import { Table, Button } from 'react-bootstrap';
 import accounting from 'accounting';
 import axios from 'axios'
 import {formatPercent} from './util.jsx'
-import TableTradeDetail from './TableTradeDetail.jsx'
+import TableTradeDetail from './tableTradeDetail.jsx'
+import ModalTrade from './modalTrade.jsx'
 import '../css/modal-dialog.css'
 
 class TableStock extends React.Component {
   constructor(props){
     super(props);
-    this.state = {current: -1, selTrades: []};
+    this.state = {current: -1, selTrades: [], showModal: false};
     accounting.settings = {
       currency: {
         symbol : "",   // default currency symbol is '$'
@@ -61,6 +62,14 @@ class TableStock extends React.Component {
       });
   }
 
+  doModal(){
+    this.setState({showModal: true});
+  }
+
+  handleClose(){
+    this.setState({showModal: false})
+  }
+
   render() {
     let rows = this.props.stocks.map((stock, index) => {
       return (
@@ -88,7 +97,10 @@ class TableStock extends React.Component {
 
     return (
       <div className="row modal-container">
-        <h3>股票</h3>
+        <h3>股票<a onClick={e => this.doModal()}>
+          <span className="glyphicon glyphicon-list-alt"></span>
+        </a></h3>
+        <ModalTrade showModal={this.state.showModal} onClose={this.handleClose.bind(this)} />
         <Table striped bordered condensed>
           <thead>
             <tr>
