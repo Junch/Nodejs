@@ -6,7 +6,6 @@ import {render} from 'react-dom';
 import TableMarket from './tableMarket.jsx'
 import TableStock from './tableStock.jsx'
 import TableSummary from './tableSummary.jsx'
-import FormTrade from './formTrade.jsx'
 
 class App extends React.Component {
   constructor(props) {
@@ -44,7 +43,6 @@ class App extends React.Component {
       <div className="container">
         <TableMarket markets={this.state.markets} />
         <TableStock stocks={this.state.stocks} />
-        <FormTrade />
         <TableSummary stocks={this.state.stocks} />
       </div>
     );
