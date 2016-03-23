@@ -63,13 +63,13 @@ export default class ModalTrade extends React.Component {
           <form className="form-horizontal">
             <div className="form-group row">
               <label htmlFor="symbol" className="col-sm-3 form-control-label">股票</label>
-              <div className="col-sm-9">
+              <div className="col-sm-9" style={{paddingLeft: "0"}}>
                 <input type="text" className="form-control" id="symbol" value={this.state.symbol} onChange={e=>this.setState({symbol: e.target.value})} />
               </div>
             </div>
             <div className="form-group row">
               <label htmlFor="type" className="col-sm-3 form-control-label">类型</label>
-              <div className="col-sm-9">
+              <div className="col-sm-9" style={{paddingLeft: "0"}}>
                 <select className="form-control" id="type" value={this.state.type} onChange={e=>this.setState({type: e.target.value})} >
                   <option value="buy">买入</option>
                   <option value="sell">卖出</option>
@@ -78,19 +78,19 @@ export default class ModalTrade extends React.Component {
             </div>
             <div className="form-group row">
               <label htmlFor="date" className="col-sm-3 form-control-label">日期</label>
-              <div className="col-sm-9">
+              <div className="col-sm-9" style={{paddingLeft: "0"}}>
                 <DatePicker selected={this.state.startDate} onChange={ date => this.setState({startDate: date})} />
               </div>
             </div>
             <div className="form-group row">
               <label htmlFor="price" className="col-sm-3 form-control-label">价格</label>
-              <div className="col-sm-9">
+              <div className="col-sm-9" style={{paddingLeft: "0"}}>
                 <input type="number" className="form-control" id="price" min="0" step="0.001" value={this.state.price} onChange={e=>this.setState({price: e.target.value})} />
               </div>
             </div>
             <div className="form-group row">
               <label htmlFor="volume" className="col-sm-3 form-control-label">数量</label>
-              <div className="col-sm-9">
+              <div className="col-sm-9" style={{paddingLeft: "0"}}>
                 <input type="number" className="form-control" id="volume" min="0" step="100" value={this.state.volume} onChange={e=>this.setState({volume: e.target.value})} />
               </div>
             </div>

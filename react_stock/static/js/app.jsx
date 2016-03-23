@@ -1,4 +1,5 @@
 import '../../node_modules/bootstrap/dist/css/bootstrap.css'
+import '../css/main.css'
 import React from 'react';
 import axios from 'axios'
 import {render} from 'react-dom';
