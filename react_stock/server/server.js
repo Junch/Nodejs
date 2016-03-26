@@ -16,6 +16,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var stock = require('./routes/stock.js');
 var trade = require('./routes/trade.js');
+var account = require('./routes/account.js')
 var markets =  require('./routes/markets.js');
 var app = express();
 
@@ -47,6 +48,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use('/api/stock', stock);
 app.use('/api/trade', trade);
+app.use('/api/cash', account);
 app.use('/api/markets', markets);
 
 var server = app.listen(app.get('port'), function() {
