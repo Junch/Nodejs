@@ -1,0 +1,48 @@
+import React from 'react';
+import { Table, Button, Modal } from 'react-bootstrap';
+import '../css/zui-table.css'
+import '../css/modal-dialog.css'
+import accounting from 'accounting';
+import {formatPercent} from './util.jsx'
+
+class TableCash extends React.Component {
+  constructor(props){
+    super(props);
+  }
+
+  render() {
+    let mRows = this.props.cash.map((cash, index) => {
+      return(
+        <tr key={index}>
+          <td>{index}</td>
+          <td>{(new Date(cash.date)).toLocaleDateString()}</td>
+          <td style={{textAlign: "right"}}>{accounting.formatMoney(cash.volume)}</td>
+          <td style={{textAlign: "right"}}><span className="glyphicon glyphicon-edit"/>&nbsp;&nbsp;&nbsp;<span className="glyphicon glyphicon-trash"/></td>
+        </tr>
+      );
+    });
+
+    return (
+      <div className="row">
+        <h3>本金</h3>
+        <div className="col-md-6" style={{paddingLeft: 0}}>
+          <table className="zui-table zui-table-rounded">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>日期</th>
+                <th style={{textAlign: "right"}}>金额</th>
+                <th style={{textAlign: "right"}}>操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              {mRows}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    );
+  }
+}
+
+export default TableCash;
