@@ -13,6 +13,10 @@ class Account {
   addCash (db, cash) {
     return db.collection('cash').insert(cash);
   }
+
+  delete(db, id) {
+    return db.collection('cash').remove({_id: new ObjectID(id)});
+  }
 }
 
 let account = new Account();
@@ -27,6 +31,13 @@ router.post('/', (req, res) => {
   account.addCash(req.db, cash).then(items => {
     res.json(items.ops[0]);
   }).catch(err => res.status(500).send({error: err.toString()}));
+});
+
+router.delete('/:id', (req, res) => {
+  let id = req.params.id;
+  account.delete(req.db, id).then(() => {
+    res.json({});
+  }).catch((err) => res.status(500).send({error: err.toString()}));
 });
 
 module.exports = router;

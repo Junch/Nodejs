@@ -43,6 +43,20 @@ class App extends React.Component {
       });
   }
 
+  handleDeleteCash(cash) {
+    console.log(`Delete an item ${cash._id}`)
+    axios.delete('/api/cash/' + cash._id)
+      .then(() => {
+        let newCashes = this.state.cashes.filter(item => {
+          return item._id != cash._id
+        });
+
+        this.setState({cashes: newCashes});
+      }).catch(function(response){
+        console.log(response);
+      });
+  }
+
   componentDidMount(){
     setInterval(this.loadStocksFromServer.bind(this), this.props.pollInterval);
     setInterval(this.loadMarketsFromServer.bind(this), this.props.pollInterval);
@@ -54,7 +68,7 @@ class App extends React.Component {
       <div className="container">
         <TableMarket markets={this.state.markets} />
         <TableStock stocks={this.state.stocks} />
-        <TableCash cash={this.state.cashes} />
+        <TableCash cash={this.state.cashes} onDeleteCash={this.handleDeleteCash.bind(this)}/>
         <TableSummary stocks={this.state.stocks} />
       </div>
     );

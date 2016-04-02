@@ -17,7 +17,7 @@ class TableCash extends React.Component {
           <td>{index}</td>
           <td>{(new Date(cash.date)).toLocaleDateString()}</td>
           <td style={{textAlign: "right"}}>{accounting.formatMoney(cash.volume)}</td>
-          <td style={{textAlign: "right"}}><span className="glyphicon glyphicon-edit"/>&nbsp;&nbsp;&nbsp;<span className="glyphicon glyphicon-trash"/></td>
+          <td className="col-md-2" style={{textAlign: "right"}}><a><span className="glyphicon glyphicon-edit"/></a>&nbsp;<a onClick={this.props.onDeleteCash.bind(this, cash)}><span className="glyphicon glyphicon-trash"/></a></td>
         </tr>
       );
     });
@@ -32,7 +32,7 @@ class TableCash extends React.Component {
                 <th>#</th>
                 <th>日期</th>
                 <th style={{textAlign: "right"}}>金额</th>
-                <th style={{textAlign: "right"}}>操作</th>
+                <th className="col-md-2" style={{textAlign: "right"}}>操作</th>
               </tr>
             </thead>
             <tbody>
