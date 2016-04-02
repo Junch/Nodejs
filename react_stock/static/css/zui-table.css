@@ -21,6 +21,15 @@
     padding: 10px;
     text-shadow: 1px 1px 1px #fff;
 }
+.zui-table tbody tr td a {
+    display: none;
+}
+.zui-table tbody tr td:last-child {
+    padding: 8px;
+}
+.zui-table tbody tr:hover td a {
+    display: inline-block;
+}
 .zui-table-rounded {
     border: none;
 }
