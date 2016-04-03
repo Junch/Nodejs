@@ -1,7 +1,6 @@
 import React from 'react';
-import {Button, Modal} from 'react-bootstrap';
+import ModalConfirm from './modalConfirm.jsx'
 import '../css/zui-table.css'
-import '../css/modal-dialog.css'
 import accounting from 'accounting';
 import {formatPercent} from './util.jsx'
 
@@ -36,18 +35,7 @@ class TableTradeDetail extends React.Component {
           <td style={{textAlign: "right"}}>
             <a><span className="glyphicon glyphicon-edit"/></a>&nbsp;
             <a onClick={this.openModalConfirm.bind(this, trade)}><span className="glyphicon glyphicon-trash"/></a>
-            <Modal show={this.state.showModalConfirm} bsSize="small" container={this} onHide={e => this.close(false)}>
-              <Modal.Header>
-                <Modal.Title>提醒</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                确定删除这个交易?
-              </Modal.Body>
-              <Modal.Footer>
-                <Button bsSize="small" bsStyle="primary" onClick={e => this.closeModalConfirm(true)}>确定</Button>
-                <Button bsSize="small" onClick={e => this.closeModalConfirm(false)}>取消</Button>
-              </Modal.Footer>
-            </Modal>
+            <ModalConfirm showModal={this.state.showModalConfirm} closeModal={this.closeModalConfirm.bind(this)} container={this} />
           </td>
         </tr>
       );
