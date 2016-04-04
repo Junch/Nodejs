@@ -23,10 +23,12 @@ export default class ModalTrade extends React.Component {
 
   componentDidMount(){
     if (this.props.trade != null) {
-      this.setState({symbol: this.props.trade.symbol});
-      this.setState({volume: this.props.trade.volume});
-      this.setState({startDate:  moment(this.props.trade.date)});
-      this.setState({price:  this.props.trade.price});
+      this.setState({
+        symbol: this.props.trade.symbol,
+        volume: this.props.trade.volume,
+        startDate: moment(this.props.trade.date),
+        price:  this.props.trade.price
+      });
     }
   }
 
@@ -44,8 +46,14 @@ export default class ModalTrade extends React.Component {
       trade.volume = - trade.volume
     }
 
-    axios.post('/api/trade', trade).then(response => {
-      this.props.onClose();
+    let url = '/api/trade';
+    if (this.props.trade != null) {
+      url = `${url}/${this.props.trade._id}`;
+      trade.title = this.props.trade.title;  
+    }
+
+    axios.post(url, trade).then(response => {
+      this.props.onClose(true);
     }).catch(error => {
       console.log(error);
       let type = (this.state.type == 'buy') ? '买入':'卖出';
@@ -65,7 +73,7 @@ export default class ModalTrade extends React.Component {
     }
 
     return (
-      <Modal show={this.props.showModal} bsSize="small" onHide={e => this.props.onClose()}>
+      <Modal show={this.props.showModal} bsSize="small" onHide={e => this.props.onClose(false)}>
         <Modal.Header>
           <Modal.Title>买卖股票</Modal.Title>
         </Modal.Header>
@@ -109,7 +117,7 @@ export default class ModalTrade extends React.Component {
         </Modal.Body>
         <Modal.Footer>
           <Button bsSize="small" bsStyle="primary" onClick={e => this.handleSubmit(e)}>确定</Button>
-          <Button bsSize="small" onClick={e => this.props.onClose()}>取消</Button>
+          <Button bsSize="small" onClick={e => this.props.onClose(false)}>取消</Button>
         </Modal.Footer>
       </Modal>
     );

@@ -147,8 +147,28 @@ describe('Trade Tests', () => {
         .end(err => {
           if (err) {throw err; } // if (err) return done(err);
           db.collection('trade').count().then(count => {
-              count.should.equal(6);
-              done();
+            count.should.equal(6);
+            done();
+          });
+        });
+      });
+    });
+
+    it('Update an existing trade', done => {
+      db.collection('trade').findOne().then(item => {
+        let id = item._id;
+        let oldVolume = item.volume;
+        item.volume += 200;
+
+        request(server).post('/api/trade/' + item._id)
+        .send(item)
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end(err => {
+          if (err) {throw err; } // if (err) return done(err);
+          db.collection('trade').findOne({_id: id}).then(item => {
+            item.volume.should.equal(oldVolume + 200);
+            done();
           });
         });
       });

@@ -26,6 +26,10 @@ class Trade {
     return db.collection('trade').remove({_id: new ObjectID(id)});
   }
 
+  update(db, trans){
+    return db.collection('trade').update({_id: trans._id}, trans);
+  }
+
   getStockFromTrade(db, date) {
     return new Promise((resolve, reject) => {
       this.findAll(db, date).then(trans => {
@@ -122,6 +126,20 @@ router.post('/', (req, res) => {
       trade.cacheStock(req.db).then(()=>{
         res.json(items.ops[0]);
       });
+    });
+  }).catch((err) => res.status(500).send({error: err.toString()}));
+});
+
+router.post('/:id', (req, res) => {
+  let id = req.params.id;
+  let trans = req.body;
+  trans._id = new ObjectID(id);
+  trans.date = new Date(trans.date); // Should change the Date string to Date type
+  console.log(trans);
+
+  trade.update(req.db, trans).then(() => {
+    trade.cacheStock(req.db).then(()=>{
+      res.json({});
     });
   }).catch((err) => res.status(500).send({error: err.toString()}));
 });

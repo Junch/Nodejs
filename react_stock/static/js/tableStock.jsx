@@ -61,6 +61,15 @@ class TableStock extends React.Component {
       });
   }
 
+  handleEdit(trade) {
+    axios.get('/api/trade/' + trade.symbol)
+      .then(data => {
+        this.setState({selTrades: data.data});
+      }).catch(response => {
+        console.log(response);
+      });
+  }
+
   doModal(){
     this.setState({showModal: true});
   }
@@ -88,7 +97,7 @@ class TableStock extends React.Component {
       rows.splice(this.state.current + 1, 0, (
         <tr key="current">
           <td colSpan="7">
-            <TableTradeDetail selTrades={this.state.selTrades} onDeleteTrade={this.handleDelete.bind(this)} />
+            <TableTradeDetail selTrades={this.state.selTrades} onDeleteTrade={this.handleDelete.bind(this)} onEditTrade={this.handleEdit.bind(this)} />
           </td>
         </tr>
       ));

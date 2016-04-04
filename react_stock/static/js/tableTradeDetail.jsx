@@ -35,6 +35,10 @@ class TableTradeDetail extends React.Component {
 
   closeModalTrade(confirm) {
     this.setState({ showModalTrade: false });
+    if (this.trade != null && confirm) {
+      this.props.onEditTrade(this.trade);
+    }
+
     this.trade = null
   }
 
