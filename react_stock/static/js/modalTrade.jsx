@@ -4,6 +4,7 @@ import DatePicker from 'react-datepicker';
 import '../../node_modules/react-datepicker/dist/react-datepicker.css'
 import moment from 'moment';
 import axios from 'axios'
+import '../css/modal-dialog.css'
 
 export default class ModalTrade extends React.Component {
 
@@ -17,6 +18,15 @@ export default class ModalTrade extends React.Component {
       type:'buy',
       alertVisible:false,
       startDate:moment()
+    }
+  }
+
+  componentDidMount(){
+    if (this.props.trade != null) {
+      this.setState({symbol: this.props.trade.symbol});
+      this.setState({volume: this.props.trade.volume});
+      this.setState({startDate:  moment(this.props.trade.date)});
+      this.setState({price:  this.props.trade.price});
     }
   }
 
@@ -56,7 +66,7 @@ export default class ModalTrade extends React.Component {
 
     return (
       <Modal show={this.props.showModal} bsSize="small" onHide={e => this.props.onClose()}>
-        <Modal.Header closeButton>
+        <Modal.Header>
           <Modal.Title>买卖股票</Modal.Title>
         </Modal.Header>
         <Modal.Body>

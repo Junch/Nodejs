@@ -1,11 +1,20 @@
-.modal-container {
-  position: relative;
+/* http://stackoverflow.com/questions/18422223/bootstrap-3-modal-vertical-position-center */
+
+.modal {
+  text-align: center;
+  padding: 0!important;
 }
 
-.modal-container .modal, .modal-container .modal-backdrop {
-  position: absolute;
+.modal:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-right: -4px; /* Adjusts for spacing */
 }
 
-.modal-backdrop.in {
-  opacity: 0;
+.modal-dialog {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
 }

@@ -3,11 +3,15 @@ import ModalConfirm from './modalConfirm.jsx'
 import '../css/zui-table.css'
 import accounting from 'accounting';
 import {formatPercent} from './util.jsx'
+import ModalTrade from './modalTrade.jsx'
 
 class TableTradeDetail extends React.Component {
   constructor(props){
     super(props);
-    this.state = {showModalConfirm: false}
+    this.state = {
+      showModalConfirm: false,
+      showModalTrade: false
+    }
   }
 
   openModalConfirm(trade) {
@@ -24,18 +28,29 @@ class TableTradeDetail extends React.Component {
     this.trade = null
   }
 
+  openModalTrade(trade) {
+    this.trade = trade;
+    this.setState({ showModalTrade: true });
+  }
+
+  closeModalTrade(confirm) {
+    this.setState({ showModalTrade: false });
+    this.trade = null
+  }
+
   render() {
     let mRows = this.props.selTrades.map((trade, index) => {
       return(
-        <tr key={index}>
+        <tr key={trade._id}>
           <td>{index}</td>
           <td>{(new Date(trade.date)).toLocaleDateString()}</td>
           <td style={{textAlign: "right"}}>{accounting.formatMoney(trade.price)}</td>
           <td style={{textAlign: "right"}}>{trade.volume}</td>
           <td style={{textAlign: "right"}}>
-            <a><span className="glyphicon glyphicon-edit"/></a>&nbsp;
+            <a onClick={this.openModalTrade.bind(this, trade)}><span className="glyphicon glyphicon-edit"/></a>
+            <ModalTrade showModal={(this.state.showModalTrade && this.trade) ? trade._id == this.trade._id: false} onClose={this.closeModalTrade.bind(this)} trade={trade} />&nbsp;
             <a onClick={this.openModalConfirm.bind(this, trade)}><span className="glyphicon glyphicon-trash"/></a>
-            <ModalConfirm showModal={this.state.showModalConfirm} closeModal={this.closeModalConfirm.bind(this)} container={this} />
+            <ModalConfirm showModal={(this.state.showModalConfirm && this.trade) ? trade._id == this.trade._id: false} closeModal={this.closeModalConfirm.bind(this)} container={this} />
           </td>
         </tr>
       );

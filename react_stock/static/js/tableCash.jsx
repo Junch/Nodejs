@@ -2,7 +2,6 @@ import React from 'react';
 import { Table, Button, Modal } from 'react-bootstrap';
 import ModalConfirm from './modalConfirm.jsx'
 import '../css/zui-table.css'
-import '../css/modal-dialog.css'
 import accounting from 'accounting';
 import {formatPercent} from './util.jsx'
 
@@ -35,14 +34,14 @@ class TableCash extends React.Component {
           <td style={{textAlign: "right"}}>{accounting.formatMoney(cash.volume)}</td>
           <td className="col-md-2" style={{textAlign: "right"}}><a><span className="glyphicon glyphicon-edit"/></a>&nbsp;
           <a onClick={this.openModalConfirm.bind(this, cash)}><span className="glyphicon glyphicon-trash"/></a>
-          <ModalConfirm showModal={this.state.showModalConfirm} closeModal={this.closeModalConfirm.bind(this)} container={this} />
+          <ModalConfirm showModal={(this.state.showModalConfirm && this.cash) ? cash._id == this.cash._id: false} closeModal={this.closeModalConfirm.bind(this)} container={this} />
           </td>
         </tr>
       );
     });
 
     return (
-      <div className="row modal-container">
+      <div className="row">
         <h3>本金</h3>
         <div className="col-md-6" style={{paddingLeft: 0}}>
           <table className="zui-table zui-table-rounded">

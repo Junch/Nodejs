@@ -5,7 +5,6 @@ import axios from 'axios'
 import {formatPercent} from './util.jsx'
 import TableTradeDetail from './tableTradeDetail.jsx'
 import ModalTrade from './modalTrade.jsx'
-import '../css/modal-dialog.css'
 
 class TableStock extends React.Component {
   constructor(props){
@@ -96,7 +95,7 @@ class TableStock extends React.Component {
     }
 
     return (
-      <div className="row modal-container">
+      <div className="row">
         <h3>股票<a onClick={e => this.doModal()}>
           <span className="glyphicon glyphicon-list-alt"></span>
         </a></h3>
