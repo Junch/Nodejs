@@ -9,37 +9,33 @@ class TableTradeDetail extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      showModalConfirm: false,
-      showModalTrade: false
+      confirmid: null,
+      tradeid: null
     }
   }
 
   openModalConfirm(trade) {
-    this.trade = trade;
-    this.setState({ showModalConfirm: true });
+    this.setState({ confirmid: trade._id });
   }
 
   closeModalConfirm(confirm) {
-    this.setState({ showModalConfirm: false });
-    if (this.trade != null && confirm) {
-      this.props.onDeleteTrade(this.trade);
+    if (this.state.confirmid != null && confirm) {
+      this.props.onDeleteTrade(this.state.confirmid);
     }
 
-    this.trade = null
+    this.setState({ confirmid: null });
   }
 
   openModalTrade(trade) {
-    this.trade = trade;
-    this.setState({ showModalTrade: true });
+    this.setState({ tradeid: trade._id });
   }
 
   closeModalTrade(confirm) {
-    this.setState({ showModalTrade: false });
-    if (this.trade != null && confirm) {
-      this.props.onEditTrade(this.trade);
+    if (this.state.tradeid != null && confirm) {
+      this.props.onEditTrade(this.state.tradeid);
     }
 
-    this.trade = null
+    this.setState({ tradeid: null });
   }
 
   render() {
@@ -52,9 +48,9 @@ class TableTradeDetail extends React.Component {
           <td style={{textAlign: "right"}}>{trade.volume}</td>
           <td style={{textAlign: "right"}}>
             <a onClick={this.openModalTrade.bind(this, trade)}><span className="glyphicon glyphicon-edit"/></a>
-            <ModalTrade showModal={(this.state.showModalTrade && this.trade) ? trade._id == this.trade._id: false} onClose={this.closeModalTrade.bind(this)} trade={trade} />&nbsp;
+            <ModalTrade showModal={ this.state.tradeid === trade._id } onClose={this.closeModalTrade.bind(this)} trade={trade} />&nbsp;
             <a onClick={this.openModalConfirm.bind(this, trade)}><span className="glyphicon glyphicon-trash"/></a>
-            <ModalConfirm showModal={(this.state.showModalConfirm && this.trade) ? trade._id == this.trade._id: false} closeModal={this.closeModalConfirm.bind(this)} container={this} />
+            <ModalConfirm showModal={this.state.confirmid === trade._id} closeModal={this.closeModalConfirm.bind(this)} />
           </td>
         </tr>
       );

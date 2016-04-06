@@ -8,21 +8,19 @@ import {formatPercent} from './util.jsx'
 class TableCash extends React.Component {
   constructor(props){
     super(props);
-    this.state = {showModalConfirm: false}
+    this.state = {cashid: null}
   }
 
   openModalConfirm(cash) {
-    this.cash = cash;
-    this.setState({ showModalConfirm: true });
+    this.setState({ cashid: cash._id });
   }
 
   closeModalConfirm(confirm) {
-    this.setState({ showModalConfirm: false });
-    if (this.cash != null && confirm) {
-      this.props.onDeleteCash(this.cash);
+    if (this.state.cashid != null && confirm) {
+      this.props.onDeleteCash(this.state.cashid);
     }
 
-    this.cash = null
+    this.setState({ cashid: null});
   }
 
   render() {
@@ -34,7 +32,7 @@ class TableCash extends React.Component {
           <td style={{textAlign: "right"}}>{accounting.formatMoney(cash.volume)}</td>
           <td className="col-md-2" style={{textAlign: "right"}}><a><span className="glyphicon glyphicon-edit"/></a>&nbsp;
           <a onClick={this.openModalConfirm.bind(this, cash)}><span className="glyphicon glyphicon-trash"/></a>
-          <ModalConfirm showModal={(this.state.showModalConfirm && this.cash) ? cash._id == this.cash._id: false} closeModal={this.closeModalConfirm.bind(this)} container={this} />
+          <ModalConfirm showModal={cash._id === this.state.cashid} closeModal={this.closeModalConfirm.bind(this)} container={this} />
           </td>
         </tr>
       );

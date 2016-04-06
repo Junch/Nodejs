@@ -47,12 +47,12 @@ class TableStock extends React.Component {
       });
   }
 
-  handleDelete(trade) {
-    console.log(`Delete an item ${trade._id}`)
-    axios.delete('/api/trade/' + trade._id)
+  handleDelete(tradeid) {
+    console.log(`Delete an item ${tradeid}`)
+    axios.delete('/api/trade/' + tradeid)
       .then(data => {
         let newTrades = this.state.selTrades.filter(item => {
-          return item._id != trade._id
+          return item._id != tradeid
         });
 
         this.setState({selTrades: newTrades});
@@ -61,8 +61,15 @@ class TableStock extends React.Component {
       });
   }
 
-  handleEdit(trade) {
-    axios.get('/api/trade/' + trade.symbol)
+  handleEdit(tradeid) {
+    let arr = this.state.selTrades.filter(item => {
+      return item._id === tradeid;
+    });
+
+    if (arr.length == 0)
+      return;
+
+    axios.get('/api/trade/' + arr[0].symbol)
       .then(data => {
         this.setState({selTrades: data.data});
       }).catch(response => {

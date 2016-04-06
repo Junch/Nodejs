@@ -135,7 +135,6 @@ router.post('/:id', (req, res) => {
   let trans = req.body;
   trans._id = new ObjectID(id);
   trans.date = new Date(trans.date); // Should change the Date string to Date type
-  console.log(trans);
 
   trade.update(req.db, trans).then(() => {
     trade.cacheStock(req.db).then(()=>{
