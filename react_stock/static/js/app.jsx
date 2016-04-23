@@ -43,20 +43,6 @@ class App extends React.Component {
       });
   }
 
-  handleDeleteCash(cashid) {
-    console.log(`Delete an item ${cashid}`)
-    axios.delete('/api/cash/' + cashid)
-      .then(() => {
-        let newCashes = this.state.cashes.filter(item => {
-          return item._id != cashid
-        });
-
-        this.setState({cashes: newCashes});
-      }).catch(function(response){
-        console.log(response);
-      });
-  }
-
   handleRefreshCash() {
     this.loadCashesFromServer();
   }
@@ -72,7 +58,7 @@ class App extends React.Component {
       <div className="container">
         <TableMarket markets={this.state.markets} />
         <TableStock stocks={this.state.stocks} />
-        <TableCash cash={this.state.cashes} onDeleteCash={this.handleDeleteCash.bind(this)} onRefresh={this.handleRefreshCash.bind(this)} />
+        <TableCash cash={this.state.cashes} onRefresh={this.handleRefreshCash.bind(this)} />
         <TableSummary stocks={this.state.stocks} />
       </div>
     );

@@ -5,6 +5,7 @@ import ModalCash from './modalCash.jsx'
 import '../css/zui-table.css'
 import accounting from 'accounting';
 import {formatPercent} from './util.jsx'
+import axios from 'axios'
 
 class TableCash extends React.Component {
   constructor(props){
@@ -18,7 +19,9 @@ class TableCash extends React.Component {
 
   closeModalConfirm(confirm) {
     if (this.state.cashid != null && confirm) {
-      this.props.onDeleteCash(this.state.cashid);
+      this.handleDeleteCash(this.state.cashid).then(()=>{
+        this.props.onRefresh();
+      });
     }
 
     this.setState({ cashid: null});
@@ -32,6 +35,10 @@ class TableCash extends React.Component {
     this.setState({showModal: false})
     if (fresh)
       this.props.onRefresh();
+  }
+
+  handleDeleteCash(cashid) {
+    return axios.delete('/api/cash/' + cashid);
   }
 
   render() {
