@@ -7,7 +7,7 @@ let router = require('express').Router();
 
 class Account {
   findAll (db) {
-    return db.collection('cash').find().toArray();
+    return db.collection('cash').find().sort({date: -1}).toArray();
   }
 
   addCash (db, cash) {
@@ -32,6 +32,8 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res) => {
   let cash = req.body;
+  cash.date = new Date(cash.date); // Should change the Date string to Date type
+
   account.addCash(req.db, cash).then(items => {
     res.json(items.ops[0]);
   }).catch(err => res.status(500).send({error: err.toString()}));

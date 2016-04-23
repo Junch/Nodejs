@@ -59,7 +59,7 @@ class TableCash extends React.Component {
   render() {
     let mRows = this.props.cash.map((cash, index) => {
       return(
-        <tr key={index}>
+        <tr key={cash._id}>
           <td>{index}</td>
           <td>{(new Date(cash.date)).toLocaleDateString()}</td>
           <td style={{textAlign: "right"}}>{accounting.formatMoney(cash.volume)}</td>

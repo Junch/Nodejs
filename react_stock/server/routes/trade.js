@@ -11,11 +11,11 @@ class Trade {
     if (date == null) {
       date = new Date();
     }
-    return db.collection('trade').find({date: {$lte: date}}).toArray();
+    return db.collection('trade').find({date: {$lte: date}}).sort({date: -1}).toArray();
   }
 
   find (db, symbol) {
-    return db.collection('trade').find({symbol: symbol}).toArray();
+    return db.collection('trade').find({symbol: symbol}).sort({date: -1}).toArray();
   }
 
   addTrade (db, trans) {
