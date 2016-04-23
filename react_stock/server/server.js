@@ -17,7 +17,7 @@ var bodyParser = require('body-parser');
 var stock = require('./routes/stock.js');
 var trade = require('./routes/trade.js');
 var account = require('./routes/account.js')
-var markets =  require('./routes/markets.js');
+var markets = require('./routes/markets.js');
 var app = express();
 
 if(process.env.NODE_ENV !== 'production') {

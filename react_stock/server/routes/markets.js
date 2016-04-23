@@ -8,7 +8,7 @@ var arr = [
 ];
 
 router.get('/', function(req, res) {
-  stockUtil.getStockArr(arr).then((items)=>{
+  stockUtil.getStockArr(arr).then(items=>{
     var newArr = items.map(function(item, index){
       return {
         title: item.name,

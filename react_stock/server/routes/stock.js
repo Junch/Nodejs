@@ -8,7 +8,7 @@ var stockUtil = require('./stockUtil');
 
 class Stock {
   findAll (req) {
-    return req.db.collection('stock').find().toArray();
+    return req.db.collection('stock').find().sort({symbol: -1}).toArray();
   }
 }
 
