@@ -57,6 +57,10 @@ class App extends React.Component {
       });
   }
 
+  handleRefreshCash() {
+    this.loadCashesFromServer();
+  }
+
   componentDidMount(){
     setInterval(this.loadStocksFromServer.bind(this), this.props.pollInterval);
     setInterval(this.loadMarketsFromServer.bind(this), this.props.pollInterval);
@@ -68,7 +72,7 @@ class App extends React.Component {
       <div className="container">
         <TableMarket markets={this.state.markets} />
         <TableStock stocks={this.state.stocks} />
-        <TableCash cash={this.state.cashes} onDeleteCash={this.handleDeleteCash.bind(this)}/>
+        <TableCash cash={this.state.cashes} onDeleteCash={this.handleDeleteCash.bind(this)} onRefresh={this.handleRefreshCash.bind(this)} />
         <TableSummary stocks={this.state.stocks} />
       </div>
     );

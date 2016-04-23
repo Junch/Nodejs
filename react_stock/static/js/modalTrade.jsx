@@ -1,8 +1,8 @@
 import React from 'react'
-import {Button, Modal, Input, Alert} from 'react-bootstrap';
-import DatePicker from 'react-datepicker';
+import {Button, Modal, Input, Alert} from 'react-bootstrap'
+import DatePicker from 'react-datepicker'
 import '../../node_modules/react-datepicker/dist/react-datepicker.css'
-import moment from 'moment';
+import moment from 'moment'
 import axios from 'axios'
 import '../css/modal-dialog.css'
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Table, Button, Modal } from 'react-bootstrap';
 import ModalConfirm from './modalConfirm.jsx'
+import ModalCash from './modalCash.jsx'
 import '../css/zui-table.css'
 import accounting from 'accounting';
 import {formatPercent} from './util.jsx'
@@ -23,6 +24,16 @@ class TableCash extends React.Component {
     this.setState({ cashid: null});
   }
 
+  doModal(){
+    this.setState({showModal: true});
+  }
+
+  handleClose(fresh){
+    this.setState({showModal: false})
+    if (fresh)
+      this.props.onRefresh();
+  }
+
   render() {
     let mRows = this.props.cash.map((cash, index) => {
       return(
@@ -40,7 +51,10 @@ class TableCash extends React.Component {
 
     return (
       <div className="row">
-        <h3>本金</h3>
+        <h3>本金<a onClick={e => this.doModal()}>
+          <span className="glyphicon glyphicon-list-alt"></span>
+        </a></h3>
+        <ModalCash showModal={this.state.showModal} onClose={this.handleClose.bind(this)} />
         <div className="col-md-6" style={{paddingLeft: 0}}>
           <table className="zui-table zui-table-rounded">
             <thead>
