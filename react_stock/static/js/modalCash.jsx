@@ -12,7 +12,16 @@ export default class ModalCash extends React.Component {
 
     this.state = {
       volume:0,
-      startDate:moment()
+      date:moment()
+    }
+  }
+
+  componentDidMount(){
+    if (this.props.cash != null) {
+      this.setState({
+        volume: this.props.cash.volume,
+        date: moment(this.props.cash.date),
+      });
     }
   }
 
@@ -21,10 +30,14 @@ export default class ModalCash extends React.Component {
 
     let cash = {
       volume: Number(this.state.volume),
-      date:   this.state.startDate,
+      date:   this.state.date,
     }
     
     let url = '/api/cash';
+    if (this.props.cash != null) {
+      url = `${url}/${this.props.cash._id}`;
+    }
+
     axios.post(url, cash).then(response => {
       this.props.onClose(true);
     }).catch(error => {
@@ -43,7 +56,7 @@ export default class ModalCash extends React.Component {
             <div className="form-group row">
               <label htmlFor="date" className="col-sm-3 form-control-label">日期</label>
               <div className="col-sm-9" style={{paddingLeft: "0"}}>
-                <DatePicker selected={this.state.startDate} onChange={ date => this.setState({startDate: date})} />
+                <DatePicker selected={this.state.date} onChange={ date => this.setState({date: date})} />
               </div>
             </div>
             <div className="form-group row">

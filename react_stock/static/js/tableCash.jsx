@@ -10,21 +10,24 @@ import axios from 'axios'
 class TableCash extends React.Component {
   constructor(props){
     super(props);
-    this.state = {cashid: null}
+    this.state = {
+      cashid: null,
+      confirmid: null
+    }
   }
 
   openModalConfirm(cash) {
-    this.setState({ cashid: cash._id });
+    this.setState({ confirmid: cash._id });
   }
 
   closeModalConfirm(confirm) {
-    if (this.state.cashid != null && confirm) {
-      this.handleDeleteCash(this.state.cashid).then(()=>{
+    if (this.state.confirmid != null && confirm) {
+      this.handleDeleteCash(this.state.confirmid).then(()=>{
         this.props.onRefresh();
       });
     }
 
-    this.setState({ cashid: null});
+    this.setState({confirmid: null});
   }
 
   doModal(){
@@ -41,6 +44,18 @@ class TableCash extends React.Component {
     return axios.delete('/api/cash/' + cashid);
   }
 
+  openModalCash(cash) {
+    this.setState({ cashid: cash._id });
+  }
+
+  closeModalCash(confirm) {
+    if (this.state.cashid != null && confirm) {
+      this.props.onRefresh();
+    }
+
+    this.setState({ cashid: null });
+  }
+
   render() {
     let mRows = this.props.cash.map((cash, index) => {
       return(
@@ -48,9 +63,10 @@ class TableCash extends React.Component {
           <td>{index}</td>
           <td>{(new Date(cash.date)).toLocaleDateString()}</td>
           <td style={{textAlign: "right"}}>{accounting.formatMoney(cash.volume)}</td>
-          <td className="col-md-2" style={{textAlign: "right"}}><a><span className="glyphicon glyphicon-edit"/></a>&nbsp;
+          <td className="col-md-2" style={{textAlign: "right"}}><a onClick={this.openModalCash.bind(this, cash)}><span className="glyphicon glyphicon-edit"/></a>
+          <ModalCash showModal={ this.state.cashid === cash._id } onClose={this.closeModalCash.bind(this)} cash={cash} />&nbsp;
           <a onClick={this.openModalConfirm.bind(this, cash)}><span className="glyphicon glyphicon-trash"/></a>
-          <ModalConfirm showModal={cash._id === this.state.cashid} closeModal={this.closeModalConfirm.bind(this)} container={this} />
+          <ModalConfirm showModal={this.state.confirmid === cash._id} closeModal={this.closeModalConfirm.bind(this)} container={this} />
           </td>
         </tr>
       );
