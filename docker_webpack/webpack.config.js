@@ -4,7 +4,8 @@ module.exports = {
   entry: './public/main.jsx',
   output: {
     path: path.join(__dirname, 'public/dist'),
-    filename: 'bundle.js'
+    filename: 'bundle.js',
+    publicPath: 'http://localhost:8080/dist'
   },
   module: {
     loaders:[
