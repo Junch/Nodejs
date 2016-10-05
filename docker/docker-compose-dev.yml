@@ -6,7 +6,15 @@ services:
     volumes:
       - ./:/usr/src/app
     working_dir: /usr/src/app
-    command: sh -c 'npm install; npm install -g nodemon; nodemon app.js'
+    # command: sh -c 'npm install; npm install -g nodemon; nodemon app.js'
+    # nodemon for server restart on code changes & webpack-dev-server to serve client modules
+    command: >
+      sh -c '
+      npm install &&
+      npm install -g nodemon &&
+      nodemon -w server/ server/app.js
+      '
+
     ports:
       - "80:3000"
     networks:

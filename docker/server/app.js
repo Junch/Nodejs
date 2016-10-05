@@ -1,3 +1,4 @@
+var path = require('path');
 var express = require('express');
 var app = express();
 var bodyparser = require('body-parser');
@@ -15,7 +16,7 @@ MongoClient.connect(url, function (err, database) {
 });
 
 app.use(bodyparser.json());
-app.use(express.static('public'));
+app.use('/', express.static(path.join(__dirname, '../public')));
 
 var insertDocument = function (db, document, callback) {
     // Get the documents collection
