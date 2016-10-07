@@ -14,7 +14,7 @@ module.exports = function(app) {
     noInfo: false,
     publicPath: config.output.publicPath,
     stats: { colors: true }
-  }).listen(8080, 'localhost', function() {
+  }).listen(8080, '0.0.0.0', function() {
     console.log('socketio listen 8080')
   });
 }

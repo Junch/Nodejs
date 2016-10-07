@@ -13,4 +13,6 @@ app.get('/hello', function (req, res) {
 });
 
 var port = process.env.PORT || 9090;
-app.listen(port);
+app.listen(port, '0.0.0.0', function(){
+    console.log('==> 🌎 app listening at http://0.0.0.0:%s', port);
+});

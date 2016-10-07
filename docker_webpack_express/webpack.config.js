@@ -6,12 +6,12 @@ module.exports = {
     'babel-polyfill',
     './public/main.jsx',
     'webpack/hot/dev-server',
-    'webpack-dev-server/client?http://localhost:8080'
+    'webpack-dev-server/client?http://0.0.0.0:8080'
     ],
   output: {
     path: path.join(__dirname, 'public/dist'),
     filename: 'bundle.js',
-    publicPath: 'http://localhost:8080/dist'
+    publicPath: '/dist',
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
