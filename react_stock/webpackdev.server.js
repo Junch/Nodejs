@@ -11,10 +11,10 @@ module.exports = function(app) {
     contentBase: config.devServer.contentBase,
     hot: true,
     quiet: false,
-    noInfo: false,
+    noInfo: true,
     publicPath: config.output.publicPath,
     stats: { colors: true }
-  }).listen(8080, 'localhost', function() {
+  }).listen(8080, '0.0.0.0', function() {
     console.log('socketio listen 8080')
   });
 }

@@ -1,0 +1,32 @@
+version: '2'
+services:
+
+  web:
+    image: node:6.1
+    volumes:
+      - ./:/usr/src/app
+    working_dir: /usr/src/app
+    command: >
+      sh -c '
+      npm install &&
+      npm install -g nodemon &&
+      nodemon -w server/ server/server.js
+      '
+    ports:
+      - "8080:8080"
+      - "9090:9090"
+    networks:
+      - all
+    depends_on:
+      - mongo
+    environment:
+      MONGODB_URI: "mongodb://mongo:27017/stockdb"
+
+  mongo:
+    image: mongo:3
+    command: mongod --smallfiles
+    networks:
+      - all
+
+networks:
+  all:

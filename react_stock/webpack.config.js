@@ -7,12 +7,12 @@ module.exports = {
         'babel-polyfill',
         './static/js/main.js',
         'webpack/hot/dev-server',
-        'webpack-dev-server/client?http://localhost:8080'
+        'webpack-dev-server/client?http://0.0.0.0:8080'
         ],
     output: {
         path: path.join(__dirname, 'static/dist'),
         filename: 'bundle.js',
-        publicPath: 'http://localhost:8080/dist'
+        publicPath: '/dist'
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
@@ -41,7 +41,7 @@ module.exports = {
         historyApiFallback: true,
         proxy: {
             '/api/*': {
-                target: 'http://localhost:8081',
+                target: 'http://localhost:9090',
                 secure: false
             }
         }

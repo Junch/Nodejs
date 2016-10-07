@@ -19,6 +19,7 @@ var trade = require('./routes/trade.js');
 var account = require('./routes/account.js')
 var markets = require('./routes/markets.js');
 var app = express();
+var db_url = process.env.MONGODB_URI;
 
 if(process.env.NODE_ENV !== 'production') {
   require('../webpackdev.server')(app)
@@ -30,7 +31,7 @@ var db;
 
 app.use(function (req, res, next) {
   if (db == null){
-    MongoClient.connect('mongodb://localhost:27017/stockdb', {promiseLibrary: Promise}).then((res) => {
+    MongoClient.connect(db_url, {promiseLibrary: Promise}).then(res => {
       db = res;
       req.db = db;
       next();
@@ -41,7 +42,7 @@ app.use(function (req, res, next) {
   }
 });
 
-app.set('port', (process.env.PORT || 8081));
+app.set('port', (process.env.PORT || 9090));
 
 app.use('/', express.static(path.join(__dirname, '../static')));
 app.use(bodyParser.json());
