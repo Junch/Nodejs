@@ -6,6 +6,7 @@ chai.should();
 let Promise = require('bluebird');
 let MongoClient = require('mongodb');
 let ObjectID = MongoClient.ObjectID;
+var db_url = process.env.MONGODB_URI;
 
 describe('Trade Tests', () => {
     let server;
@@ -24,7 +25,7 @@ describe('Trade Tests', () => {
     };
 
     before(done => {
-        MongoClient.connect('mongodb://localhost:27017/stockdb', {promiseLibrary: Promise}).then((res) => {
+        MongoClient.connect(db_url, {promiseLibrary: Promise}).then(res => {
             db = res;
             return db.createCollection('trade');
         }).then(() => done());
