@@ -2,14 +2,14 @@ version: '2'
 services:
 
   web:
-    image: node:6.1
+    build:
+      context: .
+      dockerfile: dockerfile_dev
     volumes:
       - ./:/usr/src/app
-    working_dir: /usr/src/app
     command: >
       sh -c '
       npm install &&
-      npm install -g nodemon &&
       nodemon -w server/ server/server.js
       '
     ports:
