@@ -63,9 +63,9 @@ describe('Trade Tests', () => {
             if (err) {return done(err); }
             res.status.should.equal(200);
             res.body.length.should.equal(3);
-            res.body[0].volume.should.equal(1000);
+            res.body[0].volume.should.equal(6000);
             res.body[1].volume.should.equal(300);
-            res.body[2].volume.should.equal(6000);
+            res.body[2].volume.should.equal(1000);
             done();
         });
     });
@@ -77,8 +77,8 @@ describe('Trade Tests', () => {
             if (err) {return done(err); }
             res.status.should.equal(200);
             res.body.length.should.equal(2);
-            res.body[0].volume.should.equal(1000);
-            res.body[1].volume.should.equal(300);
+            res.body[0].volume.should.equal(300);
+            res.body[1].volume.should.equal(1000);
             done();
         });
     });
@@ -119,10 +119,10 @@ describe('Trade Tests', () => {
             if (err) {return done(err); }
               res.status.should.equal(200);
               res.body.length.should.equal(4);
-              res.body[0].volume.should.equal(1000);
-              res.body[1].volume.should.equal(300);
-              res.body[2].volume.should.equal(6000);
-              res.body[3].volume.should.equal(1000);
+              res.body[0].volume.should.equal(300);
+              res.body[1].volume.should.equal(1000);
+              res.body[2].volume.should.equal(1000);
+              res.body[3].volume.should.equal(6000);
               done();
             });
         });
