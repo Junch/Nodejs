@@ -1,0 +1,22 @@
+version: '2'
+services:
+
+  web:
+    image: node:6.1
+    volumes:
+      - ./:/usr/src/app
+    working_dir: /usr/src/app
+    command: >
+      sh -c '
+      npm install -g cnpm --registry=https://registry.npm.taobao.org &&
+      cnpm install &&
+      cnpm install -g webpack webpack-dev-server &&
+      webpack-dev-server --progress --colors
+      '
+    ports:
+      - "8080:8080"
+    networks:
+      - all
+
+networks:
+  all:
