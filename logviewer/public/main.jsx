@@ -22,9 +22,8 @@ class App extends React.Component {
     a.dispatchEvent(clickEvent);
   }
 
-  handleZipFileChange() {
-    let fileInput = this.refs.fileInput;
-    let file = fileInput.files[0];
+  handleZipFileChange(e) {
+    let file = e.target.files[0];
     model.unzipBlob(file, data => {
       this.saveMergedData(data, file.name + '.log');
     });
@@ -35,7 +34,7 @@ class App extends React.Component {
       <div>
         <h1 className={style.h1}>Log viewer</h1>
         <div>
-          <input type="file" accept="application/zip" ref="fileInput" onChange={e => this.handleZipFileChange(e)}/>
+          <input type="file" accept="application/zip" onChange={e => this.handleZipFileChange(e)}/>
         </div>
       </div>
     );
