@@ -85,8 +85,7 @@ var model = (function() {
 						zipReader.close();
 						console.log("end unzip");
 						let data = textArr.join('');
-						let file = new Blob([data], {type: 'text/plain'});
-						callback(file);
+						callback(data);
 					});
 				});
 			}, err => console.log(err));

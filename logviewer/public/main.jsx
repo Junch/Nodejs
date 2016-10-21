@@ -14,7 +14,8 @@ class App extends React.Component {
   handleZipFileChange() {
     let fileInput = this.refs.fileInput;
     let file = fileInput.files[0];
-    model.unzipBlob(file, blob => {
+    model.unzipBlob(file, data => {
+      let blob = new Blob([data], {type: 'text/plain'});
       let blobURL = URL.createObjectURL(blob);
       let a = document.createElement("a");
       let clickEvent = document.createEvent("MouseEvent");
