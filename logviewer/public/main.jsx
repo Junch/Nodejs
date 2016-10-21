@@ -11,18 +11,22 @@ class App extends React.Component {
   componentDidMount(){
   }
 
+  saveMergedData(data, filename) {
+    let blob = new Blob([data], {type: 'text/plain'});
+    let blobURL = URL.createObjectURL(blob);
+    let a = document.createElement("a");
+    let clickEvent = document.createEvent("MouseEvent");
+    clickEvent.initMouseEvent("click", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+    a.href = blobURL;
+    a.download = filename;
+    a.dispatchEvent(clickEvent);
+  }
+
   handleZipFileChange() {
     let fileInput = this.refs.fileInput;
     let file = fileInput.files[0];
     model.unzipBlob(file, data => {
-      let blob = new Blob([data], {type: 'text/plain'});
-      let blobURL = URL.createObjectURL(blob);
-      let a = document.createElement("a");
-      let clickEvent = document.createEvent("MouseEvent");
-      clickEvent.initMouseEvent("click", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-      a.href = blobURL;
-      a.download = file.name + '.log';
-      a.dispatchEvent(clickEvent);
+      this.saveMergedData(data, file.name + '.log');
     });
   }
 
