@@ -11,19 +11,18 @@ class App extends React.Component {
   componentDidMount(){
   }
 
-  unzip(zipfile){
-    model.getEntries(zipfile, function(entries) {
-      let arr = entries.filter(function(entry){
-        return entry.filename.match(/jabber\.log/) != null;
-      });
-
-      console.log(arr);
-    });
-  }
-
   handleZipFileChange() {
     let fileInput = this.refs.fileInput;
-    this.unzip(fileInput.files[0]);
+    let file = fileInput.files[0];
+    model.unzipBlob(file, blob => {
+      let blobURL = URL.createObjectURL(blob);
+      let a = document.createElement("a");
+      let clickEvent = document.createEvent("MouseEvent");
+      clickEvent.initMouseEvent("click", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+      a.href = blobURL;
+      a.download = file.name + '.log';
+      a.dispatchEvent(clickEvent);
+    });
   }
 
   render() {

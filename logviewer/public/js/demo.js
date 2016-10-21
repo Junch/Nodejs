@@ -57,6 +57,39 @@ var model = (function() {
 					getData();
 				});
 			}
+		},
+
+		getEntryData: function(entry) {
+			return new Promise((resolve, reject) => {
+				entry.getData(new zip.TextWriter(), data => {
+					resolve(data);
+				});
+			});
+		},
+
+		unzipBlob: function(blob, callback) {
+			zip.createReader(new zip.BlobReader(blob), zipReader=> {
+				zipReader.getEntries(entries => {
+					let arr = entries.filter(entry => {
+						return entry.filename.match(/jabber\.log/) != null;
+					});
+					arr = arr.reverse();
+
+					let pArr = [];
+					arr.forEach(entry => {
+						pArr.push(this.getEntryData(entry));
+					});
+
+					console.log("start unzip");
+					Promise.all(pArr).then(textArr => {
+						zipReader.close();
+						console.log("end unzip");
+						let data = textArr.join('');
+						let file = new Blob([data], {type: 'text/plain'});
+						callback(file);
+					});
+				});
+			}, err => console.log(err));
 		}
 	};
 })();
