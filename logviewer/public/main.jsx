@@ -6,6 +6,7 @@ import model from './js/demo.js';
 class App extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {log: ''};
   }
 
   componentDidMount(){
@@ -25,7 +26,8 @@ class App extends React.Component {
   handleZipFileChange(e) {
     let file = e.target.files[0];
     model.unzipBlob(file, data => {
-      this.saveMergedData(data, file.name + '.log');
+      //this.saveMergedData(data, file.name + '.log');
+      this.setState({log: data});
     });
   }
 
@@ -35,6 +37,8 @@ class App extends React.Component {
         <h1 className={style.h1}>Log viewer</h1>
         <div>
           <input type="file" accept="application/zip" onChange={e => this.handleZipFileChange(e)}/>
+          <br/>
+          <textarea rows="20" cols="200" readOnly="readonly" value={this.state.log}/>
         </div>
       </div>
     );

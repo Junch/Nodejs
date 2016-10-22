@@ -80,11 +80,15 @@ var model = (function() {
 						pArr.push(this.getEntryData(entry));
 					});
 
-					console.log("start unzip");
+					let t0 = performance.now();
+					console.log('start unzip');
 					Promise.all(pArr).then(textArr => {
+						let t1 = performance.now();
+						console.log(`end unzip. It took ${t1-t0} milliseconds.`);
+						
 						zipReader.close();
-						console.log("end unzip");
 						let data = textArr.join('');
+						textArr = null;
 						callback(data);
 					});
 				});
