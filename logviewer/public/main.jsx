@@ -33,8 +33,8 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1 className={style.h1}>Log viewer</h1>
+      <div className="container">
+        <h1 className={style.h1}>Jabber Log viewer</h1>
         <div>
           <input type="file" accept="application/zip" onChange={e => this.handleZipFileChange(e)}/>
           <br/>
