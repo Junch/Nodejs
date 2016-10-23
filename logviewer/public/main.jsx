@@ -6,7 +6,7 @@ import model from './js/demo.js';
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {log: ''};
+    this.state = {log: '', filter: '', filteredLog: ''};
   }
 
   componentDidMount(){
@@ -31,14 +31,41 @@ class App extends React.Component {
     });
   }
 
+  handleFilterChange(e) {
+    let re = new RegExp(e.target.value.trim());
+    if (re === '') {
+      return;
+    }
+    let arr = this.state.log.split('\n');
+    let arrFiltered = [];
+    arr.forEach(line => {
+      if (re.test(line)) {
+        arrFiltered.push(line);
+      }
+    });
+    this.setState({filteredLog: arrFiltered.join('\n')});
+  }
+
   render() {
     return (
       <div className="container">
         <h1 className={style.h1}>Jabber Log viewer</h1>
-        <div>
-          <input type="file" accept="application/zip" onChange={e => this.handleZipFileChange(e)}/>
-          <br/>
-          <textarea rows="20" cols="200" readOnly="readonly" value={this.state.log}/>
+        <form className="form-horizontal">
+          <div className="form-group">
+            <label htmlFor="prtfile" className="col-sm-2 control-label">PRT File</label>
+            <div className="col-sm-10">
+              <input type="file" accept="application/zip" id="prtfile" onChange={e => this.handleZipFileChange(e)}/>
+            </div>
+          </div>
+          <div className="form-group">
+            <label htmlFor="filter" className="col-sm-2 control-label">Filter</label>
+            <div className="col-sm-10">
+              <input type="text" className="form-control" id="filter" onChange={e => this.handleFilterChange(e)} placeholder="input filter..."/>
+            </div>
+          </div>
+        </form>
+        <div className="form-group">
+          <textarea rows="20" cols="200" readOnly="readonly" value={this.state.filteredLog}/>
         </div>
       </div>
     );
