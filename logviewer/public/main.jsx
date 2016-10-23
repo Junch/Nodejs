@@ -6,7 +6,7 @@ import model from './js/demo.js';
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {log: '', filter: '', filteredLog: ''};
+    this.state = {filteredLog: ''};
   }
 
   componentDidMount(){
@@ -27,7 +27,7 @@ class App extends React.Component {
     let file = e.target.files[0];
     model.unzipBlob(file, data => {
       //this.saveMergedData(data, file.name + '.log');
-      this.setState({log: data});
+      this.totalLines = data.split('\n');
     });
   }
 
@@ -36,14 +36,14 @@ class App extends React.Component {
     if (re === '') {
       return;
     }
-    let arr = this.state.log.split('\n');
-    let arrFiltered = [];
-    arr.forEach(line => {
+    let filteredLines = [];
+    this.totalLines.forEach(line => {
       if (re.test(line)) {
-        arrFiltered.push(line);
+        filteredLines.push(line);
       }
     });
-    this.setState({filteredLog: arrFiltered.join('\n')});
+    console.log(`total = ${this.totalLines.length}, left = ${filteredLines.length}`);
+    this.setState({filteredLog: filteredLines.join('\n')});
   }
 
   render() {
@@ -62,6 +62,9 @@ class App extends React.Component {
             <div className="col-sm-10">
               <input type="text" className="form-control" id="filter" onChange={e => this.handleFilterChange(e)} placeholder="input filter..."/>
             </div>
+          </div>
+          <div className="form-group">
+            <button className="btn btn-primary col-sm-2">Confirm</button>
           </div>
         </form>
         <div className="form-group">
