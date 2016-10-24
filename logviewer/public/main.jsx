@@ -28,14 +28,12 @@ class App extends React.Component {
     model.unzipBlob(file, data => {
       //this.saveMergedData(data, file.name + '.log');
       this.totalLines = data.split('\n');
+      data = null;
     });
   }
 
   handleFilterChange(e) {
     let re = new RegExp(e.target.value.trim());
-    if (re === '') {
-      return;
-    }
     let filteredLines = [];
     this.totalLines.forEach(line => {
       if (re.test(line)) {
@@ -43,7 +41,11 @@ class App extends React.Component {
       }
     });
     console.log(`total = ${this.totalLines.length}, left = ${filteredLines.length}`);
-    this.setState({filteredLog: filteredLines.join('\n')});
+    if (filteredLines.length > 5000) {
+      this.setState({filteredLog: "The left lines > 5000. Please use more filter"});
+    } else {
+      this.setState({filteredLog: filteredLines.join('\n')});
+    }
   }
 
   render() {
@@ -68,7 +70,7 @@ class App extends React.Component {
           </div>
         </form>
         <div className="form-group">
-          <textarea rows="20" cols="200" readOnly="readonly" value={this.state.filteredLog}/>
+          <textarea className="col-sm-12 control-label" rows="38" readOnly="readonly"  wrap="off" value={this.state.filteredLog}/>
         </div>
       </div>
     );
