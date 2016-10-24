@@ -73,7 +73,9 @@ var model = (function() {
 					let arr = entries.filter(entry => {
 						return entry.filename.match(/jabber\.log/) != null;
 					});
-					arr = arr.reverse();
+					arr.sort((a,b) => {
+						return a.filename < b.filename;
+					});
 
 					let pArr = [];
 					arr.forEach(entry => {

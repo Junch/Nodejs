@@ -56,7 +56,7 @@ class App extends React.Component {
           <div className="form-group">
             <label htmlFor="prtfile" className="col-sm-2 control-label">PRT File</label>
             <div className="col-sm-10">
-              <input type="file" accept="application/zip" id="prtfile" onChange={e => this.handleZipFileChange(e)}/>
+              <input type="file" className="form-control" accept="application/zip" id="prtfile" onChange={e => this.handleZipFileChange(e)}/>
             </div>
           </div>
           <div className="form-group">
