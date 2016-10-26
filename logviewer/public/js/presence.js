@@ -7,8 +7,14 @@ class Presence {
     this.to = json.to;
     this.show = json.show;
     this.priority = json.priority;
-    this.node = (json.c == null) ? undefined : json.c.node;
     this.time = time;
+
+    let re = /(v=.+&p=.+)/;
+    this.node = undefined;
+    if (json.c != null) {
+      let result = re.exec(json.c.node);
+      this.node = result[1];
+    }
   }
 
   description(){
@@ -63,10 +69,12 @@ function getAllSenders(arr) {
 function generateTable(arr){
   let rows = [];
   let titles = ['DateTime'];
+  let titlesMore = [''];
   arr.forEach(item => {
     let index = titles.indexOf(item.from);
     if (index == -1) {
       titles.push(item.from);
+      titlesMore.push(item.node);
       rows.forEach(row => {
         row.push('');
       });
@@ -81,6 +89,7 @@ function generateTable(arr){
     rows.push(newArr);
   });
 
+  rows.splice(0, 0, titlesMore);
   return({titles, rows});
 }
 
