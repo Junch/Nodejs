@@ -65,7 +65,7 @@ class App extends React.Component {
       this.totalLines = data.split('\n');
       data = null;
       getPresences(this.totalLines, '').then(arr => {
-        this.setState({senders: getAllSenders(arr)});
+        this.setState({senders: getAllSenders(arr), titles: [], rows: []});
       }, err => console.log(err));
     });
   }
@@ -90,8 +90,7 @@ class App extends React.Component {
     console.log(e.target.childNodes[0].id);
     getPresences(this.totalLines, e.target.childNodes[0].id).then(arr => {
       let {titles, rows} = generateTable(arr);
-      this.setState({titles: titles});
-      this.setState({rows: rows});
+      this.setState({titles: titles, rows: rows});
     });
   }
 
