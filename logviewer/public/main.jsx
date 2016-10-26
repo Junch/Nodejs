@@ -86,6 +86,14 @@ class App extends React.Component {
     }
   }
 
+  handleDownload(e) {
+    let file = this.refs.prtfile.files[0];
+    model.unzipBlob(file, data => {
+      this.saveMergedData(data, file.name + '.log');
+      data = null;
+    });
+  }
+
   selectSender(e) {
     console.log(e.target.childNodes[0].id);
     getPresences(this.totalLines, e.target.childNodes[0].id).then(arr => {
@@ -98,16 +106,14 @@ class App extends React.Component {
     return (
       <div className="container">
         <h1 className={style.h1}>Jabber Log viewer</h1>
-        <form className="form-horizontal">
-          <div className="form-group">
-            <label htmlFor="prtfile" className="col-sm-2 control-label">PRT File</label>
-            <div className="col-sm-10">
-              <input type="file" className="form-control" accept="application/zip" id="prtfile" onChange={e => this.handleZipFileChange(e)}/>
-            </div>
+        <div className="row">
+          <div className="col-sm-8">
+            <input type="file" className="form-control" accept="application/zip" ref="prtfile" onChange={e => this.handleZipFileChange(e)}/>
           </div>
-        </form>
+          <button className="btn btn-default" onClick={e => this.handleDownload(e)}>Download</button>
+        </div>
 
-        <div>
+        <div style={{marginTop: "15px"}}>
           <ul className="nav nav-tabs" role="tablist">
             <li role="presentation" className="active"><a href="#presence" aria-controls="presence" role="tab" data-toggle="tab">Presence</a></li>
             <li role="presentation"><a href="#filter" aria-controls="filter" role="tab" data-toggle="tab">Filter</a></li>
