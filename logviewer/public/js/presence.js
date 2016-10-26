@@ -7,7 +7,7 @@ class Presence {
     this.to = json.to;
     this.show = json.show;
     this.priority = json.priority;
-    this.node = json.c.node;
+    this.node = (json.c == null) ? undefined : json.c.node;
     this.time = time;
   }
 
@@ -22,7 +22,6 @@ class Presence {
 
 function getPresences(lines, from) {
   let str = `Recv:(<presence from=\"${from}.+>.+<\/presence>)`;
-  console.log(str);
   let re = new RegExp(str);
   return new Promise((resolve, reject) => {
     let arr = [];
@@ -47,11 +46,25 @@ function getPresences(lines, from) {
   });
 }
 
+function getAllSenders(arr) {
+  let senders = [];
+  let re = /(.+)@.+/;
+  
+  arr.forEach(presence =>{
+  	let result = re.exec(presence.from);
+  	if (result && -1 == senders.indexOf(result[1])) {
+      senders.push(result[1]);
+  	}
+  });
+
+  return senders;
+}
+
 function generateTable(arr){
   let rows = [];
   let titles = ['DateTime'];
   arr.forEach(item => {
-    let index = titles.indexOf(item.from);  
+    let index = titles.indexOf(item.from);
     if (index == -1) {
       titles.push(item.from);
       rows.forEach(row => {
@@ -71,4 +84,4 @@ function generateTable(arr){
   return({titles, rows});
 }
 
-module.exports = {getPresences, generateTable}
+module.exports = {getPresences, generateTable, getAllSenders}
