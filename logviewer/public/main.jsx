@@ -4,6 +4,7 @@ import style from './app.css';
 import model from './js/demo.js';
 import PresencePage from './presence.jsx'
 import {getPresences, generateTable, getAllSenders} from './js/presence.js';
+import FilterPage from './filter.jsx'
 
 class App extends React.Component {
   constructor(props) {
@@ -92,20 +93,11 @@ class App extends React.Component {
               <PresencePage senders={this.state.senders}  titles={this.state.titles} rows={this.state.rows} handleSelectSender={(e, sender) => this.handleSelectSender(e, sender)} />
             </div>
             <div role="tabpanel" className="tab-pane" id="filter">
-              <h3>Filter</h3>
-              <div className="form-horizontal">
-                <div className="form-group">
-                  <label htmlFor="filter" className="col-sm-2 control-label">Filter</label>
-                  <div className="col-sm-10">
-                    <input type="text" className="form-control" id="filter" onChange={e => this.handleFilterChange(e)} placeholder="input filter..."/>
-                  </div>
-                </div>
-              </div>
-              <div className="form-group">
-                <textarea className="col-sm-12 control-label" rows="38" readOnly="readonly"  wrap="off" value={this.state.filteredLog}/>
-              </div>
+              <FilterPage filteredLog={this.state.filteredLog} handleFilterChange={e => this.handleFilterChange(e)} />
             </div>
-            <div role="tabpanel" className="tab-pane" id="others"><h3>Others</h3></div>
+            <div role="tabpanel" className="tab-pane" id="others">
+              <h3>Others</h3>
+            </div>
           </div>
         </div>
       </div>

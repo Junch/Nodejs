@@ -1,8 +1,7 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 // http://stackoverflow.com/questions/25646502/how-to-render-repeating-elements
-class PresenceTab extends React.Component {
+class PresenceTimeline extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -63,7 +62,7 @@ export default class PresencePage extends React.Component {
           }
         </div>
         <div>
-          <PresenceTab titles={this.props.titles} rows={this.props.rows} />
+          <PresenceTimeline titles={this.props.titles} rows={this.props.rows} />
         </div>
       </div>
     );
