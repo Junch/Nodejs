@@ -13,7 +13,9 @@ class Presence {
     this.node = undefined;
     if (json.c != null) {
       let result = re.exec(json.c.node);
-      this.node = result[1];
+      if (result != null) {
+        this.node = result[1];
+      }
     }
   }
 
