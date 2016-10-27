@@ -2,43 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import style from './app.css';
 import model from './js/demo.js';
+import PresencePage from './presence.jsx'
 import {getPresences, generateTable, getAllSenders} from './js/presence.js';
-
-// http://stackoverflow.com/questions/25646502/how-to-render-repeating-elements
-class PresenceTab extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <table className="table table-bordered table-hover">
-        <thead>
-          <tr>
-            {this.props.titles.map(function(title) {
-              return <th key={title}>{title}</th>;
-            })}
-          </tr>
-        </thead>
-        <tbody>
-          {this.props.rows.map(function(row, i) {
-            return (
-              <tr key={i}>
-                {row.map(function(col, j) {
-                  if (j === 0 || col === '')
-                    return <td key={j}>{col}</td>;
-                  else
-                    // http://stackoverflow.com/questions/19266197/reactjs-convert-to-html
-                    return <td key={j} dangerouslySetInnerHTML={{__html: col}} />
-                })}
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-    );
-  }
-}
 
 class App extends React.Component {
   constructor(props) {
@@ -61,7 +26,6 @@ class App extends React.Component {
   handleZipFileChange(e) {
     let file = e.target.files[0];
     model.unzipBlob(file, data => {
-      //this.saveMergedData(data, file.name + '.log');
       this.totalLines = data.split('\n');
       data = null;
       getPresences(this.totalLines, '').then(arr => {
@@ -94,12 +58,11 @@ class App extends React.Component {
     });
   }
 
-  selectSender(e) {
-    console.log(e.target.childNodes[0].id);
-    getPresences(this.totalLines, e.target.childNodes[0].id).then(arr => {
+  handleSelectSender(e, sender){
+    getPresences(this.totalLines, sender).then(arr => {
       let {titles, rows} = generateTable(arr);
       this.setState({titles: titles, rows: rows});
-    });
+    }, err => console.log(err));
   }
 
   render() {
@@ -115,28 +78,18 @@ class App extends React.Component {
 
         <div style={{marginTop: "15px"}}>
           <ul className="nav nav-tabs" role="tablist">
-            <li role="presentation" className="active"><a href="#presence" aria-controls="presence" role="tab" data-toggle="tab">Presence</a></li>
+            <li role="presentation" className="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a></li>
+            <li role="presentation"><a href="#presence" aria-controls="presence" role="tab" data-toggle="tab">Presence</a></li>
             <li role="presentation"><a href="#filter" aria-controls="filter" role="tab" data-toggle="tab">Filter</a></li>
             <li role="presentation"><a href="#others" aria-controls="others" role="tab" data-toggle="tab">Others</a></li>
           </ul>
 
           <div className="tab-content">
-            <div role="tabpanel" className="tab-pane active" id="presence">
-              <h3>Presence</h3>
-              <div id = "senderButtons" className="btn-group" data-toggle="buttons" onClick={e => this.selectSender(e)}>
-                {
-                  this.state.senders.map((sender, i) => {
-                    return (
-                      <label className="btn btn-primary" key={i}>
-                        <input type="radio" name="options" id={sender} autoComplete="off" /> {sender}
-                      </label>
-                    );
-                  })
-                }
-              </div>
-              <div>
-                <PresenceTab titles={this.state.titles} rows={this.state.rows} />
-              </div>
+            <div role="tabpanel" className="tab-pane active" id="home">
+              <h3>Home</h3>
+            </div>
+            <div role="tabpanel" className="tab-pane" id="presence">
+              <PresencePage senders={this.state.senders}  titles={this.state.titles} rows={this.state.rows} handleSelectSender={(e, sender) => this.handleSelectSender(e, sender)} />
             </div>
             <div role="tabpanel" className="tab-pane" id="filter">
               <h3>Filter</h3>
@@ -152,7 +105,7 @@ class App extends React.Component {
                 <textarea className="col-sm-12 control-label" rows="38" readOnly="readonly"  wrap="off" value={this.state.filteredLog}/>
               </div>
             </div>
-            <div role="tabpanel" className="tab-pane" id="others">...</div>
+            <div role="tabpanel" className="tab-pane" id="others"><h3>Others</h3></div>
           </div>
         </div>
       </div>
