@@ -1,4 +1,5 @@
 import React from 'react';
+import style from './app.css';
 
 // http://stackoverflow.com/questions/25646502/how-to-render-repeating-elements
 class PresenceTimeline extends React.Component {
@@ -21,11 +22,7 @@ class PresenceTimeline extends React.Component {
             return (
               <tr key={i}>
                 {row.map((col, j) => {
-                  if (j === 0 || col === '')
-                    return <td key={j}>{col}</td>;
-                  else
-                    // http://stackoverflow.com/questions/19266197/reactjs-convert-to-html
-                    return <td key={j} dangerouslySetInnerHTML={{__html: col}} />
+                  return <td key={j}><p className={style.xmp}>{col}</p></td>;
                 })}
               </tr>
             );

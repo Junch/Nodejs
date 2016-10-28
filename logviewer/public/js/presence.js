@@ -8,6 +8,7 @@ class Presence {
     this.show = json.show;
     this.priority = json.priority;
     this.time = time;
+    this.status = json.status;
 
     let re = /(v=.+&p=.+)/;
     this.node = undefined;
@@ -20,11 +21,20 @@ class Presence {
   }
 
   description(){
-    let show = this.show;
-    if (this.show == undefined) {
-      show = `available`;
+    let obj = {show: this.show,
+               priority: this.priority,
+               status: this.status}
+
+    let arr = [];
+    for (var prop in obj) {
+      if (obj.hasOwnProperty(prop)){
+        if (obj[prop] !== undefined) {
+          arr.push(`${prop}: ${obj[prop]}`);
+        }
+      }
     }
-    return `show: ${show}<br>priority: ${this.priority}`;
+
+    return arr.join('\n');
   }
 }
 

@@ -40,7 +40,7 @@ class App extends React.Component {
   }
 
   handleFilterChange(e) {
-    let re = new RegExp(e.target.value.trim());
+    let re = new RegExp(e.target.value.trim(), "i");
     let filteredLines = [];
     this.totalLines.forEach(line => {
       if (re.test(line)) {
@@ -57,10 +57,10 @@ class App extends React.Component {
 
   handleDownload(e) {
     let file = this.refs.prtfile.files[0];
-    model.unzipBlob(file, data => {
+    model.unzipLogs(file).then(data => {
       this.saveMergedData(data, file.name + '.log');
       data = null;
-    });
+    }).catch(err => console.log(err));
   }
 
   handleSelectSender(e, sender){

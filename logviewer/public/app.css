@@ -2,6 +2,11 @@
   color:red;
 }
 
+.xmp {
+  white-space:pre-wrap;
+  word-wrap:break-word;
+}
+
 :global(.h2) {
   color: blue;
 }
