@@ -8,7 +8,7 @@ class PresenceTimeline extends React.Component {
 
   render() {
     return (
-      <table className="table table-bordered table-hover">
+      <table className="table table-bordered table-striped table-condensed table-hover" style={{marginTop: "15px"}}>
         <thead>
           <tr>
             {this.props.titles.map(title => {

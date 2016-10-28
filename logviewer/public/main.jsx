@@ -26,16 +26,17 @@ class App extends React.Component {
 
   handleZipFileChange(e) {
     let file = e.target.files[0];
-    model.unzipBlob(file, data => {
+
+    model.unzipDeviceInfo(file).then(data => {
+      this.setState({deviceInfo: data});
+      return model.unzipLogs(file);
+    }).then(data => {
       this.totalLines = data.split('\n');
       data = null;
-      getPresences(this.totalLines, '').then(arr => {
-        this.setState({senders: getAllSenders(arr), titles: [], rows: []});
-        return model.unzipDeviceInfo(file);
-      }).then(data => {
-        this.setState({deviceInfo: data});
-      }).catch(err => console.log(err));
-    });
+      return getPresences(this.totalLines, '');
+    }).then(arr => {
+      this.setState({senders: getAllSenders(arr), titles: [], rows: []});
+    }).catch(err => console.log(err));
   }
 
   handleFilterChange(e) {
@@ -72,7 +73,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="container">
-        <h1 className={style.h1}>Jabber Log viewer</h1>
+        <h1 className="h1">Jabber PRT Viewer</h1>
         <div className="row">
           <div className="col-sm-8">
             <input type="file" className="form-control" accept="application/zip" ref="prtfile" onChange={e => this.handleZipFileChange(e)}/>

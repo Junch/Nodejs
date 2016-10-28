@@ -67,52 +67,55 @@ var model = (function() {
 			});
 		},
 
-		unzipBlob: function(blob, callback) {
-			zip.createReader(new zip.BlobReader(blob), zipReader=> {
-				zipReader.getEntries(entries => {
-					let arr = entries.filter(entry => {
-						return entry.filename.match(/jabber\.log/) != null;
-					});
-					arr.sort((a,b) => {
-						return a.filename < b.filename;
-					});
+		unzipLogs: function(blob, callback) {
+			return new Promise((resolve, reject) => { 
+				zip.createReader(new zip.BlobReader(blob), zipReader=> {
+					zipReader.getEntries(entries => {
+						let arr = entries.filter(entry => {
+							return /jabber\.log/.exec(entry.filename) != null;
+						});
+						arr.sort((a,b) => {
+							return a.filename < b.filename;
+						});
 
-					let pArr = [];
-					arr.forEach(entry => {
-						pArr.push(this.getEntryData(entry));
-					});
+						let pArr = [];
+						arr.forEach(entry => {
+							pArr.push(this.getEntryData(entry));
+						});
 
-					let t0 = performance.now();
-					console.log('start unzip');
-					Promise.all(pArr).then(textArr => {
-						let t1 = performance.now();
-						console.log(`end unzip. It took ${t1-t0} milliseconds.`);
-						
-						zipReader.close();
-						let data = textArr.join('');
-						textArr = null;
-						callback(data);
+						let t0 = performance.now();
+						console.log('start unzip');
+						Promise.all(pArr).then(textArr => {
+							let t1 = performance.now();
+							console.log(`end unzip. It took ${t1-t0} milliseconds.`);
+							
+							zipReader.close();
+							let data = textArr.join('');
+							textArr = null;
+							resolve(data);
+						});
 					});
-				});
-			}, err => console.log(err));
+				}, err => reject(err));
+			});
 		},
 
 		unzipDeviceInfo: function(blob, callback) {
 			return new Promise((resolve, reject) => {
 				zip.createReader(new zip.BlobReader(blob), zipReader=> {
 					zipReader.getEntries(entries => {
-						let re = /deviceinfo.txt/;
-						entries.every(entry => {
-							if (re.exec(entry.filename) != null) {
-								this.getEntryData(entry).then(data => {
-									resolve(data);
-									return false;
-								});
-							}
-							else {
-								return true;
-							}
+						let re = /deviceinfo.txt|UserPRData.plist|metadata.txt/;
+						let arr = entries.filter(entry => {
+							return re.exec(entry.filename) != null;
 						});
+
+						if (arr.length == 0) {
+							resolve("Failed to get the deviceinfo.");
+						} else {
+							this.getEntryData(arr[0]).then(info => {
+								zipReader.close();
+								resolve(info);
+							});
+						}
 					});
 				}, err => reject(err));
 			});
