@@ -95,6 +95,27 @@ var model = (function() {
 					});
 				});
 			}, err => console.log(err));
+		},
+
+		unzipDeviceInfo: function(blob, callback) {
+			return new Promise((resolve, reject) => {
+				zip.createReader(new zip.BlobReader(blob), zipReader=> {
+					zipReader.getEntries(entries => {
+						let re = /deviceinfo.txt/;
+						entries.every(entry => {
+							if (re.exec(entry.filename) != null) {
+								this.getEntryData(entry).then(data => {
+									resolve(data);
+									return false;
+								});
+							}
+							else {
+								return true;
+							}
+						});
+					});
+				}, err => reject(err));
+			});
 		}
 	};
 })();

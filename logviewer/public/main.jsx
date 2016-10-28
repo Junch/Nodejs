@@ -9,7 +9,7 @@ import FilterPage from './filter.jsx'
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {filteredLog: '', titles:[], rows: [], senders: []};
+    this.state = {filteredLog: '', titles:[], rows: [], senders: [], deviceInfo:'Show deviceinfo'};
     this.totalLines = [];
   }
 
@@ -31,7 +31,10 @@ class App extends React.Component {
       data = null;
       getPresences(this.totalLines, '').then(arr => {
         this.setState({senders: getAllSenders(arr), titles: [], rows: []});
-      }, err => console.log(err));
+        return model.unzipDeviceInfo(file);
+      }).then(data => {
+        this.setState({deviceInfo: data});
+      }).catch(err => console.log(err));
     });
   }
 
@@ -63,7 +66,7 @@ class App extends React.Component {
     getPresences(this.totalLines, sender).then(arr => {
       let {titles, rows} = generateTable(arr);
       this.setState({titles: titles, rows: rows});
-    }, err => console.log(err));
+    }).catch(err => console.log(err));
   }
 
   render() {
@@ -87,7 +90,7 @@ class App extends React.Component {
 
           <div className="tab-content">
             <div role="tabpanel" className="tab-pane active" id="home">
-              <h3>Home</h3>
+              <h3>Home</h3><pre>{this.state.deviceInfo}</pre>
             </div>
             <div role="tabpanel" className="tab-pane" id="presence">
               <PresencePage senders={this.state.senders}  titles={this.state.titles} rows={this.state.rows} handleSelectSender={(e, sender) => this.handleSelectSender(e, sender)} />
