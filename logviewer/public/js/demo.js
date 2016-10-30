@@ -75,7 +75,11 @@ var model = (function() {
 							return /jabber\.log/.exec(entry.filename) != null;
 						});
 						arr.sort((a,b) => {
-							return a.filename < b.filename;
+							if (a.filename < b.filename)
+								return 1;
+							if (a.filename > b.filename)
+								return -1;
+							return 0;
 						});
 
 						let pArr = [];
