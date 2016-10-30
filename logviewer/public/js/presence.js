@@ -9,6 +9,7 @@ class Presence {
     this.priority = json.priority;
     this.time = time;
     this.status = json.status;
+    this.type = json.type;
 
     let re = /(v=.+&p=.+)/;
     this.node = undefined;
@@ -23,6 +24,7 @@ class Presence {
   description(){
     let obj = {show: this.show,
                priority: this.priority,
+               type: this.type,
                status: this.status}
 
     let arr = [];
@@ -39,7 +41,7 @@ class Presence {
 }
 
 function getPresences(lines, from) {
-  let str = `Recv:(<presence from=\"${from}.+>.+<\/presence>)`;
+  let str = `Recv:(<presence from=\"${from}.+)`;
   let re = new RegExp(str);
   return new Promise((resolve, reject) => {
     let arr = [];
@@ -52,14 +54,13 @@ function getPresences(lines, from) {
             return reject(err);
           }
     
-          if (res.presence.type == null) {
-            let time = line.substr(0, 23);
-            let elem = new Presence(res.presence, time);
-            arr.push(elem);
-          }
+          let time = line.substr(0, 23);
+          let elem = new Presence(res.presence, time);
+          arr.push(elem);
         });
       }
     });
+
     resolve(arr);
   });
 }
