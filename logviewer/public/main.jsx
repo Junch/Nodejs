@@ -38,7 +38,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {filteredLog: '', titles:[], rows: [], senders: [], deviceInfo:'Show deviceinfo',
-                  starttime: '', endtime: '', during: '', lines: ''};
+                  summary: 'Summary info: to be loaded'};
     this.totalLines = [];
   }
 
@@ -65,10 +65,21 @@ class App extends React.Component {
     }).then(() => {
       let {start, end} = getStartEndtime(this.totalLines);
       let during = moment.duration(end-start).format("d[d] h:mm:ss");
-      this.setState({lines: this.totalLines.length,
-                     starttime: start.format(),
-                     endtime: end.format(),
-                     during: during});
+      let obj =  {
+          lines: this.totalLines.length,
+          starttime: start.format(),
+          endtime: end.format(),
+          during: during};
+
+      let arr = [];
+      for (let prop in obj) {
+        if (obj.hasOwnProperty(prop)){
+          if (obj[prop] !== undefined) {
+            arr.push(`${prop}: ${obj[prop]}`);
+          }
+        }
+      }
+      this.setState({summary: arr.join('\n')});  
       return getPresences(this.totalLines, '');
     }).then(arr => {
       this.setState({senders: getAllSenders(arr), titles: [], rows: []});
@@ -130,10 +141,7 @@ class App extends React.Component {
               <h3>Home</h3>
               <pre>{this.state.deviceInfo}</pre>
               <div>
-                Lines: {this.state.lines}<br/>
-                Start: {this.state.starttime}<br/>
-                End: {this.state.endtime}<br/>
-                During: {this.state.during}<br/>
+                <pre>{this.state.summary}</pre>
               </div>
             </div>
             <div role="tabpanel" className="tab-pane" id="presence">
