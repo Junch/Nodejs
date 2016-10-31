@@ -36,4 +36,16 @@ describe('Presence Tests', () => {
     done();
   });
 
+  it('Get the start time', done => {
+    let s = "2016-10-11 15:17:50,990 [0xb6fdcbec] [erx/jwcpp/xmppsdk/XmppPresence.cpp(1666)] [csf.jwcpp] [handlePresence] - ";
+    let re = /(\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d,\d\d\d).+/;
+    let result = re.exec(s);
+    if (result) {
+      let s = moment(result[1], moment.ISO_8601);
+      s.format().should.equal("2016-10-11T15:17:50+08:00");
+    }
+
+    done();
+  });
+
 });

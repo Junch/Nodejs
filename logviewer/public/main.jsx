@@ -4,12 +4,41 @@ import style from './app.css';
 import model from './js/demo.js';
 import PresencePage from './presence.jsx'
 import {getPresences, generateTable, getAllSenders} from './js/presence.js';
-import FilterPage from './filter.jsx'
+import FilterPage from './filter.jsx';
+import moment from 'moment';
+require("moment-duration-format");
+
+function getStartEndtime(lines) {
+  let re = /(\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d,\d\d\d).+/;
+  let start = undefined;
+  let end = undefined;
+
+  lines.find(line => {
+    let result = re.exec(line);
+    if (result) {
+      start = moment(result[1], moment.ISO_8601);
+      return true;
+    }
+    return false;
+  });
+
+  let len = lines.length;
+  for (let i=len-1; i >= 0; --i) {
+    let result = re.exec(lines[i]);
+    if (result) {
+      end = moment(result[1], moment.ISO_8601);
+      break;
+    }
+  }
+
+  return {start, end};
+}
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {filteredLog: '', titles:[], rows: [], senders: [], deviceInfo:'Show deviceinfo'};
+    this.state = {filteredLog: '', titles:[], rows: [], senders: [], deviceInfo:'Show deviceinfo',
+                  starttime: '', endtime: '', during: '', lines: ''};
     this.totalLines = [];
   }
 
@@ -33,6 +62,13 @@ class App extends React.Component {
     }).then(data => {
       this.totalLines = data.split('\n');
       data = null;
+    }).then(() => {
+      let {start, end} = getStartEndtime(this.totalLines);
+      let during = moment.duration(end-start).format("d[d] h:mm:ss");
+      this.setState({lines: this.totalLines.length,
+                     starttime: start.format(),
+                     endtime: end.format(),
+                     during: during});
       return getPresences(this.totalLines, '');
     }).then(arr => {
       this.setState({senders: getAllSenders(arr), titles: [], rows: []});
@@ -91,7 +127,14 @@ class App extends React.Component {
 
           <div className="tab-content">
             <div role="tabpanel" className="tab-pane active" id="home">
-              <h3>Home</h3><pre>{this.state.deviceInfo}</pre>
+              <h3>Home</h3>
+              <pre>{this.state.deviceInfo}</pre>
+              <div>
+                Lines: {this.state.lines}<br/>
+                Start: {this.state.starttime}<br/>
+                End: {this.state.endtime}<br/>
+                During: {this.state.during}<br/>
+              </div>
             </div>
             <div role="tabpanel" className="tab-pane" id="presence">
               <PresencePage senders={this.state.senders}  titles={this.state.titles} rows={this.state.rows} handleSelectSender={(e, sender) => this.handleSelectSender(e, sender)} />
