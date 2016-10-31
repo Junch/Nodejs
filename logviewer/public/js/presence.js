@@ -70,10 +70,10 @@ function getAllSenders(arr) {
   let re = /(.+)@.+/;
   
   arr.forEach(presence =>{
-  	let result = re.exec(presence.from);
-  	if (result && -1 == senders.indexOf(result[1])) {
+    let result = re.exec(presence.from);
+    if (result && -1 == senders.indexOf(result[1])) {
       senders.push(result[1]);
-  	}
+    }
   });
 
   return senders;
