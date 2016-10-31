@@ -76,7 +76,7 @@ function getAllSenders(arr) {
     }
   });
 
-  return senders;
+  return senders.sort();
 }
 
 function generateTable(arr){

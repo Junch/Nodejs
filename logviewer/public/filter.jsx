@@ -5,11 +5,23 @@ export default class FilterPage extends React.Component {
     super(props);
   }
 
+  componentDidMount() {
+    $("#ex2").slider({});
+  }
+
   render() {
     return (
       <div>
         <h3>Filter</h3>
         <div className="form-horizontal">
+          <div className="form-group">
+            <label htmlFor="ex2" className="col-sm-2 control-label">Span</label>
+            <div className="col-sm-10">
+              <div>
+                <b>€ 10</b> <input id="ex2" type="text" className="span2" value="" data-slider-min="10" data-slider-max="1000" data-slider-step="5" style={{width: "80%"}} data-slider-value="[250,450]"/> <b>€ 1000</b>
+              </div>
+            </div>
+          </div>
           <div className="form-group">
             <label htmlFor="filtertext" className="col-sm-2 control-label">Filter</label>
             <div className="col-sm-10">
