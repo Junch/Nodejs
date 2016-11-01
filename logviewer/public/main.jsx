@@ -37,8 +37,8 @@ function getStartEndtime(lines) {
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {filteredLog: '', titles:[], rows: [], senders: [], deviceInfo:'Show deviceinfo',
-                  summary: 'Summary info: to be loaded'};
+    this.state = {filteredLog: '', titles:[], rows: [], senders: [], deviceInfo:'Device info',
+                  summary: 'Summary info'};
     this.totalLines = [];
   }
 
