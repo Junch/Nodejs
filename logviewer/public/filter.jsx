@@ -9,8 +9,8 @@ export default class FilterPage extends React.Component {
   }
 
   componentDidMount() {
-    $("#ex2").slider({
-      formatter: function(value) {
+    $("#timeFilter").slider({
+      formatter: value => {
         if (Array.isArray(value)) {
           let ranges = value.map(item => {
             return moment(item).format();
@@ -19,7 +19,14 @@ export default class FilterPage extends React.Component {
         } else{
           return value;
         }
-      }
+      },
+      tooltip: 'always',
+      range: true
+    });
+
+    $("#timeFilter").on("slide", slideEvt => {
+      this.setState({start: slideEvt.value[0],
+                       end: slideEvt.value[1]});
     });
   }
 
@@ -29,10 +36,10 @@ export default class FilterPage extends React.Component {
         <h3>Filter</h3>
         <div className="form-horizontal">
           <div className="form-group">
-            <label htmlFor="ex2" className="col-sm-2 control-label">Span</label>
+            <label htmlFor="timeFilter" className="col-sm-2 control-label">Span</label>
             <div className="col-sm-10">
               <div>
-                <input id="ex2" type="text" className="span2" value="" data-slider-min={this.state.start} data-slider-tooltip="show" data-slider-max={this.state.end} data-slider-step="5" style={{width: "80%"}} data-slider-value="[1476170270990, 1476180295998]" />
+                <input id="timeFilter" type="text" className="span2" value="" data-slider-min={this.state.start} data-slider-tooltip="show" data-slider-max={this.state.end} data-slider-step="5" style={{width: "80%"}} data-slider-value={`[${this.state.start}, ${this.state.end}]`} />
               </div>
             </div>
           </div>
