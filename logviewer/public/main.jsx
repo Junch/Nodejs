@@ -102,6 +102,10 @@ class App extends React.Component {
     }
   }
 
+  handleFilterSliderChange(e) {
+    console.log(e.value);
+  }
+
   handleDownload(e) {
     let file = this.refs.prtfile.files[0];
     model.unzipLogs(file).then(data => {
@@ -148,7 +152,7 @@ class App extends React.Component {
               <PresencePage senders={this.state.senders}  titles={this.state.titles} rows={this.state.rows} handleSelectSender={(e, sender) => this.handleSelectSender(e, sender)} />
             </div>
             <div role="tabpanel" className="tab-pane" id="filter">
-              <FilterPage filteredLog={this.state.filteredLog} handleFilterChange={e => this.handleFilterChange(e)} />
+              <FilterPage filteredLog={this.state.filteredLog} handleFilterChange={e => this.handleFilterChange(e)} start={moment("2016-10-11 15:17:50,990", moment.ISO_8601).valueOf()} end={moment("2016-10-11 18:04:55,998", moment.ISO_8601).valueOf()} handleFilterSliderChange={e => this.handleFilterSliderChange(e)} />
             </div>
             <div role="tabpanel" className="tab-pane" id="others">
               <h3>Others</h3>

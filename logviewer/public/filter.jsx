@@ -4,8 +4,6 @@ let moment = require('moment');
 export default class FilterPage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {start: moment("2016-10-11 15:17:50,990", moment.ISO_8601).valueOf(),
-                    end: moment("2016-10-11 18:04:55,998", moment.ISO_8601).valueOf()};
   }
 
   componentDidMount() {
@@ -25,8 +23,7 @@ export default class FilterPage extends React.Component {
     });
 
     $("#timeFilter").on("slide", slideEvt => {
-      this.setState({start: slideEvt.value[0],
-                       end: slideEvt.value[1]});
+      this.props.handleFilterSliderChange(slideEvt);
     });
   }
 
@@ -39,7 +36,7 @@ export default class FilterPage extends React.Component {
             <label htmlFor="timeFilter" className="col-sm-2 control-label">Span</label>
             <div className="col-sm-10">
               <div>
-                <input id="timeFilter" type="text" className="span2" value="" data-slider-min={this.state.start} data-slider-tooltip="show" data-slider-max={this.state.end} data-slider-step="5" style={{width: "80%"}} data-slider-value={`[${this.state.start}, ${this.state.end}]`} />
+                <input id="timeFilter" type="text" className="span2" value="" data-slider-min={this.props.start} data-slider-tooltip="show" data-slider-max={this.props.end} data-slider-step="5" style={{width: "80%"}} data-slider-value={`[${this.props.start}, ${this.props.end}]`} />
               </div>
             </div>
           </div>
