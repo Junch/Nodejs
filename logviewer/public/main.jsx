@@ -103,7 +103,7 @@ class App extends React.Component {
   }
 
   handleFilterSliderChange(e) {
-    console.log(e.value);
+    console.log(e);
   }
 
   handleDownload(e) {

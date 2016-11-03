@@ -7,7 +7,7 @@ export default class FilterPage extends React.Component {
   }
 
   componentDidMount() {
-    $("#timeFilter").slider({
+    let slider = new Slider("#timeFilter", {
       formatter: value => {
         if (Array.isArray(value)) {
           let ranges = value.map(item => {
@@ -22,7 +22,7 @@ export default class FilterPage extends React.Component {
       range: true
     });
 
-    $("#timeFilter").on("slide", slideEvt => {
+    slider.on("slide", slideEvt => {
       this.props.handleFilterSliderChange(slideEvt);
     });
   }
