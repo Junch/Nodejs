@@ -79,7 +79,21 @@ class App extends React.Component {
           }
         }
       }
-      this.setState({summary: arr.join('\n')});  
+      this.setState({summary: arr.join('\n')});
+      if (this.slider != null) {
+        let min = start.valueOf();
+        let max = end.valueOf();
+        this.slider.setAttribute("tooltip", "always");
+        this.slider.setAttribute("min", min);
+        this.slider.setAttribute("max", max);
+        this.slider.setAttribute("value", [min, max]);
+        this.slider.setAttribute("enabled", true);
+        this.slider.refresh();
+        this.slider.on("change", val => {
+          console.log(val);
+        });
+      }
+
       return getPresences(this.totalLines, '');
     }).then(arr => {
       this.setState({senders: getAllSenders(arr), titles: [], rows: []});
@@ -102,10 +116,6 @@ class App extends React.Component {
     }
   }
 
-  handleFilterSliderChange(e) {
-    console.log(e);
-  }
-
   handleDownload(e) {
     let file = this.refs.prtfile.files[0];
     model.unzipLogs(file).then(data => {
@@ -119,6 +129,28 @@ class App extends React.Component {
       let {titles, rows} = generateTable(arr);
       this.setState({titles: titles, rows: rows});
     }).catch(err => console.log(err));
+  }
+
+  componentDidMount() {
+    this.slider = new Slider("#timeFilter", {
+      min: 1,
+      max: 100,
+      value: [1, 100],
+      tooltip: 'hide',
+      enabled: false,
+      range: true,
+      focus: true,
+      formatter: value => {
+        if (Array.isArray(value)) {
+          let ranges = value.map(item => {
+            return moment(item).format();
+          });
+          return ranges.join(', ');
+        } else{
+          return moment(value).format();;
+        }
+      }
+    });
   }
 
   render() {
@@ -152,7 +184,7 @@ class App extends React.Component {
               <PresencePage senders={this.state.senders}  titles={this.state.titles} rows={this.state.rows} handleSelectSender={(e, sender) => this.handleSelectSender(e, sender)} />
             </div>
             <div role="tabpanel" className="tab-pane" id="filter">
-              <FilterPage filteredLog={this.state.filteredLog} handleFilterChange={e => this.handleFilterChange(e)} start={moment("2016-10-11 15:17:50,990", moment.ISO_8601).valueOf()} end={moment("2016-10-11 18:04:55,998", moment.ISO_8601).valueOf()} handleFilterSliderChange={e => this.handleFilterSliderChange(e)} />
+              <FilterPage filteredLog={this.state.filteredLog} handleFilterChange={e => this.handleFilterChange(e)} />
             </div>
             <div role="tabpanel" className="tab-pane" id="others">
               <h3>Others</h3>
