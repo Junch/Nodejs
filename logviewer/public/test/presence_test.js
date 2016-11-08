@@ -6,9 +6,9 @@ let moment = require('moment');
 require("moment-duration-format");
 
 const fs = require('fs');
-var getPresences=require('../js/presence.js').getPresences;
-var generateTable=require('../js/presence.js').generateTable;
-var getAllSenders=require('../js/presence.js').getAllSenders;
+let getPresences=require('../js/presence.js').getPresences;
+let generateTable=require('../js/presence.js').generateTable;
+let getAllSenders=require('../js/presence.js').getAllSenders;
 
 describe('Presence Tests', () => {
   it('Get the presence table', done => {
