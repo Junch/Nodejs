@@ -72,13 +72,13 @@ describe('Search Tests with invalid date format', () => {
               '2016-10-11 15:17:54,529 INFO',
               '2016-10-11 15:17:56,275 DEBUG'];
 
-    let index = binarySearch(ar, moment('2016-10-11 15:17:53,254', moment.ISO_8601).valueOf(), compare_moment);
+    let index = binarySearch(ar, moment('2016-10-11 15:17:53,254', moment.ISO_8601).valueOf());
     index.should.equal(3);
 
     index = searchStart(ar, moment('2016-10-11 15:17:53,254', moment.ISO_8601).valueOf());
     index.should.equal(3);
 
-    index = binarySearch(ar, moment('2016-10-11 15:17:53,300', moment.ISO_8601).valueOf(), compare_moment);
+    index = binarySearch(ar, moment('2016-10-11 15:17:53,300', moment.ISO_8601).valueOf());
     index.should.equal(-5);
 
     index = searchStart(ar, moment('2016-10-11 15:17:53,300', moment.ISO_8601).valueOf());
@@ -93,13 +93,13 @@ describe('Search Tests with invalid date format', () => {
               'mnop',
               'qrst'];
 
-    let index = binarySearch(ar, moment('2016-10-11 15:17:52,196', moment.ISO_8601).valueOf(), compare_moment);
+    let index = binarySearch(ar, moment('2016-10-11 15:17:52,196', moment.ISO_8601).valueOf());
     index.should.equal(2);
 
     index = searchStart(ar, moment('2016-10-11 15:17:52,196', moment.ISO_8601).valueOf());
     index.should.equal(1);
 
-    index = binarySearch(ar, moment('2016-10-11 15:17:53,300', moment.ISO_8601).valueOf(), compare_moment);
+    index = binarySearch(ar, moment('2016-10-11 15:17:53,300', moment.ISO_8601).valueOf());
     index.should.equal(4);
 
     index = searchStart(ar, moment('2016-10-11 15:17:53,300', moment.ISO_8601).valueOf());

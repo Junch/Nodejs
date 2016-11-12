@@ -1,7 +1,7 @@
 'use strict';
 let moment = require('moment');
 
-function binarySearch(ar, el, compare_fn) {
+function binarySearch(ar, el, compare_fn = compare_moment) {
   let m = 0;
   let n = ar.length - 1;
   while (m <= n) {
@@ -62,4 +62,4 @@ function searchStart(ar, start) {
   return i+1;
 }
 
-module.exports = {binarySearch, compare_moment, searchStart}
+module.exports = {binarySearch, searchStart}
