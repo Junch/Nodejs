@@ -7,7 +7,7 @@
     "test": "NODE_ENV=production mocha -R spec server/test/*.js",
     "dev10": "webpack-dev-server --devtool eval --progress --colors",
     "dev": "node server/server.js",
-    "deploy": "webpack --config webpack.config.production.js",
+    "deploy": "NODE_ENV=production webpack -p --config webpack.config.production.js",
     "start": "NODE_ENV=production node server/server.js"
   },
   "author": "",
