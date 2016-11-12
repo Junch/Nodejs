@@ -105,4 +105,15 @@ describe('Search Tests with invalid date format', () => {
     index = searchStart(ar, moment('2016-10-11 15:17:53,300', moment.ISO_8601).valueOf());
     index.should.equal(3);
   });
+
+  it('Binary search date test: first element', () => {
+    let ar = ['2016-10-11 15:17:52,196 DEBUG',
+              '2016-10-11 15:17:52,196 INFO',
+              'mnop',
+              'qrst'];
+
+    let index = searchStart(ar, moment('2016-10-11 15:17:52,196', moment.ISO_8601).valueOf());
+    index.should.equal(0);
+  });
+
 });

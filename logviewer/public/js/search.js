@@ -18,13 +18,14 @@ function binarySearch(ar, el, compare_fn) {
   return -m - 1;
 }
 
-function compare_moment(a, ar, k) {
+function getTime(ar, k) {
   let re = /(\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d,\d\d\d).+/;
+ 
   for (let i=k; i>=0; --i) {
     let result = re.exec(ar[i]);
     if (result) {
       let t = moment(result[1], moment.ISO_8601).valueOf();
-      return a - t;
+      return t;
     }       
   }
 
@@ -32,29 +33,33 @@ function compare_moment(a, ar, k) {
     let result = re.exec(ar[i]);
     if (result) {
       let t = moment(result[1], moment.ISO_8601).valueOf();
-      return a - t;
+      return t - 1;
     }    
   }
 
   throw new Error('Date is not found');
 }
 
+function compare_moment(a, ar, k) {
+  let t = getTime(ar, k);
+  return a - t;
+}
+
 function searchStart(ar, start) {
   let index = binarySearch(ar, start, compare_moment);
-  let re = /(\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d,\d\d\d).+/;
-  if (index > 0) {
-    let i = index;
-    for (; i >=0; --i) {
-        let result = re.exec(ar[i]);
-        if (result) {
-          break;
-       }
-    }
-
-    return i;
+  if (index < 0) {
+    return -index-1;
   }
 
-  return -index-1; 
+  let i = index;
+  for (; i >=0; --i) {
+    let t = getTime(ar, i);
+    if (t < start) {
+      break;
+    }
+  }
+
+  return i+1;
 }
 
 module.exports = {binarySearch, compare_moment, searchStart}
