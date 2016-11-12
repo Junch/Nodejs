@@ -62,4 +62,21 @@ function searchStart(ar, start) {
   return i+1;
 }
 
-module.exports = {binarySearch, searchStart}
+function searchEnd(ar, end) {
+  let index = binarySearch(ar, end, compare_moment);
+  if (index < 0) {
+    return -index-1;
+  }
+
+  let i = index;
+  for (; i < ar.length; ++i) {
+    let t = getTime(ar, i);
+    if (t > end) {
+      break;
+    }
+  }
+
+  return i;
+}
+
+module.exports = {binarySearch, searchStart, searchEnd}

@@ -6,6 +6,7 @@ let moment = require('moment');
 let binarySearch=require('../js/search.js').binarySearch;
 let compare_moment=require('../js/search.js').compare_moment;
 let searchStart=require('../js/search.js').searchStart;
+let searchEnd=require('../js/search.js').searchEnd;
 
 describe('Search Simple Tests', () => {
   // http://stackoverflow.com/questions/22697936/binary-search-in-javascript
@@ -83,6 +84,9 @@ describe('Search Tests with invalid date format', () => {
 
     index = searchStart(ar, moment('2016-10-11 15:17:53,300', moment.ISO_8601).valueOf());
     index.should.equal(4);
+
+    index = searchEnd(ar, moment('2016-10-11 15:17:53,300', moment.ISO_8601).valueOf());
+    index.should.equal(4);
   });
 
   it('Binary search date test2', () => {
@@ -99,11 +103,17 @@ describe('Search Tests with invalid date format', () => {
     index = searchStart(ar, moment('2016-10-11 15:17:52,196', moment.ISO_8601).valueOf());
     index.should.equal(1);
 
+    index = searchEnd(ar, moment('2016-10-11 15:17:52,196', moment.ISO_8601).valueOf());
+    index.should.equal(3);
+
     index = binarySearch(ar, moment('2016-10-11 15:17:53,300', moment.ISO_8601).valueOf());
     index.should.equal(4);
 
     index = searchStart(ar, moment('2016-10-11 15:17:53,300', moment.ISO_8601).valueOf());
     index.should.equal(3);
+
+    index = searchEnd(ar, moment('2016-10-11 15:17:53,300', moment.ISO_8601).valueOf());
+    index.should.equal(6);
   });
 
   it('Binary search date test: first element', () => {
@@ -114,6 +124,9 @@ describe('Search Tests with invalid date format', () => {
 
     let index = searchStart(ar, moment('2016-10-11 15:17:52,196', moment.ISO_8601).valueOf());
     index.should.equal(0);
+
+    index = searchEnd(ar, moment('2016-10-11 15:17:52,196', moment.ISO_8601).valueOf());
+    index.should.equal(4);
   });
 
 });
