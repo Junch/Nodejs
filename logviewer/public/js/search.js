@@ -82,7 +82,7 @@ function searchEnd(ar, end) {
 function search(ar, start, end) {
   let sIndex = searchStart(ar, start);
   let eIndex = searchEnd(ar, end);
-  return {sIndex, eIndex};
+  return {start: sIndex, end: eIndex};
 }
 
 module.exports = {binarySearch, searchStart, searchEnd, search}

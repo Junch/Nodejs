@@ -65,6 +65,7 @@ class App extends React.Component {
       data = null;
     }).then(() => {
       let {start, end} = getStartEndtime(this.totalLines);
+      this.range = {start, end};
       let during = moment.duration(end-start).format("d[d] h:mm:ss");
       let obj =  {
           lines: this.totalLines.length,
@@ -91,8 +92,9 @@ class App extends React.Component {
         this.slider.setAttribute("enabled", true);
         this.slider.refresh();
         this.slider.on("change", val => {
-          let tmp = search(this.totalLines, val.newValue[0], val.newValue[1]);
-          console.log(tmp);
+          this.range = search(this.totalLines, val.newValue[0], val.newValue[1]);
+          console.log(this.range);
+          this.handleFilterChange();
         });
       }
 
@@ -103,16 +105,17 @@ class App extends React.Component {
   }
 
   handleFilterChange(e) {
-    let re = new RegExp(e.target.value.trim(), "i");
+    let re = new RegExp(e? e.target.value.trim(): '', "i");
+    let lines = this.totalLines.slice(this.range.start, this.range.end);
     let filteredLines = [];
-    this.totalLines.forEach(line => {
+    lines.forEach(line => {
       if (re.test(line)) {
         filteredLines.push(line);
       }
     });
-    console.log(`total = ${this.totalLines.length}, left = ${filteredLines.length}`);
+    console.log(`total = ${lines.length}, left = ${filteredLines.length}`);
     if (filteredLines.length > 5000) {
-      this.setState({filteredLog: "The left lines > 5000. Please use more filter"});
+      this.setState({filteredLog: `${filteredLines.length} lines > 5000. Please use more filter`});
     } else {
       this.setState({filteredLog: filteredLines.join('\n')});
     }
