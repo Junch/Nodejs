@@ -79,4 +79,10 @@ function searchEnd(ar, end) {
   return i;
 }
 
-module.exports = {binarySearch, searchStart, searchEnd}
+function search(ar, start, end) {
+  let sIndex = searchStart(ar, start);
+  let eIndex = searchEnd(ar, end);
+  return {sIndex, eIndex};
+}
+
+module.exports = {binarySearch, searchStart, searchEnd, search}

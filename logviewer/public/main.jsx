@@ -7,6 +7,7 @@ import {getPresences, generateTable, getAllSenders} from './js/presence.js';
 import FilterPage from './filter.jsx';
 import moment from 'moment';
 require("moment-duration-format");
+import {search} from './js/search.js'
 
 function getStartEndtime(lines) {
   let re = /(\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d,\d\d\d).+/;
@@ -90,7 +91,8 @@ class App extends React.Component {
         this.slider.setAttribute("enabled", true);
         this.slider.refresh();
         this.slider.on("change", val => {
-          console.log(val);
+          let tmp = search(this.totalLines, val.newValue[0], val.newValue[1]);
+          console.log(tmp);
         });
       }
 
