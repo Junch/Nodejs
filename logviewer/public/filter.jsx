@@ -12,7 +12,7 @@ export default class FilterPage extends React.Component {
         <h3>Filter</h3>
         <div className="form-horizontal">
           <div className="form-group">
-            <label htmlFor="timeFilter" className="col-sm-2 control-label">Span</label>
+            <label htmlFor="timeFilter" className="col-sm-2 control-label">Time</label>
             <div className="col-sm-10">
               <div>
                 <input id="timeFilter" type="text" className="span2" value="" style={{width: "80%"}} />

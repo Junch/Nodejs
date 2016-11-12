@@ -69,8 +69,8 @@ class App extends React.Component {
       let during = moment.duration(end-start).format("d[d] h:mm:ss");
       let obj =  {
           lines: this.totalLines.length,
-          starttime: start.format(),
-          endtime: end.format(),
+          starttime: start.format('YYYY-MM-DD HH:mm:ss,SSS'),
+          endtime: end.format('YYYY-MM-DD HH:mm:ss,SSS'),
           during: during};
 
       let arr = [];
@@ -148,11 +148,11 @@ class App extends React.Component {
       formatter: value => {
         if (Array.isArray(value)) {
           let ranges = value.map(item => {
-            return moment(item).format();
+            return moment(item).format('YYYY-MM-DD HH:mm:ss,SSS');
           });
           return ranges.join(', ');
         } else{
-          return moment(value).format();;
+          return moment(value).format('YYYY-MM-DD HH:mm:ss,SSS');
         }
       }
     });

@@ -25,7 +25,7 @@ describe('Presence Tests', () => {
     });
   });
 
-  it('Use the moment api', done => {
+  it('Use the moment api', () => {
     let s = moment("2016-10-11 15:17:50,990", moment.ISO_8601);
     s.format().should.equal("2016-10-11T15:17:50+08:00");
     let e = moment("2016-10-11 18:04:55,998", moment.ISO_8601);
@@ -33,10 +33,9 @@ describe('Presence Tests', () => {
     moment.duration(e-s).humanize().should.equal("3 hours");
     moment.duration(e-s).format("h [hrs], m [min]").should.equal("2 hrs, 47 min");
     moment.duration(e-s).format("d[d] h:mm:ss", {trim: false}).should.equal("0d 2:47:05");
-    done();
   });
 
-  it('Get the start time', done => {
+  it('Get the start time', () => {
     let s = "2016-10-11 15:17:50,990 [0xb6fdcbec] [erx/jwcpp/xmppsdk/XmppPresence.cpp(1666)] [csf.jwcpp] [handlePresence] - ";
     let re = /(\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d,\d\d\d).+/;
     let result = re.exec(s);
@@ -44,7 +43,11 @@ describe('Presence Tests', () => {
       let s = moment(result[1], moment.ISO_8601);
       s.format().should.equal("2016-10-11T15:17:50+08:00");
     }
-
-    done();
   });
+
+  it('time format', () => {
+    let mo = moment('2016-10-11 15:17:53,300', moment.ISO_8601);
+    mo.format('YYYY-MM-DD HH:mm:ss,SSS').should.equal('2016-10-11 15:17:53,300');
+  });
+  
 });
