@@ -39,4 +39,22 @@ function compare_moment(a, ar, k) {
   throw new Error('Date is not found');
 }
 
-module.exports = {binarySearch, compare_moment}
+function searchStart(ar, start) {
+  let index = binarySearch(ar, start, compare_moment);
+  let re = /(\d\d\d\d-\d\d-\d\d \d\d:\d\d:\d\d,\d\d\d).+/;
+  if (index > 0) {
+    let i = index;
+    for (; i >=0; --i) {
+        let result = re.exec(ar[i]);
+        if (result) {
+          break;
+       }
+    }
+
+    return i;
+  }
+
+  return -index-1; 
+}
+
+module.exports = {binarySearch, compare_moment, searchStart}
