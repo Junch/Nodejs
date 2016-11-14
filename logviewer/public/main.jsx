@@ -173,14 +173,13 @@ class App extends React.Component {
             <li role="presentation" className="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a></li>
             <li role="presentation"><a href="#presence" aria-controls="presence" role="tab" data-toggle="tab">Presence</a></li>
             <li role="presentation"><a href="#filter" aria-controls="filter" role="tab" data-toggle="tab">Filter</a></li>
-            <li role="presentation"><a href="#others" aria-controls="others" role="tab" data-toggle="tab">Others</a></li>
+            <li role="presentation"><a href="#about" aria-controls="about" role="tab" data-toggle="tab">About</a></li>
           </ul>
 
           <div className="tab-content">
             <div role="tabpanel" className="tab-pane active" id="home">
-              <h3>Home</h3>
-              <pre>{this.state.deviceInfo}</pre>
-              <div>
+              <div style={{marginTop: "15px"}}>
+                <pre>{this.state.deviceInfo}</pre>
                 <pre>{this.state.summary}</pre>
               </div>
             </div>
@@ -190,8 +189,10 @@ class App extends React.Component {
             <div role="tabpanel" className="tab-pane" id="filter">
               <FilterPage filteredLog={this.state.filteredLog} handleFilterChange={e => this.handleFilterChange(e)} />
             </div>
-            <div role="tabpanel" className="tab-pane" id="others">
-              <h3>Others</h3>
+            <div role="tabpanel" className="tab-pane" id="about">
+              <div style={{marginTop: "15px"}}>
+                <p>The page is maintained by <a href="mailto:juchen3@cisco.com">Jun Chen</a>. Your advice is appreciated.</p>
+              </div>
             </div>
           </div>
         </div>

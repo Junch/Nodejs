@@ -45,8 +45,7 @@ export default class PresencePage extends React.Component {
 
   render() {
     return (
-      <div>
-        <h3>Presence</h3>
+      <div style={{marginTop: "15px"}}>
         <div id = "senderButtons" className="btn-group" data-toggle="buttons" onClick={e => this.onSelectSender(e)}>
           {
             this.props.senders.map((sender, i) => {

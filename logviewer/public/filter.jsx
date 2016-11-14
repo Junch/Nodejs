@@ -8,8 +8,7 @@ export default class FilterPage extends React.Component {
 
   render() {
     return (
-      <div>
-        <h3>Filter</h3>
+      <div style={{marginTop: "15px"}}>
         <div className="form-horizontal">
           <div className="form-group">
             <label htmlFor="timeFilter" className="col-sm-2 control-label">Time</label>
