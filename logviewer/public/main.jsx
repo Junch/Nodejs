@@ -93,7 +93,6 @@ class App extends React.Component {
         this.slider.refresh();
         this.slider.on("change", val => {
           this.range = search(this.totalLines, val.newValue[0], val.newValue[1]);
-          console.log(this.range);
           this.handleFilterChange();
         });
       }
@@ -105,7 +104,7 @@ class App extends React.Component {
   }
 
   handleFilterChange(e) {
-    let re = new RegExp(e? e.target.value.trim(): '', "i");
+    let re = new RegExp($('#filtertext').val().trim(), "i");
     let lines = this.totalLines.slice(this.range.start, this.range.end);
     let filteredLines = [];
     lines.forEach(line => {
