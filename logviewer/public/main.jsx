@@ -54,6 +54,45 @@ class App extends React.Component {
     a.dispatchEvent(clickEvent);
   }
 
+  setSummaryInfo() {
+    let {start, end} = getStartEndtime(this.totalLines);
+    this.range = {start, end};
+    let during = moment.duration(end-start).format("d[d] h:mm:ss");
+    let obj =  {
+        lines: this.totalLines.length,
+        starttime: start.format('YYYY-MM-DD HH:mm:ss,SSS'),
+        endtime: end.format('YYYY-MM-DD HH:mm:ss,SSS'),
+        during: during};
+
+    let arr = [];
+    for (let prop in obj) {
+      if (obj.hasOwnProperty(prop)){
+        if (obj[prop] !== undefined) {
+          arr.push(`${prop}: ${obj[prop]}`);
+        }
+      }
+    }
+    this.setState({summary: arr.join('\n')});
+  }
+
+  setSlider() {
+    if (this.slider != null) {
+      let {start, end} = getStartEndtime(this.totalLines);
+      let min = start.valueOf();
+      let max = end.valueOf();
+      this.slider.setAttribute("tooltip", "always");
+      this.slider.setAttribute("min", min);
+      this.slider.setAttribute("max", max);
+      this.slider.setAttribute("value", [min, max]);
+      this.slider.setAttribute("enabled", true);
+      this.slider.refresh();
+      this.slider.on("change", val => {
+        this.range = search(this.totalLines, val.newValue[0], val.newValue[1]);
+        this.handleFilterChange();
+      });
+    }
+  }
+
   handleZipFileChange(e) {
     let file = e.target.files[0];
 
@@ -64,39 +103,8 @@ class App extends React.Component {
       this.totalLines = data.split('\n');
       data = null;
     }).then(() => {
-      let {start, end} = getStartEndtime(this.totalLines);
-      this.range = {start, end};
-      let during = moment.duration(end-start).format("d[d] h:mm:ss");
-      let obj =  {
-          lines: this.totalLines.length,
-          starttime: start.format('YYYY-MM-DD HH:mm:ss,SSS'),
-          endtime: end.format('YYYY-MM-DD HH:mm:ss,SSS'),
-          during: during};
-
-      let arr = [];
-      for (let prop in obj) {
-        if (obj.hasOwnProperty(prop)){
-          if (obj[prop] !== undefined) {
-            arr.push(`${prop}: ${obj[prop]}`);
-          }
-        }
-      }
-      this.setState({summary: arr.join('\n')});
-      if (this.slider != null) {
-        let min = start.valueOf();
-        let max = end.valueOf();
-        this.slider.setAttribute("tooltip", "always");
-        this.slider.setAttribute("min", min);
-        this.slider.setAttribute("max", max);
-        this.slider.setAttribute("value", [min, max]);
-        this.slider.setAttribute("enabled", true);
-        this.slider.refresh();
-        this.slider.on("change", val => {
-          this.range = search(this.totalLines, val.newValue[0], val.newValue[1]);
-          this.handleFilterChange();
-        });
-      }
-
+      this.setSummaryInfo();
+      this.setSlider();
       return getPresences(this.totalLines, '');
     }).then(arr => {
       this.setState({senders: getAllSenders(arr), titles: [], rows: []});
@@ -113,8 +121,8 @@ class App extends React.Component {
       }
     });
     console.log(`total = ${lines.length}, left = ${filteredLines.length}`);
-    if (filteredLines.length > 5000) {
-      this.setState({filteredLog: `${filteredLines.length} lines > 5000. Please use more filter`});
+    if (filteredLines.length > 10000) {
+      this.setState({filteredLog: `${filteredLines.length} lines > 10000. Please use more filter`});
     } else {
       this.setState({filteredLog: filteredLines.join('\n')});
     }
