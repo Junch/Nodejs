@@ -93,12 +93,30 @@ class App extends React.Component {
     }
   }
 
+  readTxtFile(file){
+    return new Promise((resolve, reject) => {
+      let reader = new FileReader();
+      reader.onload = function(e) {
+        let data = e.target.result;
+        resolve(data);
+      }
+      reader.readAsText(file);
+    });
+  }
+
   handleZipFileChange(e) {
     let file = e.target.files[0];
 
     model.unzipDeviceInfo(file).then(data => {
-      this.setState({deviceInfo: data});
-      return model.unzipLogs(file);
+      if (data !== '') {
+        this.setState({deviceInfo: data});
+      }
+
+      if (file.name.toLowerCase().endsWith('.zip')){
+        return model.unzipLogs(file);
+      }else{
+        return this.readTxtFile(file);
+      }
     }).then(data => {
       this.totalLines = data.split('\n');
       data = null;

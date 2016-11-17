@@ -105,6 +105,10 @@ var model = (function() {
 
 		unzipDeviceInfo: function(blob, callback) {
 			return new Promise((resolve, reject) => {
+				if (!blob.name.toLowerCase().endsWith('.zip')) {
+					resolve('');
+				}
+
 				zip.createReader(new zip.BlobReader(blob), zipReader=> {
 					zipReader.getEntries(entries => {
 						let re = /deviceinfo.txt|UserPRData.plist|metadata.txt/;
