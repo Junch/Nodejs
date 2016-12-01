@@ -11,6 +11,18 @@ class Presence {
     this.status = json.status;
     this.type = json.type;
 
+    if (Array.isArray(json.x)){
+      let customElem = json.x.find(item=>{
+        return item.xmlns == "http://webex.com/connect/customstatus";
+      });
+
+      if (customElem){
+        this.customstatus = customElem.var;
+      }
+    }else if(json.x && json.x.xmlns == "http://webex.com/connect/customstatus") {
+      this.customstatus = json.x.var;
+    }
+
     let re = /(v=.+&p=.+)/;
     this.node = undefined;
     if (json.c != null) {
@@ -25,7 +37,8 @@ class Presence {
     let obj = {show: this.show,
                priority: this.priority,
                type: this.type,
-               status: this.status}
+               status: this.status,
+               customstatus: this.customstatus}
 
     let arr = [];
     for (var prop in obj) {
