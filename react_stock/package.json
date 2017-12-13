@@ -6,9 +6,9 @@
   "scripts": {
     "test": "NODE_ENV=production mocha -R spec server/test/*.js",
     "dev10": "webpack-dev-server --devtool eval --progress --colors",
-    "dev": "node server/server.js",
+    "dev": "MONGODB_URI=mongodb://localhost:27017/stockdb node server/server.js",
     "deploy": "NODE_ENV=production webpack -p --config webpack.config.production.js",
-    "start": "NODE_ENV=production node server/server.js"
+    "start": "MONGODB_URI=mongodb://localhost:27017/stockdb NODE_ENV=production nodemon -w server/  server/server.js"
   },
   "author": "",
   "license": "ISC",

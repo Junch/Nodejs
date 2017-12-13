@@ -6,7 +6,7 @@ import {render} from 'react-dom';
 import TableMarket from './tableMarket.jsx'
 import TableStock from './tableStock.jsx'
 import TableSummary from './tableSummary.jsx'
-import TableCash from './TableCash.jsx'
+import TableCash from './tableCash.jsx'
 
 class App extends React.Component {
   constructor(props) {
