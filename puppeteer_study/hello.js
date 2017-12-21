@@ -1,5 +1,7 @@
 'use strict';
 
+// The example is from https://alligator.io/tooling/puppeteer/
+
 const puppeteer = require('puppeteer');
 
 async function helloWorld() {
