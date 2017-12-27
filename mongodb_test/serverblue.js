@@ -1,32 +1,20 @@
-var Promise = require("bluebird");
-var MongoDB = Promise.promisifyAll(require("mongodb"));
-var MongoClient = Promise.promisifyAll(MongoDB.MongoClient);
+// https://stackoverflow.com/questions/47662220/db-collection-is-not-a-function-when-using-mongoclient-v3-0
+// In MONGODB NODE.JS DRIVER 3.0, the promise library bluebird is no longer needed.
+const MongoClient = require('mongodb').MongoClient;
 
-var mydb;
+let myClient;
 
-MongoClient.connectAsync('mongodb://localhost:27017/test').then(function(db) {
-	console.log("Connected to mongodb");
-	mydb = db;
-    return db.collection("orders").find({}).toArrayAsync();
-}).then(function(items) {
+MongoClient.connect('mongodb://localhost:27017/test').then( client => {
+    console.log("Connected to mongodb");
+    myClient = client;
+    const db = client.db('test');
+    return db.collection("orders").find({}).toArray();
+}).then( items => {
     console.log(items);
-    mydb.close();
-}).catch(function(err) {
+    myClient.close();
+}).catch( err=> {
     console.log(err);
+    if (myClient){
+        myClient.close();
+    }
 });
-
-// MongoClient.connectAsync('mongodb://localhost:27017/test').then(function(db) {
-// 	console.log("Connected to mongodb");
-// 	mydb = db;
-//     return db.createCollectionAsync("orders");
-// }).then(function(coll) {
-// 	console.log("Insert item");
-// 	return coll.insertAsync({
-// 		name: 'tom',
-// 		age: 20
-// 	});
-// }).then(function(){
-// 	mydb.close();
-// }).catch(function(err) {
-//     console.log(err);
-// });

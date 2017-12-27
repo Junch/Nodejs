@@ -3,13 +3,18 @@
 // run first: npm start 
 // run second: npm run postinstall
 
-var MongoClient = require('mongodb').MongoClient;
+const MongoClient = require('mongodb').MongoClient;
 
 //connect away
-MongoClient.connect('mongodb://127.0.0.1:27017/test', function(err, db) {
-	if(err) throw err;
+MongoClient.connect('mongodb://127.0.0.1:27017', (err, client) => {
+    if(err) throw err;
+    let db = client.db('test');
 
-  	db.dropCollection("testCollection", function() {
-  		db.close();
-  	});
+    db.dropCollection("orders").then(()=>{
+        console.log("test/orders dropped");
+        client.close();
+    }).catch(err=>{
+        console.log(err);
+        client.close();
+    });
 });

@@ -1,12 +1,11 @@
 {
   "name": "ConnectToMongoDB",
   "author": "Runnable",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "dependencies": {
-    "bluebird": "^2.10.0",
-    "mongodb": "*"
+    "mongodb": "^3.0.1"
   },
-  "engine": "node 0.6.x",
+  "engine": "node 7.6.x",
   "scripts": {
     "postinstall": "node deleteCollection.js"
   }
