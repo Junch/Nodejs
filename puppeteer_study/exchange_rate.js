@@ -1,10 +1,11 @@
 const puppeteer = require('puppeteer');
+const moment = require('moment');
 
 // https://tutorialzine.com/2017/08/automating-google-chrome-with-node-js
 // https://www.santoshsrinivas.com/puppeteer-api-to-control-headless-chrome/
 // https://www.valentinog.com/blog/ui-testing-jest-puppetteer/
 
-(async () => {
+async function get_exchange_rate(date) {
     const browser = await puppeteer.launch(/*{headless: false}*/);
 
     const page = await browser.newPage();
@@ -12,15 +13,16 @@ const puppeteer = require('puppeteer');
     //     width:800,
     //     height:800
     // });
+    let strDate = moment(date).format("YYYY-MM-DD");;
 
     await page.goto('http://www.sse.com.cn/services/hkexsc/currency/', {waitUntil: 'networkidle2'});
-    await page.evaluate(()=>{
+    await page.evaluate((strDate)=>{
         var inputDate = document.querySelectorAll('.sse_conyear_date input')[1];
         inputDate.removeAttribute('readonly');
-        inputDate.value = "2017-12-12";
+        inputDate.value = strDate;
         //var btn = document.querySelectorAll('.sse_con_query button')[1];
         //btn.click();
-    });
+    }, strDate);
 
     // The 2 commented lines above do the same work as 2 lines below
     const btns = await page.$$('.sse_con_query button');
@@ -34,6 +36,11 @@ const puppeteer = require('puppeteer');
 
     browser.close();
 
-    const rate = ((rates[0] + rates[1])/2.0).toFixed(4);
-    console.log(`Currency rate is ${rate}`);
+    return Promise.resolve(rates);
+};
+
+(async() => {
+    let date = new Date(2017, 11, 29);
+    rates = await get_exchange_rate(date);
+    console.log(rates);
 })();
