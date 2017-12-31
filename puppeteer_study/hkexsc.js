@@ -15,17 +15,22 @@ async function get_exchange_rate() {
     // });
 
     await page.goto('http://www.sse.com.cn/services/hkexsc/home/', {waitUntil: 'networkidle2'});
-    const chartDate = await page.$eval('#chartDate', el => el.textContent);
-    console.log(chartDate);
-    const hkexsc_open = await page.$eval('#chartId1', el => el.textContent);
-    console.log(hkexsc_open);
-    const hk_rate = await page.$$eval('#hgt_hzjs h4', els => els.map(el => parseFloat(el.textContent)));
-    console.log(hk_rate);
+    const chart_date = await page.$eval('#chartDate', el => el.textContent);
+    let date;
+    let re = /\d{4}-\d{2}-\d{2}/;
+    let matches = chart_date.match(re);
+    if (matches) {
+        date = new Date(matches[0]);
+    }
+    const chart_hkexsc_open = await page.$eval('#chartId1', el => el.textContent);
+    let open = (chart_hkexsc_open == '是');
+    const hkd_rate = await page.$$eval('#hgt_hzjs h4', els => els.map(el => parseFloat(el.textContent)));
 
     browser.close();
-    return Promise.resolve(chartDate);
+    return Promise.resolve({date, open, hkd_rate});
 };
 
 (async() => {
-	await get_exchange_rate();
+    const res = await get_exchange_rate();
+    console.log(res);
 })();
