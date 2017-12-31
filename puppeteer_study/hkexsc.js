@@ -40,24 +40,25 @@ async function get_exchange_rate() {
     return Promise.resolve({date, open, hkd_rate});
 };
 
-async function write_to_db(ex_rate) {
-    client = await MongoClient.connect('mongodb://localhost:27017/test');
-    let db = client.db('test');
+async function write_to_db(db, ex_rate) {
     let items = await db.collection('hkd_rate').find().limit(1).sort({date:-1}).toArray();
     if (items.length == 0 || items[0].date < ex_rate.date) {
         console.log("date is inserted");
         await db.collection('hkd_rate').insert(ex_rate);
     }
-
-    client.close();
 }
 
-(async() => {
+async function register_hkexsc_scraper(db){
     let event = scheduler.scheduleJob("*/1 * * * *", async () => {
-        console.log('This runs every 1 minutes');
         const ex_rate = await get_exchange_rate();
         console.log(ex_rate);
 
-        await write_to_db(ex_rate);
+        await write_to_db(db, ex_rate);
     });
+}
+
+(async() => {
+    const client = await MongoClient.connect('mongodb://localhost:27017/test');
+    const db = client.db('test');
+    await register_hkexsc_scraper(db);
 })();
