@@ -1,0 +1,27 @@
+{
+  "name": "react_study",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-core": "^6.3.17",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.3.13",
+    "babel-runtime": "^6.3.19",
+    "webpack": "^3.10.0"
+  },
+  "dependencies": {
+    "highcharts": "^5.0.14",
+    "immutable": "^3.8.2",
+    "prop-types": "^15.6.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-jsx-highcharts": "^2.0.3"
+  }
+}

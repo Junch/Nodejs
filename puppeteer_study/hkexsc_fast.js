@@ -23,25 +23,25 @@ function requestp(url) {
 (async () => {
 	let url = 'http://www.sse.com.cn/services/hkexsc/home/';
 	let data = await requestp(url);
-	let re_date = /var VALID_DATE_clear = '(.+)'/;
-	let re_buy = /var BUY_PRICE_clear = '(.+)'/;
-	let re_sell = /var SELL_PRICE_clear = '(.+)'/;
+	let re_date = /var VALID_DATE = '(.+)'/;
+	let re_buy = /var BUY_PRICE = '(.+)'/;
+	let re_sell = /var SELL_PRICE = '(.+)'/;
 	let lines = data.split('\n');
 	let date, buy_price, sell_price;
 	lines.forEach(line => {
 		let ret = line.match(re_date);
 		if (ret) {
-			date = ret[1];
+			date = new Date(ret[1]);
 		}
 
 		ret = line.match(re_buy);
 		if (ret) {
-			buy_price = ret[1];
+			buy_price = parseFloat(ret[1]);
 		}
 
 		ret = line.match(re_sell);
 		if (ret) {
-			sell_price = ret[1];
+			sell_price = parseFloat(ret[1]);
 		}
 	});
 
