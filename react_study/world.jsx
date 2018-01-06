@@ -15,12 +15,12 @@ class World extends React.Component {
 	}
 
 	componentWillMount() {
-		alert('will');
+		//alert('will');
 		console.log('World will');
 	}
 
 	componentDidMount() {
-		alert('did');
+		//alert('did');
 		console.log('World did');
 
 		var _self = this;

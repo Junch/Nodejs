@@ -48,5 +48,7 @@ Install experimental ES7 features as [Using ES6 and ES7 in the Browser, with Bab
 ```
 npm install babel-preset-stage-0 --save-dev
 ```
+React.PropTypes has moved into a different package since React v15.5. Please use the prop-types library instead.
+https://reactjs.org/docs/typechecking-with-proptypes.html
 
 

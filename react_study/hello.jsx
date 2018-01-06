@@ -1,10 +1,8 @@
 import React from 'react';
 import {render} from 'react-dom';
+import PropTypes from 'prop-types'
 
 class Hello extends React.Component {
-	static defaultProps = { initialCount: 0}
-	static propTypes = {initialCount: React.PropTypes.number}
-
 	constructor(props) {
 		super(props);
 		this.state = {count: props.initialCount};
@@ -26,5 +24,13 @@ class Hello extends React.Component {
 		console.log('Hello did');
 	}
 }
+
+Hello.defaultProps = {
+	initialCount: 0
+};
+
+Hello.propTypes = {
+ 	initialCount: PropTypes.number
+};
 
 render(<Hello/>, document.getElementById('hello'));
