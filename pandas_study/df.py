@@ -2,6 +2,13 @@
 # -*- coding: utf-8 -*-
 import pandas as pd
 import numpy as np
+import pymongo
+from pymongo import MongoClient
+import datetime
+import json
+
+# https://www.joinquant.com/post/8104?subLive=1
+# http://ec2-54-218-106-48.us-west-2.compute.amazonaws.com/moschetti.org/rants/mongopandas.html
 
 d = {
     'Name': pd.Series(['Tom', 'James', '小波', '小明']),
@@ -12,5 +19,11 @@ d = {
 df = pd.DataFrame(d)
 print df
 
-a = df.to_json(force_ascii=False)
-print a
+data = df.to_dict(orient='records')
+print data
+
+client = MongoClient('mongodb://localhost:27017/')
+coll = client.test.person
+coll.drop()
+coll.insert_many(data)
+
