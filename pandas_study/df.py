@@ -27,3 +27,5 @@ coll = client.test.person
 coll.drop()
 coll.insert_many(data)
 
+df2 = pd.DataFrame(list(coll.find()))
+print df2[['Name', 'Age', 'Rating']]

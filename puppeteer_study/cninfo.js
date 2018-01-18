@@ -31,8 +31,7 @@ async function get_cw_data(symbol) {
     //await e.focus();
     //await page.keyboard.type('601318');
     await page.type('#index_cw_input_obj', symbol);
-    console.log('Input the symbol of the stock');
-    await page.waitFor(1000);
+    console.log(`Input the symbol of the stock: ${symbol}`);
 
     // const linkHandler = (await page.$x('//*[@id="index_cw_stock_list"]/li[2]/a'))[0];
     // await linkHandler.click();
@@ -47,7 +46,18 @@ async function get_cw_data(symbol) {
     await page.click('#con-f-2 > div > div.down_button_row > button');
     console.log('Begin to download');
 
-    await page.waitFor(60000);
+    let nCount = 60; // 60 seconds
+    while(nCount > 0){
+        let files = await fileExists(`./*${symbol}*.zip`);
+        if (files.length == 0) {
+            await page.waitFor(1000); // 1 second
+            --nCount;
+        }else {
+            break;
+        }
+    }
+
+    console.log(nCount > 0? `Downloaded successfully within ${60-nCount} seconds`: 'Downloaded timeout');
 
     browser.close();
 };
