@@ -12,6 +12,7 @@ def write_profit():
 
     quaters = ['{}-{}'.format(x,y) for (x, y) in arr]
     result = pd.concat(frames, keys=quaters)
+    result.index.names=[u'quarter', u'code']
     result.to_csv('profit.csv', encoding='utf-8')
 
 def read_profit():
