@@ -23,11 +23,21 @@ def write_profit():
     result.index.names=[u'quarter', u'code']
     result.to_csv('profit.csv', encoding='utf-8')
 
-def compare_item(s1, s2, label1, label2, title):
+def compare_item(df, column, stocks, title):
+    df1 = df.loc[(df.index.get_level_values('code') == stocks[0]) &
+                 (df.index.get_level_values('quarter').str.endswith('4'))]
+    df2 = df.loc[(df.index.get_level_values('code') == stocks[1]) &
+                 (df.index.get_level_values('quarter').str.endswith('4'))]
+
+    s1 = df1[column]
+    s2 = df2[column]
+    label1 = df1.name[0]
+    label2 = df2.name[0]
+
     n_groups = len(s1)
     
     # create plot
-    fig, ax = plt.subplots(figsize=(12,6))
+    fig, ax = plt.subplots(figsize=(8,6))
     index = np.arange(n_groups)
     bar_width = 0.36
     opacity = 0.8
@@ -43,8 +53,7 @@ def compare_item(s1, s2, label1, label2, title):
                     label=unicode(label2, 'utf-8'))
 
     plt.legend(prop={'family':'SimHei','size':15})
-    plt.xlabel(u'时间')
-    plt.ylabel(u'净利润')
+    plt.ylabel(column)
     plt.title(title)
     plt.xticks(index+bar_width/2.0, s1.index.get_level_values('quarter'))
     plt.legend()
@@ -57,15 +66,8 @@ def read_profit():
     df.set_index(['quarter', 'code'], inplace=True)
     df.sort_index()
 
-    df651 = df.loc[ (df.index.get_level_values('code') == '000651') &
-                    (df.index.get_level_values('quarter').str.endswith('4'))]
-    df333 = df.loc[ (df.index.get_level_values('code') == '000333') &
-                    (df.index.get_level_values('quarter').str.endswith('4'))]
+    compare_item(df, 'net_profits', ['000651', '000333'], u'净利润比较')
 
-    s541 = df651.net_profits
-    s333 = df333.net_profits
-
-    compare_item(s541, s333, df651.name[0], df333.name[0], u'净利润比较')
-
-write_profit()
-read_profit()
+if __name__=="__main__":
+    #write_profit()
+    read_profit()
