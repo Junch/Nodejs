@@ -6,7 +6,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 plt.rcParams['font.sans-serif']=['SimHei'] #用来正常显示中文标签
 plt.rcParams['axes.unicode_minus']=False   #用来正常显示负号
-#有中文出现的情况，需要u'内容'
 
 def write_profit():
     frames = []
@@ -43,7 +42,7 @@ def compare_item(df, column, stocks, title):
     for idx, s in enumerate(ss):
         plt.bar(index + idx*bar_width, s, bar_width,
                 alpha=opacity,
-                label=unicode(labels[idx], 'utf-8'))
+                label=labels[idx])
 
     plt.legend(prop={'family':'SimHei','size':15})
     plt.ylabel(column)
@@ -59,9 +58,9 @@ def read_profit():
     df.set_index(['quarter', 'code'], inplace=True)
     df.sort_index()
 
-    compare_item(df, 'net_profits', ['000651', '000333', '600690', '002415'], u'净利润比较')
-    #compare_item(df, 'net_profits', ['000651', '000333'], u'净利润比较')
-    #compare_item(df, 'net_profits', ['000651'], u'净利润比较')
+    compare_item(df, 'net_profits', ['000651', '000333', '600690', '002415'], '净利润比较')
+    #compare_item(df, 'net_profits', ['000651', '000333'], '净利润比较')
+    #compare_item(df, 'net_profits', ['000651'], '净利润比较')
 
 if __name__=="__main__":
     #write_profit()
