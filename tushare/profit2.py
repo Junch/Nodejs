@@ -8,6 +8,12 @@ import time
 plt.rcParams['font.sans-serif']=['SimHei'] #用来正常显示中文标签
 plt.rcParams['axes.unicode_minus']=False   #用来正常显示负号
 
+def CAGR(s):
+    first = s.iloc[0]
+    last = s.iloc[-1]
+    periods = s.size - 1
+    return (last/first)**(1/periods)-1
+
 g_start = 0
 
 def write_profit():
@@ -33,11 +39,15 @@ def compare_item(df, periods, column, stocks, title):
         df1.set_index('quarter', inplace=True)
 
         c = (df1.index <= periods['end']) & (df1.index >= periods['start'])
-        if (periods['year']):
+        if periods['year']:
             c = c & (df1.index.quarter == 4)
         dfstock = df1.loc[c]
-        ss.append(dfstock[column])
-        labels.append(dfstock.name[0])
+        s = dfstock[column]
+        ss.append(s)
+        label = dfstock.name[0]
+        if periods['year']:
+            label = "{0} CAGR: {1:.1%}".format(dfstock.name[0], CAGR(s))
+        labels.append(label)
 
     # create plot
     fig, ax = plt.subplots(figsize=(8,6))
