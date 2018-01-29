@@ -5,3 +5,6 @@
 logviewer/public/dist/
 logviewer/public/test/
 **/bundle.js
+**/.cache/
+**/__pycache__/
+*.pyc
