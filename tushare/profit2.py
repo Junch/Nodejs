@@ -4,6 +4,7 @@ import pandas as pd
 import numpy as np
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.cm as cm
 import time
 # plt.rcParams['font.sans-serif']=['SimHei'] #用来正常显示中文标签
 # plt.rcParams['axes.unicode_minus']=False   #用来正常显示负号
@@ -13,6 +14,18 @@ def CAGR(s):
     last = s.iloc[-1]
     periods = s.size - 1
     return (last/first)**(1/periods)-1
+
+def CAGR2(s):
+    arr = []
+    last = s.iloc[-1]
+    #periods = s.size - 1
+    for i in range(s.size - 1):
+        first = s.iloc[i]
+        periods = s.size - i - 1
+        cagr = (last/first)**(1/periods)-1
+        arr.append(cagr)
+    arr.append(np.mean(arr))
+    return arr
 
 g_start = 0
 
@@ -45,8 +58,6 @@ def compare_item(df, periods, column, stocks, title):
         s = dfstock[column]
         ss.append(s)
         label = dfstock.name[0]
-        if periods['year']:
-            label = "{0} CAGR: {1:.1%}".format(dfstock.name[0], CAGR(s))
         labels.append(label)
 
     # create plot
@@ -56,18 +67,27 @@ def compare_item(df, periods, column, stocks, title):
     index = np.arange(groupnum)
     bar_width = 1.0/(stocknum+1)
     opacity = 0.8
-    
+
+    colors = cm.rainbow(np.linspace(0, 1, stocknum))
     for idx, s in enumerate(ss):
-        plt.bar(index + idx*bar_width, s, bar_width,
+        ax.bar(index + idx*bar_width, s, bar_width,
                 alpha=opacity,
+                color=colors[idx],
                 label=labels[idx])
 
-    plt.legend(prop={'family':'SimHei','size':15})
-    plt.ylabel(column)
+    if periods['year']:
+        ax2 = ax.twinx()
+        for idx, s in enumerate(ss):
+            y2 = CAGR2(s)
+            ax2.plot(index + idx*bar_width, y2, color=colors[idx], linewidth=2)
+        ax2.set_ylabel("compound annual growth rate")
+
+    ax.legend()
+    ax.grid(linestyle='dotted')
+    colm = column.replace('_', ' ')
+    ax.set_ylabel(colm)
     plt.title(title)
     plt.xticks(index + (stocknum-1)*bar_width/2.0, ss[0].index.get_level_values('quarter'))
-    plt.legend()
-    plt.grid(linestyle='dotted')
     plt.tight_layout()
     end = time.time()
     print(end - g_start)
