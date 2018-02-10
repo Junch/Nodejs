@@ -11,35 +11,64 @@ from datetime import datetime
 # https://www.joinquant.com/post/8104?subLive=1
 # http://ec2-54-218-106-48.us-west-2.compute.amazonaws.com/moschetti.org/rants/mongopandas.html
 
-def write_db(db_name, coll_name):
-    df = pd.read_csv('profit_sample.csv', dtype={'code' : np.str}, parse_dates=['quarter'])
-    df_clean = df.drop_duplicates(subset=['quarter', 'code'])
-    data = df_clean.to_dict(orient='records')
-    client = MongoClient('mongodb://localhost:27017/')
-    coll = client[db_name][coll_name]
-    coll.drop()
-    coll.create_index([("quarter", pymongo.ASCENDING), ("code", pymongo.ASCENDING)], unique=True)
-    coll.insert_many(data)
-    client.close()
+class DataWorker(object):
+    def __init__(self, db_name, coll_name, code_name, date_name):
+        self.db_name = db_name
+        self.coll_name = coll_name
+        self.code_name = code_name
+        self.date_name = date_name
+    
+    def write(self, csv_name):
+        df = pd.read_csv(csv_name, dtype={self.code_name: np.str}, parse_dates=[self.date_name])
+        df_clean = df.drop_duplicates(subset=[self.date_name, self.code_name])
+        data = df_clean.to_dict(orient='records')
+        client = MongoClient('mongodb://localhost:27017/')
+        coll = client[self.db_name][self.coll_name]
+        coll.drop()
+        coll.create_index([(self.date_name, pymongo.ASCENDING), (self.code_name, pymongo.ASCENDING)], unique=True)
+        coll.insert_many(data)
+        client.close()
 
-def read_db(db_name, coll_name):
-    client = MongoClient('mongodb://localhost:27017/')
-    coll = client[db_name][coll_name]
-    start = datetime(2007, 1, 1)
-    end = datetime(2008, 1, 1)
-    df = pd.DataFrame(list(coll.find({'quarter': {'$gte': start, '$lt': end}, 'roe': {'$gt': 100.0}})))
-    df.quarter = df.quarter.dt.to_period("Q")
+    def read(self, query):
+        client = MongoClient('mongodb://localhost:27017/')
+        coll = client[self.db_name][self.coll_name]
+        df = pd.DataFrame(list(coll.find(query, {'_id': False})))
+        df[self.date_name] = df.quarter.dt.to_period("Q")
+        return df
+
+def write_tushare():
+    db_name = 'stockdb'
+    coll_name = 'profit'
+    code_name = 'code'
+    date_name = 'quarter'
+    worker = DataWorker(db_name, coll_name, code_name, date_name)
+    worker.write('profit.csv')
+    query = {}
+    df = worker.read(query)
     print(df.head().to_string())
 
-    codes = ['600137', '600307']
-    query = {'$or': [{'code': x} for x in codes]}
-    print(query)
-    df = pd.DataFrame(list(coll.find(query)))
-    df.quarter = df.quarter.dt.to_period("Q")
+def write_xueqiu():
+    db_name = 'stockdb'
+    coll_name = 'xueqiu'
+    code_name = 'symbol'
+    date_name = 'reportdate'
+    worker = DataWorker(db_name, coll_name, code_name, date_name)
+    worker.write('xueqiu.csv')
+    query = {}
+    df = worker.read(query)
     print(df.head().to_string())
-    client.close()
 
-db_name='stockdb'
-coll_name='profit'
-write_db(db_name, coll_name)
-read_db(db_name, coll_name)
+def test():
+    db_name = 'stockdb'
+    coll_name = 'profit_sample'
+    code_name = 'code'
+    date_name = 'quarter'
+    worker = DataWorker(db_name, coll_name, code_name, date_name)
+    worker.write('profit_sample.csv')
+    df = worker.read({})
+    print(df.head().to_string())
+
+if __name__ == "__main__":
+    test()
+    #write_xueqiu()
+    #write_tushare()
